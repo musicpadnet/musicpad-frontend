@@ -1,0 +1,32 @@
+<div class="dashboard-header">
+
+  <div class="container">
+
+    <div class="dashboard-btn" matTooltip="Dashboard" matTooltipPosition="right">
+      <div class="logo"></div>
+    </div>
+    <div class="right-content" *ngIf="loggedIn === false">
+      <button mat-button color="primary" (click)="openLoginDialog()">Login</button>
+      <button mat-raised-button color="accent" (click)="openSignupDialog()">Signup</button>
+    </div>
+    <div class="right-content" *ngIf="loggedIn === true">
+      <button mat-raised-button color="accent" (click)="openCreateRoomDialog()">Create Room</button>
+      <button mat-button color="primary">{{username}} <img [src]="pfp" class="avatar-right"></button>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="dashboard-room-items">
+  <mat-grid-list cols="4">
+    <mat-grid-tile *ngFor="let roomItem of renderedRoomTitles">
+      <mat-card [routerLink]="roomItem.slug">
+        <mat-card-content>
+          <div class="dashboard-image"></div>
+          <p class="roomname">{{roomItem.name}} - {{roomItem.users.length}}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

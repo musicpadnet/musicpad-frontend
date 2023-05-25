@@ -1,0 +1,20 @@
+<div class="form-things" [ngStyle]="formThingsStyle">
+  <h4 mat-dialog-title class="big-txt">Create Playlist</h4>
+  <form [formGroup]="CreatePlaylistForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput required type="text" formControlName="name">
+      <mat-error *ngIf="CreatePlaylistForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+    <p class="req-error" *ngIf="invalidError">You can only make up to 5 playlists</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="accent" type="submit">Create</button>
+  </mat-dialog-actions>
+  </form>
+</div>
+<m-app-spinner class="formLoader" [ngStyle]="formLoaderStyle"></m-app-spinner>

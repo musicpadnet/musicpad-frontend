@@ -1,0 +1,126 @@
+<div id="room-background"></div>
+
+<div id="room-header">
+  <div class="container">
+
+    <div routerLink="/" class="dashboard-btn" matTooltip="Dashboard" matTooltipPosition="right">
+      <div class="logo"></div>
+    </div>
+
+    <div class="room-info">
+
+      <h4 class="roomName">{{roomName}}</h4>
+      <p class="roomDJ">{{roomDJ}}</p>
+
+    </div>
+
+    <div class="btns-center">
+      <button mat-stroked-button color="primary" matTooltip="Room Info" matTooltipPosition="below">Info</button>
+      <button mat-stroked-button color="primary" matTooltip="Room Moderation" matTooltipPosition="below">Moderation</button>
+      <button mat-stroked-button color="primary" matTooltip="Room Settings" matTooltipPosition="below">settings</button>
+      <button mat-stroked-button color="primary" matTooltip="Song History" matTooltipPosition="below">History</button>
+    </div>
+
+    <div class="btns-right">
+      <button mat-button color="primary">Logout</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="room-container">
+
+  <div class="player-container centering-xy">
+    <iframe class="player" src="https://www.youtube.com/embed/ElwkxKT7cHE?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div class="player-controls-bar">
+      <div class="container">
+        <div class="btns-left">
+          <div class="control-btn-left">
+            <mat-icon>volume_up</mat-icon>
+          </div>
+          <div class="control-btn-time">
+            <span>00:00</span>
+          </div>
+        </div>
+        <div class="control-title">
+          <span>RL Grime - Aurora (Havok Roth Remix)</span>
+        </div>
+        <div class="btns-right">
+          <div class="control-btn-right" matTooltip="Skip Song" matTooltipPosition="below">
+            <mat-icon>skip_next</mat-icon>
+          </div>
+          <div class="control-btn-right" matTooltip="Refresh Video" matTooltipPosition="below">
+            <mat-icon>refresh</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div id="room-sidebar">
+  <div class="sidebar-header">
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="font-size: 20px;">chat</mat-icon>
+        </ng-template>
+        <div class="sidebar-chat-container"></div>
+        <div class="sidebar-chat-footer">
+          <button class="icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
+            <mat-icon>mood</mat-icon>
+          </button>
+          <input id="chat-text-input" placeholder="Type your message..." type="text">
+          <button class="send-icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="font-size: 20px;">group</mat-icon>
+        </ng-template>
+         Content 2 
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="font-size: 20px;">queue_music</mat-icon>
+        </ng-template>
+        Content 3 
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+<m-app-playlist-panel [ngStyle]="playlistPanelStyle"></m-app-playlist-panel>
+
+<div id="room-footer">
+  <div class="container">
+    <div class="playlist-btn" matTooltip="Playlists" matTooltipPosition="right" (click)="openPlaylistPanel()">
+      <mat-icon aria-hidden="false" aria-label="Playlist Icon" fontIcon="format_list_bulleted" class="playlist-icon"></mat-icon>
+    </div>
+    <div class="playlist-song-contain">
+      <span class="playlist-song-title">Witt Lowry - OXYGIN (Official Music Video)</span>
+    </div>
+    <div class="right-content">
+      <div class="queue-btn" matTooltip="Join/Leave Queue" matTooltipPosition="left">
+        <span>Join Queue</span>
+      </div>
+      <div class="song-voting">
+        <div class="vote-btn upvote">
+          <mat-icon>thumb_up</mat-icon>
+          <span>0</span>
+        </div>
+        <div class="vote-btn grab">
+          <mat-icon>favorite</mat-icon>
+          <span>0</span>
+        </div>
+        <div class="vote-btn downvote">
+          <mat-icon>thumb_down</mat-icon>
+          <span>0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

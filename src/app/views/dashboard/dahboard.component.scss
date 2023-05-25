@@ -1,0 +1,62 @@
+.dashboard-header {
+  height: 50px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 200;
+  background-color: #0a0b0d;
+  border-bottom: 1px solid #000000;
+}
+
+.dashboard-header .container {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  position: relative;
+  padding-right: 15px;
+}
+
+.dashboard-btn {
+  height: 50px;
+  width: 50px;
+  background-color: #191b20;
+  border-right: 1px solid #000000;
+  line-height: 70px;
+  cursor: pointer;
+}
+
+.dashboard-btn .logo {
+  margin: 0 auto;
+  height: 20px;
+  width: 20px;
+  padding-top: 30px;
+  background: url(/assets/logo-w.png) center center no-repeat;
+  background-size: 20px 20px; 
+}
+
+.dashboard-header .right-content {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-room-items {
+  height: calc(100% - 50px);
+  width: 100vw;
+  top: 50px;
+  position: absolute;
+}
+
+.dashboard-image {
+  height: 200px;
+  width: 290px;
+  background: url(/assets/background.png) center center no-repeat;
+  background-size: cover;
+}
+
+.roomname {
+  font-family: "Industrywf", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}

@@ -1,0 +1,36 @@
+<div class="form-things" [ngStyle]="formThingsStyle">
+  <h4 mat-dialog-title class="big-txt">Create Room</h4>
+  <form [formGroup]="CreateRoomForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput required type="text" formControlName="name">
+      <mat-error *ngIf="CreateRoomForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Slug</mat-label>
+      <input matInput required type="text" formControlName="slug">
+      <mat-error *ngIf="CreateRoomForm.get('slug')?.hasError('required')">
+        Slug is required
+      </mat-error>
+      <mat-error *ngIf="CreateRoomForm.get('slug')?.hasError('pattern')">
+        Slug must match RegEXP pattern
+      </mat-error>
+      <mat-error *ngIf="CreateRoomForm.get('slug')?.hasError('minLength')">
+        Slug must be more than 3 in length
+      </mat-error>
+      <mat-error *ngIf="CreateRoomForm.get('slug')?.hasError('maxLength')">
+        Slug must be less than 35 in length
+      </mat-error>
+    </mat-form-field>
+    <p class="req-error" *ngIf="invalidError">You can only make up to 5 playlists</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="accent" type="submit">Create</button>
+  </mat-dialog-actions>
+  </form>
+</div>
+<m-app-spinner class="formLoader" [ngStyle]="formLoaderStyle"></m-app-spinner>

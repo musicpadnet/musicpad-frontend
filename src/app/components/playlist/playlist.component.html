@@ -1,0 +1,41 @@
+<div class="header">
+  <div class="container">
+    <div class="close-playlist-btn" (click)="closePlaylistPanel()" matTooltip="Close Playlists" matTooltipPosition="right">
+      <mat-icon>expand_more</mat-icon>
+    </div>
+    <div class="search-box">
+      <form [formGroup]="SearchForm" (submit)="OnSubmit()">
+        <input type="text" placeholder="Search for a song on YouTube..." formControlName="search">
+      </form>
+    </div>
+  </div>
+</div>
+<div class="left-panel">
+  <div class="playlist-items">
+    <div class="item p-i" *ngFor="let playlist of playlists" (click)="playlistClick(playlist.id)" [id]="'play'+playlist.id">
+      <span class="title">{{playlist.name}}</span>
+      <mat-icon *ngIf="playlist.isActive === true" class="active-check">check</mat-icon>
+      <span class="count">{{playlist.songCount}}</span>
+    </div>
+  </div>
+  <div class="bottom-btns">
+    <div class="btn-import">
+      <span>
+        Import
+      </span>
+    </div>
+    <div class="btn-create" (click)="openCreateDialog()">
+      <span>Create</span>
+    </div>
+  </div>
+</div>
+<div class="playlist-panels" *ngFor="let playlist of playlists" [id]="playlist.id"></div>
+<div class="playlist-panels" id="yt-search">
+  <cdk-virtual-scroll-viewport itemSize="68" class="viewport">
+    <div class="yt-sng" *ngFor="let ytsng of ytsngs" title="{{ytsng.title}}">
+      <div class="nail" [style.background-image]="'url(' + ytsng.thumbnail + ')'"></div>
+      <div class="text">{{ytsng.title}}</div>
+      <div class="dur">{{makeTime(ytsng.duration)}}</div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

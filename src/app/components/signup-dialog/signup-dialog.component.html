@@ -1,0 +1,55 @@
+<div id="form-things" [ngStyle]="formThingsStyle">
+  <h4 mat-dialog-title class="big-txt">Signup</h4>
+  <p mat-dialog-title>Create your account!</p>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-error *ngIf="signupForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="signupForm.get('email')?.hasError('email')">
+        Email must be a valid email
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput type="text" formControlName="username">
+      <mat-error *ngIf="signupForm.get('username')?.hasError('required')">
+        Username is required
+      </mat-error>
+      <mat-error *ngIf="signupForm.get('username')?.hasError('pattern')">
+        Invalid username
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password">
+      <mat-error *ngIf="signupForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="signupForm.get('password')?.hasError('minlength') || signupForm.get('password')?.hasError('maxlength')">
+        Password must be between 7 - 300 characters long
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Verify Password</mat-label>
+      <input matInput type="password" formControlName="verifypassword">
+      <mat-error *ngIf="signupForm.get('verifypassword')?.hasError('required')">
+      Verify password is required
+      </mat-error>
+    </mat-form-field>
+    <mat-checkbox class="form-checkbox" formControlName="terms">I agree to the terms of service and privacy policy</mat-checkbox>
+    <p class="req-error" *ngIf="usernameAlreadyUsedError == true">Username is already used.</p>
+    <p class="req-error" *ngIf="emailAlreadyUsed == true">Email is already being used.</p>
+    <p class="req-error" *ngIf="passwordError == true">Password must be between 7 - 300 characters long</p>
+    <p class="req-error" *ngIf="passwordMatchError">Password and verify password must match</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="accent" type="submit">Signup</button>
+  </mat-dialog-actions>
+  </form>
+</div>
+<m-app-spinner class="formLoader" [ngStyle]="formLoaderStyle"></m-app-spinner>

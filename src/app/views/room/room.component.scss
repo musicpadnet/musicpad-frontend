@@ -1,0 +1,427 @@
+
+// header
+#room-header {
+  height: 50px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: #0a0b0d;
+  border-bottom: 1px solid #000000;
+  -webkit-box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48); 
+  box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48);
+  z-index: 300;
+}
+
+#room-header .container {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  position: relative;
+}
+
+.room-info {
+  width: 15%;
+  height: 50px;
+  text-overflow: ellipsis;
+}
+
+.roomName {
+  color: #ececec;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Industrywf", sans-serif;
+}
+
+.roomDJ {
+  color: #9a9a9a;
+  margin-top: -21px;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 14px;
+  font-family: "Industrywf", sans-serif;
+}
+
+#room-header .dashboard-btn {
+  height: 50px;
+  width: 50px;
+  background-color: #191b20;
+  border-right: 1px solid #000000;
+  line-height: 70px;
+  cursor: pointer;
+}
+
+#room-header .dashboard-btn .logo {
+  margin: 0 auto;
+  height: 20px;
+  width: 20px;
+  padding-top: 30px;
+  background: url(/assets/logo-w.png) center center no-repeat;
+  background-size: 20px 20px; 
+}
+
+#room-header .btns-center {
+  margin-left: 17%;
+  height: 50px;
+  width: 410px;
+  line-height: 50px;
+}
+
+#room-header .btns-right {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+// footer
+#room-footer {
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #0a0b0d;
+  border-top: 1px solid #000000;
+  -webkit-box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48); 
+  box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48);
+}
+
+#room-footer .container {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  position: relative;
+}
+
+#room-footer .playlist-btn {
+  height: 50px;
+  width: 50px;
+  border-right: 1px solid #000000;
+  background: #0075d5;
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+}
+
+#room-footer .playlist-song-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 45px;
+  text-overflow: ellipsis;
+  color: #ffffff;
+}
+
+#room-footer .right-content {
+  margin-left: auto;
+  display: flex;
+}
+
+#room-footer .song-voting {
+  width: 300px;
+  height: 50px;
+  display: flex;
+}
+
+#room-footer .song-voting .vote-btn {
+  width: 100px;
+  border-right: 1px solid #000000;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #ffffff;
+  text-align: center;
+}
+
+#room-footer .song-voting .vote-btn span {
+  font-family: "Industrywf", sans-serif;
+  position: absolute;
+  font-size: 13px;
+  bottom: 3px;
+  margin-left: -15px;
+}
+
+#room-footer .song-voting .vote-btn:hover {
+  width: 100px;
+  border-right: 1px solid #000000;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#room-footer .song-voting .upvote:hover {
+  background: #97A737;
+  transition: all 0.2s;
+}
+
+#room-footer .song-voting .upvote {
+  border-left: 1px solid #000000;
+}
+
+#room-footer .song-voting .grab:hover {
+  background: #9E87FC;
+  transition: all 0.2s;
+}
+
+#room-footer .song-voting .downvote:hover {
+  background: #B74644;
+  transition: all 0.2s;
+}
+
+#room-footer .song-voting .vote-btn .mat-icon {
+  color: #ffffff;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 6px;
+}
+
+#room-footer .queue-btn {
+  height: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
+  background: #0075d5;
+  cursor: pointer;
+  align-items: center;
+}
+
+#room-footer .queue-btn span {
+  font-family: "Industrywf", sans-serif;
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 50px;
+  color: #ffffff;
+}
+
+.playlist-song-contain {
+  width: 500px;
+  height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-left: 15px;
+}
+
+.playlist-icon {
+  font-size: 27px;
+  height: 27px;
+  padding-top:12px;
+  width: 27px;
+}
+
+// bg
+#room-background {
+  height: calc(100vh - 100px);
+  width: 100vw;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  opacity: 0.7;
+  right: 0;
+  bottom: 0;
+  background: url(/assets/background.png) center center no-repeat;
+  background-size: cover;
+  z-index: -300;
+}
+
+// sidebar things
+#room-sidebar {
+  height: calc(100vh - 100px);
+  width: 300px;
+  position: fixed;
+  right: 0;
+  top: 50px;
+  z-index: 200;
+  background: #000000;
+  right: 0;
+}
+
+.sidebar-header {
+  height: 50px;
+  width: 300px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.11);
+}
+
+.sidebar-chat-container {
+  height: calc(100vh - 200px);
+  width: 300px;
+  overflow: hidden;
+}
+
+.sidebar-chat-footer {
+  height: 50px;
+  width: 300px;
+  border-top: 2px solid rgba(255, 255, 255, 0.11);
+  overflow: hidden;
+}
+
+.sidebar-chat-footer input {
+  color: #fff;
+  background: #000000;
+  outline: none;
+  display: inline;
+  border: none;
+  height: 17px;
+  width: 200px;
+  text-decoration: none;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 17px;
+  position: absolute;
+  bottom: 18px;
+  left: 50px;
+}
+
+.sidebar-chat-footer .icon-btn {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+}
+
+.sidebar-chat-footer .send-icon-btn {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  font-size: 12px;
+}
+
+// player things
+.player-container {
+  position: absolute;
+  height: 495px;
+  width: 807px;
+  left: 45%;
+  background-color: #000000;
+}
+
+.player-controls-bar {
+  height: 40px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #0a0b0d;
+}
+
+.player-controls-bar .container {
+  height: 40px;
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.btns-left {
+  display: flex;
+}
+
+.control-btn-left {
+  height: 40px;
+  color: #ffffff!important;
+  width: 40px;
+  cursor: pointer;
+  transition: all .2s;
+  border-right: 1px solid #000000;
+}
+
+.control-btn-left:hover {
+  height: 40px;
+  color: #000000!important;
+  width: 40px;
+  cursor: pointer;
+  background: #ffffff;
+  border-right: 1px solid #000000;
+}
+
+.control-btn-time {
+  height: 40px;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-right: 1px solid #000000;
+}
+
+.control-title {
+  height: 40px;
+  width: 500px;
+  margin-left: auto;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.control-title span {
+  line-height: 40px;
+  width: 500px!important;
+  text-align: center;
+  display: inline-block;
+  font-family: "Industrywf", sans-serif;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.control-btn-time span {
+  line-height: 40px;
+  font-family: "Industrywf", sans-serif;
+  font-size: 15px;
+}
+
+.control-btn-left .mat-icon {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.btns-right {
+  display: flex;
+  margin-left: auto;
+}
+
+.control-btn-right {
+  height: 40px;
+  color: #ffffff!important;
+  width: 40px;
+  transition: all .2s;
+  cursor: pointer;
+  border-left: 1px solid #000000;
+}
+
+.control-btn-right:hover {
+  height: 40px;
+  color: #000000!important;
+  width: 40px;
+  cursor: pointer;
+  background: #ffffff;
+  border-left: 1px solid #000000;
+}
+
+.control-btn-right .mat-icon {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.player {
+  position: absolute;
+  z-index: 1000;
+  height: 455px;
+  width: 807px;
+}
+
+.centering-xy{
+	position:absolute;
+	display:inline-block;
+	top:50%;
+	left:50%;
+	-webkit-transform: translate3d(-50%, -50%, 0);
+	-moz-transform: translate3d(-50%, -50%, 0);
+	-ms-transform: translate3d(-50%, -50%, 0);
+	-o-transform: translate3d(-50%, -50%, 0);
+	transform: translate3d(-50%, -50%, 0);
+}
+
+.room-container {
+  height: calc(100vh - 100px);
+  width: calc(100vw - 300px);
+  position: absolute;
+  left: 0;
+  top: 50px;
+  z-index: 1000;
+}
