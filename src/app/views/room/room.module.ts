@@ -7,14 +7,16 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from "@angular/material/button"
 import {MatTabsModule} from '@angular/material/tabs';
-import { PlaylistComponent } from '../../components/playlist/playlist.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from "@angular/cdk/scrolling";
+import { SpinnerModule } from 'src/app/spinner/spinner.module';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
-    RoomComponent,
-    PlaylistComponent
+    RoomComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,11 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
     MatButtonModule,
     MatTabsModule,
     ReactiveFormsModule,
-    ScrollingModule
+    ScrollingModule,
+    SpinnerModule,
+    DragDropModule,
+    MatMenuModule,
+    MatSnackBarModule
   ]
 })
 export class RoomModule { }

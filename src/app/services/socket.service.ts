@@ -18,7 +18,7 @@ export class SocketService {
 
       this.socket.addEventListener("error", (event) => {
 
-        observer.error("Unable to connect to websocket server reeeeeerooooo!!! :(((((");
+        observer.error("Unable to connect to musicpad's realtime websocket reeeeeerooooo!!! :(((((");
 
       });
 

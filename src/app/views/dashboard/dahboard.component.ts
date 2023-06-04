@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateRoomDialog } from 'src/app/components/create-room-dialog/create-room-dialog.component';
 import { ConfigService } from 'src/app/services/config.service';
+import { ChangePlaylistPanel, changePlaylistOpenState } from 'src/app/store/app.actions';
 
 interface IRoom {
   name: string,
@@ -35,7 +36,7 @@ interface IRoom {
 })
 export class DahboardComponent implements OnInit {
 
-  app$: Observable<{loggedIn: boolean, pfp: string, username: string}>
+  app$: Observable<{loggedIn: boolean, nextSongTitle: string, pfp: string, username: string}>
 
   loggedIn: boolean = false;
 
@@ -46,8 +47,10 @@ export class DahboardComponent implements OnInit {
   renderedRoomTitles: IRoom[] = [];
 
   pageNumber = 1;
+
+  nextSongTitle: string | null = null;
   
-  constructor (public dialog: MatDialog, private store: Store<{app: {loggedIn: boolean, pfp: string, username: string}}>, private auth: AuthService, private http: HttpClient, private config: ConfigService) {
+  constructor (public dialog: MatDialog, private store: Store<{app: {loggedIn: boolean, nextSongTitle: string, pfp: string, username: string}}>, private auth: AuthService, private http: HttpClient, private config: ConfigService) {
 
     this.app$ = store.select("app");
 
@@ -56,6 +59,7 @@ export class DahboardComponent implements OnInit {
         this.loggedIn = state.loggedIn;
         this.pfp = state.pfp;
         this.username = state.username;
+        this.nextSongTitle = state.nextSongTitle;
       }
     });
 
@@ -83,6 +87,17 @@ export class DahboardComponent implements OnInit {
       width: '420px'
     });
 
+  }
+
+  openPlaylistPanel () {
+
+    this.store.dispatch(changePlaylistOpenState({open: true}));
+
+    setTimeout(() => {
+
+      this.store.dispatch(ChangePlaylistPanel({style: {bottom: "0", width: "100vw"}}));
+
+    }, 1);
   }
 
   LogoutClick () {
@@ -113,6 +128,8 @@ export class DahboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    document.title = "Musicpad - Dashboard";
     
     this.http.get<{next: number, prev: number, current: number, totalPages: number, items: IRoom[]}>(`${this.config.conifgAPIURL}rooms/1`).subscribe({
       next: (data) => {

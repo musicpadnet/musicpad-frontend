@@ -54,7 +54,9 @@ export class AppService {
             }, 1000);
 
           },
-          error: () => {
+          error: (error) => {
+
+            console.log(error);
 
             this.store.dispatch(LoadingWebSocketError());
 

@@ -15,14 +15,14 @@
     </div>
 
     <div class="btns-center">
-      <button mat-stroked-button color="primary" matTooltip="Room Info" matTooltipPosition="below">Info</button>
-      <button mat-stroked-button color="primary" matTooltip="Room Moderation" matTooltipPosition="below">Moderation</button>
-      <button mat-stroked-button color="primary" matTooltip="Room Settings" matTooltipPosition="below">settings</button>
-      <button mat-stroked-button color="primary" matTooltip="Song History" matTooltipPosition="below">History</button>
+      <button mat-stroked-button color="primary" matTooltip="Room Info" matTooltipPosition="below">Info <mat-icon>info</mat-icon></button>
+      <button mat-stroked-button color="primary" matTooltip="Room Moderation" matTooltipPosition="below">Moderation <mat-icon>gavel</mat-icon></button>
+      <button mat-stroked-button color="primary" matTooltip="Room Settings" matTooltipPosition="below">settings <mat-icon>settings</mat-icon></button>
+      <button mat-stroked-button color="primary" matTooltip="Song History" matTooltipPosition="below">History <mat-icon>history</mat-icon></button>
     </div>
 
     <div class="btns-right">
-      <button mat-button color="primary">Logout</button>
+      <a mat-button class="user-btn" color="primary"><img [src]="pfp" class="avatar-right" style="margin-right: 6px;">{{username}}</a>
     </div>
 
   </div>
@@ -31,7 +31,7 @@
 <div class="room-container">
 
   <div class="player-container centering-xy">
-    <iframe class="player" src="https://www.youtube.com/embed/ElwkxKT7cHE?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <iframe class="player" src="https://www.youtube.com/embed/pYzLDNR4DfM?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     <div class="player-controls-bar">
       <div class="container">
         <div class="btns-left">
@@ -39,11 +39,11 @@
             <mat-icon>volume_up</mat-icon>
           </div>
           <div class="control-btn-time">
-            <span>00:00</span>
+            <span>01:15</span>
           </div>
         </div>
         <div class="control-title">
-          <span>RL Grime - Aurora (Havok Roth Remix)</span>
+          <span>Excision, Wooli, & Codeko - Don't Look Down (Hold On) | Official Visualizer</span>
         </div>
         <div class="btns-right">
           <div class="control-btn-right" matTooltip="Skip Song" matTooltipPosition="below">
@@ -80,12 +80,14 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon style="font-size: 20px;">group</mat-icon>
+          <span style="margin-left: 4px;">1</span>
         </ng-template>
          Content 2 
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon style="font-size: 20px;">queue_music</mat-icon>
+          <span style="margin-left: 4px;">0</span>
         </ng-template>
         Content 3 
       </mat-tab>
@@ -93,19 +95,17 @@
   </div>
 </div>
 
-<m-app-playlist-panel [ngStyle]="playlistPanelStyle"></m-app-playlist-panel>
-
 <div id="room-footer">
   <div class="container">
     <div class="playlist-btn" matTooltip="Playlists" matTooltipPosition="right" (click)="openPlaylistPanel()">
       <mat-icon aria-hidden="false" aria-label="Playlist Icon" fontIcon="format_list_bulleted" class="playlist-icon"></mat-icon>
     </div>
     <div class="playlist-song-contain">
-      <span class="playlist-song-title">Witt Lowry - OXYGIN (Official Music Video)</span>
+      <span class="playlist-song-title">{{nextSongtitle}}</span>
     </div>
     <div class="right-content">
-      <div class="queue-btn" matTooltip="Join/Leave Queue" matTooltipPosition="left">
-        <span>Join Queue</span>
+      <div class="queue-btn leave" matTooltip="Join/Leave Queue" matTooltipPosition="left">
+        <span>Leave Queue</span>
       </div>
       <div class="song-voting">
         <div class="vote-btn upvote">
@@ -122,5 +122,11 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="room-loading" *ngIf="roomIsLoaded === false" [ngStyle]="roomLoaderStyle">
+  <div class="loader" [ngStyle]="loaderStyle">
+    <img class="centering-xy" src="/assets/logo1.png" style="height: 70px; width: 70px;">
   </div>
 </div>

@@ -1,5 +1,15 @@
 import { createReducer, on } from "@ngrx/store";
-import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists } from "./app.actions";
+import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists, changePlaylistOpenState, changeNextSongTitle } from "./app.actions";
+
+interface IPlaylstItem {
+  title: string,
+  cid: string,
+  type: string,
+  duration: number,
+  thumbnail: string,
+  unavailable: boolean,
+  _id: string
+}
 
 interface InintalStateI {
   loaderStyle: {opacity: number},
@@ -9,8 +19,10 @@ interface InintalStateI {
   loggedIn: boolean,
   pfp: string,
   username: string,
-  playlistStyle: {bottom: string},
-  playlists: {name: string, isActive: boolean, id: string, songCount: number}[]
+  playlistStyle: {bottom: string, width?: string},
+  playlistOpenState: boolean,
+  nextSongTitle: string | null,
+  playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[],
 }
 
 export const initsalState: InintalStateI = {
@@ -21,7 +33,9 @@ export const initsalState: InintalStateI = {
   loggedIn: false,
   pfp: "null",
   username: "null",
-  playlistStyle: {bottom: "-100vh"},
+  playlistStyle: {bottom: "-100vh", width: "calc(100vw - 300px)"},
+  playlistOpenState: false,
+  nextSongTitle: null,
   playlists: []
 }
 
@@ -80,6 +94,18 @@ export const AppReducer = createReducer(
     return {
       ...state,
       playlists: action.playlists
+    }
+  }),
+  on(changePlaylistOpenState, (state, action) => {
+    return {
+      ...state,
+      playlistOpenState: action.open
+    }
+  }),
+  on(changeNextSongTitle, (state, action) => {
+    return {
+      ...state,
+      nextSongTitle: action.title
     }
   })
 )

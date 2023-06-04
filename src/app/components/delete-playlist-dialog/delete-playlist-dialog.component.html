@@ -1,0 +1,20 @@
+<div class="form-things" [ngStyle]="formThingsStyle">
+  <h4 mat-dialog-title class="big-txt">Delete Playlist</h4>
+  <form [formGroup]="CreatePlaylistForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput required type="password" formControlName="password">
+      <mat-error *ngIf="CreatePlaylistForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+    <p class="req-error" *ngIf="invalidError">Invalid password</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="warn" type="submit">Delete</button>
+  </mat-dialog-actions>
+  </form>
+</div>
+<m-app-spinner class="formLoader" [ngStyle]="formLoaderStyle"></m-app-spinner>

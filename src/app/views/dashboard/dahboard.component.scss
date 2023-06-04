@@ -31,7 +31,7 @@
   height: 20px;
   width: 20px;
   padding-top: 30px;
-  background: url(/assets/logo-w.png) center center no-repeat;
+  background: url(/assets/logo1.png) center center no-repeat;
   background-size: 20px 20px; 
 }
 
@@ -59,4 +59,54 @@
   font-family: "Industrywf", sans-serif;
   font-size: 17px;
   font-weight: 700;
+}
+
+#dashboard-footer {
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #060708;
+  border-top: 1px solid #000000;
+  -webkit-box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48); 
+  box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48);
+}
+#dashboard-footer .container {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  position: relative;
+}
+#dashboard-footer .playlist-btn {
+  height: 50px;
+  width: 50px;
+  border-right: 1px solid #000000;
+  background: rgb(0,140,255);
+  background: linear-gradient(360deg, rgba(0,140,255,1) 0%, rgba(0,88,161,1) 70%);
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+}
+#dashboard-footer .playlist-song-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 45px;
+  text-overflow: ellipsis;
+  color: #ffffff;
+}
+
+.playlist-song-contain {
+  width: 500px;
+  height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-left: 15px;
+}
+
+.playlist-icon {
+  font-size: 27px;
+  height: 27px;
+  padding-top:12px;
+  width: 27px;
 }

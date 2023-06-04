@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { ConfigService } from "src/app/services/config.service";
@@ -17,12 +17,16 @@ interface IPlaylstItem {
   _id: string
 }
 
+interface DialogData {
+  playlistid: string
+}
+
 @Component({
-  selector: 'm-dialog-create-playlist',
-  templateUrl: './create-playlist-dialog.component.html',
-  styleUrls: ['./create-playlist-dialog.component.scss']
+  selector: 'm-dialog-delete-playlist',
+  templateUrl: './delete-playlist-dialog.component.html',
+  styleUrls: ['./delete-playlist-dialog.component.scss']
 })
-export class CreatePlaylistDialog {
+export class DeletePlaylistDialog {
 
   CreatePlaylistForm: FormGroup;
 
@@ -36,9 +40,9 @@ export class CreatePlaylistDialog {
 
   playlists: {name: string, isActive: boolean, id: string, songCount: number}[] = [];
 
-  constructor (private http: HttpClient, private dialogRef: MatDialogRef<CreatePlaylistDialog>, private store: Store<{app: {playlists: {name: string, isActive: boolean, id: string, songCount: number}[]}}>, private config: ConfigService) {
+  constructor (private http: HttpClient, private dialogRef: MatDialogRef<DeletePlaylistDialog>, private store: Store<{app: {playlists: {name: string, isActive: boolean, id: string, songCount: number}[]}}>, private config: ConfigService, @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.CreatePlaylistForm = new FormGroup({
-      'name': new FormControl(null, [Validators.required])
+      'password': new FormControl(null, [Validators.required])
     });
 
     this.app$ = this.store.select("app");
@@ -60,9 +64,10 @@ export class CreatePlaylistDialog {
 
       this.invalidError = false;
 
-      this.http.post<{name: string, id: string, songCount: number, isActive: boolean}>(`${this.config.conifgAPIURL}playlists`, {
-        name: this.CreatePlaylistForm.value.name
-      }, {
+      this.http.delete(`${this.config.conifgAPIURL}playlists/${this.data.playlistid}`, {
+        body: {
+          password: this.CreatePlaylistForm.value.password
+        },
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
         }
@@ -90,7 +95,7 @@ export class CreatePlaylistDialog {
 
         },
         error: (error) => {
-
+          
           setTimeout(() => {
 
             this.invalidError = true;
@@ -99,7 +104,7 @@ export class CreatePlaylistDialog {
   
             this.formThingsStyle = {opacity: 1};
   
-          }, 1000)
+          }, 1000);
 
         }
       });

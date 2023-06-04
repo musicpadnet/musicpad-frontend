@@ -4,6 +4,7 @@
       <mat-icon>expand_more</mat-icon>
     </div>
     <div class="search-box">
+      <mat-icon class="search-icon">search</mat-icon>
       <form [formGroup]="SearchForm" (submit)="OnSubmit()">
         <input type="text" placeholder="Search for a song on YouTube..." formControlName="search">
       </form>
@@ -12,7 +13,10 @@
 </div>
 <div class="left-panel">
   <div class="playlist-items">
-    <div class="item p-i" *ngFor="let playlist of playlists" (click)="playlistClick(playlist.id)" [id]="'play'+playlist.id">
+    <div class="item-text">
+      <span>Your Playlists</span>
+    </div>
+    <div class="item p-i" [id]="'play'+playlist.id" *ngFor="let playlist of playlists" (click)="playlistClick(playlist.id)" #plfldr [attr.data-id]="playlist.id">
       <span class="title">{{playlist.name}}</span>
       <mat-icon *ngIf="playlist.isActive === true" class="active-check">check</mat-icon>
       <span class="count">{{playlist.songCount}}</span>
@@ -24,18 +28,66 @@
         Import
       </span>
     </div>
-    <div class="btn-create" (click)="openCreateDialog()">
+    <div class="btn-create" matTooltip="Create Playlist" matTooltipPosition="right" (click)="openCreateDialog()">
       <span>Create</span>
     </div>
   </div>
 </div>
-<div class="playlist-panels" *ngFor="let playlist of playlists" [id]="playlist.id"></div>
-<div class="playlist-panels" id="yt-search">
-  <cdk-virtual-scroll-viewport itemSize="68" class="viewport">
-    <div class="yt-sng" *ngFor="let ytsng of ytsngs" title="{{ytsng.title}}">
+<div class="playlist-panels" *ngFor="let pl of playlists; let i = index;" #pp [id]="pl.id" [attr.data-id]="pl.id" cdkDropList (cdkDropListDropped)="moveDrop($event)">
+  <div class="pl-shiftelm" *ngIf="openPlaylist === pl.id">
+    <div class="pl-header">
+      <div class="left">
+        <span>{{pl.name}}</span>
+      </div>
+      <div class="right">
+        <div class="active-pl-btn" (click)="onClickActivatePlaylist(pl.id)" *ngIf="pl.isActive === false">
+          <span>Activate</span>
+        </div>
+        <div class="active-pl-btn active" *ngIf="pl.isActive === true">
+          <span>Active <mat-icon>check_circle</mat-icon></span>
+        </div>
+        <div class="rename-pl-btn" (click)="openRenamePLDialog(pl.id)" matTooltip="Rename Playlist" matTooltipPosition="left"><mat-icon>edit</mat-icon></div>
+        <div class="delete-pl-btn" (click)="openDeletePLDialog(pl.id)" matTooltip="Delete Playlist" matTooltipPosition="left"><mat-icon>delete</mat-icon></div>
+      </div>
+    </div>
+    <cdk-virtual-scroll-viewport *ngIf="openPlaylist === pl.id" class="viewport" itemSize="50px">
+      <div class="lib-sng" *cdkVirtualFor="let sng of pl.songs" title="{{sng.title}}" (dblclick)="openPreview(sng.cid)" [attr.data-cid]="sng._id" [attr.data-id]="pl.id" cdkDrag>
+        <img [src]="sng.thumbnail" class="lib-thumb">
+        <div class="text">{{sng.title}}</div>
+        <div class="nav btn-song-bot" #songr [attr.data-id]="pl.id" [attr.data-cid]="sng._id" (click)="onClickMoveBottom(songr)" style="margin-right: 5px;"><mat-icon>arrow_downward</mat-icon></div>
+        <div class="nav btn-song-top" #songr [attr.data-cid]="sng._id" [attr.data-id]="pl.id" (click)="onClickMoveTop(songr)" style="margin-right: 5px;"><mat-icon>arrow_upward</mat-icon></div>
+        <div class="nav btn-remove-song" #songr [attr.data-cid]="sng._id" [attr.data-id]="pl.id" (click)="onClickDeleteSong(songr)"><mat-icon>delete</mat-icon></div>
+        <div class="dur">{{makeTime(sng.duration)}}</div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>
+<div class="playlist-panels" [ngStyle]="ytpanelStyle" id="yt-search" *ngIf="openPlaylist === 'ytsearch'">
+  <m-app-spinner class="centering-xy" [ngStyle]="playlistLoaderStyle"></m-app-spinner>
+    <h2 style="color: #ffffff;margin-left: 10px;margin-top: 22px;font-size:18px;">{{sQuery}}</h2>
+    <div class="yt-sng" *ngFor="let ytsng of ytsngs" title="{{ytsng.title}}" [attr.data-cid]="ytsng.cid" (dblclick)="openPreview(ytsng.cid)">
       <div class="nail" [style.background-image]="'url(' + ytsng.thumbnail + ')'"></div>
       <div class="text">{{ytsng.title}}</div>
       <div class="dur">{{makeTime(ytsng.duration)}}</div>
+      <button mat-icon-button class="add-btn" aria-label="Add to playlist" color="primary" [matMenuTriggerFor]="menu">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngFor="let pl of playlists" (click)="onClickAdd(ytsng.cid, pl.id)">{{pl.name}}</button>
+      </mat-menu>
     </div>
-  </cdk-virtual-scroll-viewport>
+</div>
+
+<div class="video-preview-overlay" [ngStyle]="previewStyle">
+
+  <div class="video-preview-container centering-xy">
+
+    <h1 class="pre-title">Preview</h1>
+
+    <div id="preplayer"></div>
+
+    <div class="pre-close-btn" (click)="closePreview()">
+      <span>Close</span>
+    </div>
+  </div>
 </div>

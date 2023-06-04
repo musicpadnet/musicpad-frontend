@@ -11,7 +11,7 @@
     </div>
     <div class="right-content" *ngIf="loggedIn === true">
       <button mat-raised-button color="accent" (click)="openCreateRoomDialog()">Create Room</button>
-      <button mat-button color="primary">{{username}} <img [src]="pfp" class="avatar-right"></button>
+      <a mat-button class="user-btn" color="primary"><img [src]="pfp" class="avatar-right" style="margin-right: 6px;">{{username}}</a>
     </div>
 
   </div>
@@ -29,4 +29,15 @@
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
+</div>
+
+<div id="dashboard-footer">
+  <div class="container">
+    <div class="playlist-btn" matTooltip="Playlists" matTooltipPosition="right" (click)="openPlaylistPanel()">
+      <mat-icon aria-hidden="false" aria-label="Playlist Icon" fontIcon="format_list_bulleted" class="playlist-icon"></mat-icon>
+    </div>
+    <div class="playlist-song-contain">
+      <span class="playlist-song-title">{{nextSongTitle}}</span>
+    </div>
+  </div>
 </div>

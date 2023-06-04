@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
-import { Component } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { ConfigService } from "src/app/services/config.service";
 import { UpdatePlaylists } from "src/app/store/app.actions";
+import { cloneDeep } from "lodash-es";
 
 interface IPlaylstItem {
   title: string,
@@ -17,12 +18,16 @@ interface IPlaylstItem {
   _id: string
 }
 
+interface DialogData {
+  playlistid: string
+}
+
 @Component({
-  selector: 'm-dialog-create-playlist',
-  templateUrl: './create-playlist-dialog.component.html',
-  styleUrls: ['./create-playlist-dialog.component.scss']
+  selector: 'm-dialog-rename-playlist',
+  templateUrl: './rename-playlist-dialog.component.html',
+  styleUrls: ['./rename-playlist-dialog.component.scss']
 })
-export class CreatePlaylistDialog {
+export class RenamePlaylistDialog {
 
   CreatePlaylistForm: FormGroup;
 
@@ -32,11 +37,11 @@ export class CreatePlaylistDialog {
 
   invalidError = false;
 
-  app$: Observable<{playlists: {name: string, isActive: boolean, id: string, songCount: number}[]}>;
+  app$: Observable<{playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[]}>;
 
-  playlists: {name: string, isActive: boolean, id: string, songCount: number}[] = [];
+  playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[] = [];
 
-  constructor (private http: HttpClient, private dialogRef: MatDialogRef<CreatePlaylistDialog>, private store: Store<{app: {playlists: {name: string, isActive: boolean, id: string, songCount: number}[]}}>, private config: ConfigService) {
+  constructor (private http: HttpClient, private dialogRef: MatDialogRef<RenamePlaylistDialog>, private store: Store<{app: {playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[]}}>, private config: ConfigService, @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.CreatePlaylistForm = new FormGroup({
       'name': new FormControl(null, [Validators.required])
     });
@@ -60,7 +65,7 @@ export class CreatePlaylistDialog {
 
       this.invalidError = false;
 
-      this.http.post<{name: string, id: string, songCount: number, isActive: boolean}>(`${this.config.conifgAPIURL}playlists`, {
+      this.http.patch(`${this.config.conifgAPIURL}playlists/${this.data.playlistid}/rename`, {
         name: this.CreatePlaylistForm.value.name
       }, {
         headers: {
@@ -71,20 +76,15 @@ export class CreatePlaylistDialog {
 
           setTimeout(() => {
 
-            this.http.get<{playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[]}>(`${this.config.conifgAPIURL}playlists`, {
-              headers: {
-              Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
-              }
-            }).subscribe({
-              next: (data) => {
-                this.store.dispatch(UpdatePlaylists({playlists: data.playlists}));
-              },
-              error: (err) => {
-                console.log(err);
-              }
-            });
+            let temp = cloneDeep(this.playlists);
 
-            this.dialogRef.close();        
+            const index = temp.findIndex(obj => obj.id === this.data.playlistid);
+
+            temp[index].name = this.CreatePlaylistForm.value.name;
+
+            this.store.dispatch(UpdatePlaylists({playlists: temp}));
+
+            this.dialogRef.close();
 
           }, 1000);
 
@@ -99,7 +99,7 @@ export class CreatePlaylistDialog {
   
             this.formThingsStyle = {opacity: 1};
   
-          }, 1000)
+          }, 1000);
 
         }
       });

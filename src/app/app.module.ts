@@ -18,10 +18,17 @@ import {MatInputModule} from '@angular/material/input';
 import {SingupDialogComponent} from './components/signup-dialog/signup-dialog.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {ReactiveFormsModule} from '@angular/forms';
-import { SpinnerComponent } from './spinner/spinner.component';
 import { CreatePlaylistDialog } from './components/create-playlist-dialog/create-playlist-dialog.component'; 
 import { CreateRoomDialog } from './components/create-room-dialog/create-room-dialog.component';
 import { ScrollingModule } from "@angular/cdk/scrolling";
+import { SpinnerModule } from "./spinner/spinner.module";
+import { PlaylistComponent } from './components/playlist/playlist.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DeletePlaylistDialog } from './components/delete-playlist-dialog/delete-playlist-dialog.component';
+import { RenamePlaylistDialog } from './components/rename-playlist-dialog/rename-playlist-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,9 +36,11 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
     PreloaderComponent,
     LoginDialogComponent,
     SingupDialogComponent,
-    SpinnerComponent,
     CreatePlaylistDialog,
-    CreateRoomDialog
+    CreateRoomDialog,
+    PlaylistComponent,
+    DeletePlaylistDialog,
+    RenamePlaylistDialog
   ],
   imports: [
     BrowserModule,
@@ -46,7 +55,12 @@ import { ScrollingModule } from "@angular/cdk/scrolling";
     MatInputModule,
     MatCheckboxModule,
     ReactiveFormsModule,
-    ScrollingModule
+    ScrollingModule,
+    SpinnerModule,
+    MatTabsModule,
+    DragDropModule,
+    MatMenuModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
