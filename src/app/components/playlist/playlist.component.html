@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="bottom-btns">
-    <div class="btn-import">
+    <div class="btn-import" matTooltip="Import Playlist" matTooltipPosition="right" (click)="openImportPlaylistDialog()">
       <span>
         Import
       </span>
@@ -50,7 +50,7 @@
         <div class="delete-pl-btn" (click)="openDeletePLDialog(pl.id)" matTooltip="Delete Playlist" matTooltipPosition="left"><mat-icon>delete</mat-icon></div>
       </div>
     </div>
-    <cdk-virtual-scroll-viewport *ngIf="openPlaylist === pl.id" class="viewport" itemSize="50px">
+    <cdk-virtual-scroll-viewport #scrollCont *ngIf="openPlaylist === pl.id" class="viewport" itemSize="50px" cdkScrollable>
       <div class="lib-sng" *cdkVirtualFor="let sng of pl.songs" title="{{sng.title}}" (dblclick)="openPreview(sng.cid)" [attr.data-cid]="sng._id" [attr.data-id]="pl.id" cdkDrag>
         <img [src]="sng.thumbnail" class="lib-thumb">
         <div class="text">{{sng.title}}</div>

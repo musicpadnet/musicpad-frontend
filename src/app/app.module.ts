@@ -29,6 +29,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DeletePlaylistDialog } from './components/delete-playlist-dialog/delete-playlist-dialog.component';
 import { RenamePlaylistDialog } from './components/rename-playlist-dialog/rename-playlist-dialog.component';
+import { ImportPlaylistDialog } from './components/import-playlist-dialog/import-playlist-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { RenamePlaylistDialog } from './components/rename-playlist-dialog/rename
     CreateRoomDialog,
     PlaylistComponent,
     DeletePlaylistDialog,
-    RenamePlaylistDialog
+    RenamePlaylistDialog,
+    ImportPlaylistDialog
   ],
   imports: [
     BrowserModule,

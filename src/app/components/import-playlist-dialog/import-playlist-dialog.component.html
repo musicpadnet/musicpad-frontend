@@ -1,0 +1,29 @@
+<div class="form-things" [ngStyle]="formThingsStyle">
+  <h4 mat-dialog-title class="big-txt">Import Playlist</h4>
+  <form [formGroup]="CreatePlaylistForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content class="mat-typography">
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput required type="text" formControlName="name">
+      <mat-error *ngIf="CreatePlaylistForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="input-full-width" appearance="outline">
+      <mat-label>YouTube Playlist ID</mat-label>
+      <input matInput required type="text" formControlName="plid">
+      <mat-error *ngIf="CreatePlaylistForm.get('plid')?.hasError('required')">
+        Playlist ID is required
+      </mat-error>
+    </mat-form-field>
+    <p class="req-error" *ngIf="invalidError">Invalid YouTube Playlist ID</p>
+    <p class="req-error" *ngIf="tooManyPlaylistsError">You can only have up to 5 playlists</p>
+    <p class="req-error" *ngIf="invalidPlNameError">Playlist name too long</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="primary" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="accent" type="submit">Import</button>
+  </mat-dialog-actions>
+  </form>
+</div>
+<m-app-spinner class="formLoader" [ngStyle]="formLoaderStyle"></m-app-spinner>

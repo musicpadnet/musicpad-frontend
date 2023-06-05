@@ -1,0 +1,32 @@
+.input-full-width {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.big-txt {
+  font-size: 20px;
+  font-family: "Industrywf", sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.form-checkbox {
+  color: #ffffff;
+}
+
+.error {
+  margin-top: 5px;
+}
+
+.formLoader {
+  position: absolute; 
+  top: 50%;
+  left: 46%;
+}
+
+.req-error {
+  color: red;
+  font-family: "Industrywf";
+  font-size: 14px;
+  font-weight: 500;
+}

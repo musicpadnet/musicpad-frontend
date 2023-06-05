@@ -1,4 +1,4 @@
-import { Component, ViewChildren, QueryList, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChildren, QueryList, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Store } from "@ngrx/store";
 import { ChangePlaylistPanel, UpdatePlaylists, changeNextSongTitle, changePlaylistOpenState } from 'src/app/store/app.actions';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,6 +12,8 @@ import { cloneDeep } from 'lodash-es';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DeletePlaylistDialog } from '../delete-playlist-dialog/delete-playlist-dialog.component';
 import { RenamePlaylistDialog } from '../rename-playlist-dialog/rename-playlist-dialog.component';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { ImportPlaylistDialog } from '../import-playlist-dialog/import-playlist-dialog.component';
 
 interface ISearchItem {
   cid: string,
@@ -48,6 +50,8 @@ export class PlaylistComponent implements OnInit {
   @ViewChildren("plfldr") fldrelms!: QueryList<ElementRef>;
 
   @ViewChildren("pp") pps!: QueryList<ElementRef>;
+
+  @ViewChild("scrollCont") scrollContElm!: CdkVirtualScrollViewport;
 
   playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: ILibSong[]}[] = [];
 
@@ -455,7 +459,19 @@ export class PlaylistComponent implements OnInit {
         this.AlertAddedSong();
       },
       error: (err) => {
-        console.log(err.error);
+
+        console.log(err);
+        
+        if (err.error.message === "Maxiumum songs in a playlist reached") {
+
+          this.AlertTooManySongs();
+
+        } else {
+
+          this.AlertUnknownError();
+
+        }
+
       }
     })
 
@@ -601,6 +617,8 @@ export class PlaylistComponent implements OnInit {
 
   moveDrop(event: CdkDragDrop<string[]>) {
 
+    let currentPos = this.scrollContElm.measureScrollOffset("top");
+
     const playlistid = event.item.element.nativeElement.dataset["id"];
 
     const songid = event.item.element.nativeElement.dataset["cid"];
@@ -630,6 +648,12 @@ export class PlaylistComponent implements OnInit {
 
           this.store.dispatch(UpdatePlaylists({playlists: temp}));
 
+          setTimeout(() => {
+
+            this.scrollContElm.scrollTo({top: currentPos});
+
+          }, 1);
+
         },
         error: (error) => {
 
@@ -642,6 +666,12 @@ export class PlaylistComponent implements OnInit {
 
   }
 
+  openImportPlaylistDialog () {
+    const dialogRef = this.dialog.open(ImportPlaylistDialog, {
+      width: '420px'
+    });
+  }
+
   AlertAddedSong() {
     let snack = this.snackBar.open("Added song to playlist!!", "", {
       panelClass: ['success-snack']
@@ -649,6 +679,28 @@ export class PlaylistComponent implements OnInit {
     setTimeout(() => {
       snack.dismiss();
     }, 4000)
+  }
+
+  AlertTooManySongs () {
+
+    let snack = this.snackBar.open("Maximum songs in playlist reached :(", "", {
+      panelClass: ['error-snack']
+    });
+    setTimeout(() => {
+      snack.dismiss();
+    }, 4000);
+
+  }
+
+  AlertUnknownError () {
+
+    let snack = this.snackBar.open("An Unknown Error Occurred :(", "", {
+      panelClass: ['error-snack']
+    });
+    setTimeout(() => {
+      snack.dismiss();
+    }, 4000)
+
   }
 
 }
