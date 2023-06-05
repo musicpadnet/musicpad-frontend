@@ -9,13 +9,15 @@ import { Observable } from 'rxjs';
 })
 export class PreloaderComponent {
 
-  app$: Observable<{loadingError: boolean, socketLoadingError: boolean}>
+  app$: Observable<{loadingError: boolean, socketDisconnected: boolean, socketLoadingError: boolean}>
 
   error: boolean = false;
 
   websocketError: boolean = false;
 
-  constructor (private store: Store<{app: {loadingError: boolean, socketLoadingError: boolean}}>) {
+  socketDisconnected: boolean = false;
+
+  constructor (private store: Store<{app: {loadingError: boolean, socketDisconnected: boolean, socketLoadingError: boolean}}>) {
 
     this.app$ = store.select("app");
 
@@ -23,6 +25,7 @@ export class PreloaderComponent {
       next: (state) => {
         this.error = state.loadingError;
         this.websocketError = state.socketLoadingError;
+        this.socketDisconnected = state.socketDisconnected;
       }
     });
 

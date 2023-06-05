@@ -25,7 +25,7 @@ interface ILibSong {
 export class AppComponent implements OnInit {
   title = 'mixtrack-web';
 
-  app$: Observable<{playlistOpenState: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, isLoaded: boolean}>;
+  app$: Observable<{playlistOpenState: boolean, appIsReady: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, isLoaded: boolean}>;
 
   isLoaded: boolean = false;
 
@@ -35,7 +35,9 @@ export class AppComponent implements OnInit {
 
   playlistOpenState = false;
 
-  constructor (private config: ConfigService, private store: Store<{app: { isLoaded: boolean, playlistOpenState: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}}}>, private http: HttpClient, private auth: AuthService, private app: AppService) {
+  appReady = false;
+
+  constructor (private config: ConfigService, private store: Store<{app: { appIsReady: boolean, isLoaded: boolean, playlistOpenState: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}}}>, private http: HttpClient, private auth: AuthService, private app: AppService) {
     this.app$ = store.select("app");
 
     this.app$.subscribe({
@@ -44,6 +46,7 @@ export class AppComponent implements OnInit {
         this.loaderStyle = state.loaderStyle;
         this.playlistOpenState = state.playlistOpenState;
         this.playlistPanelStyle = state.playlistStyle;
+        this.appReady = state.appIsReady;
       }
     })
     

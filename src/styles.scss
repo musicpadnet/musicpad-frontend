@@ -267,7 +267,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 22px;
   width: 22px;
   border-radius: 50%;
-  float: left;
+  margin-top: -3px;
 }
 
 .mat-mdc-tab .mdc-tab__text-label, .mat-mdc-tab-link .mdc-tab__text-label {
@@ -820,4 +820,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .user-btn .mdc-button__label {
   float: left;
+}
+
+.inline-btn-content {
+  display: flex;
+  line-height: 22px;
+}
+
+.inline-btn-content .mat-icon {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
 }

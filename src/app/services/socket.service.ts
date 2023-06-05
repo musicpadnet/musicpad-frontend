@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Store } from "@ngrx/store";
+import { appIsNotReady, appIsReady, changeLoaderStyle, isLoaded, isNotLoaded, removeErrors, webScoketDisconnectError } from "../store/app.actions";
 
 @Injectable({
   providedIn: "root"
@@ -8,7 +10,7 @@ export class SocketService {
 
   socket: WebSocket | null = null;
 
-  constructor () {}
+  constructor (private store: Store) {}
 
   connectToWebscoket (): Observable<string> {
 
@@ -55,6 +57,51 @@ export class SocketService {
         console.log(err);
 
       }
+
+    });
+
+    this.socket?.addEventListener("close", (event) => {
+
+      this.store.dispatch(isNotLoaded());
+
+      setTimeout(() => {
+
+        this.store.dispatch(appIsNotReady());
+
+        this.store.dispatch(changeLoaderStyle({style: {opacity: 1}}));
+
+        this.store.dispatch(webScoketDisconnectError());
+
+      }, 500);
+
+      let interval = setInterval(() => {
+
+        this.connectToWebscoket().subscribe({
+          next: () => {
+
+            this.store.dispatch(removeErrors());
+
+            clearInterval(interval);
+
+            this.store.dispatch(appIsReady());
+      
+            setTimeout(() => {
+  
+              this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
+  
+              setTimeout(() => {
+                this.store.dispatch(isLoaded());
+              }, 500);
+  
+            }, 1000);
+
+          },
+          error: () => {
+            console.log("Still trying to reconnect!!!")
+          }
+        })
+
+      }, 30000);
 
     });
 
