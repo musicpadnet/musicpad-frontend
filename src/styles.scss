@@ -311,7 +311,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(99,105,125,.5);
+  background: rgb(71, 71, 71);
   -webkit-transition: all .3s ease-in-out;
   transition: all .3s ease-in-out;
   -webkit-border-radius: 3em;
@@ -329,6 +329,14 @@ h1, h2, h3, h4, h5, h6 {
 .mat-mdc-snack-bar-container {
   &.success-snack {
     --mdc-snackbar-container-color: #00ce3a;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.error-snack {
+    --mdc-snackbar-container-color: #ce0000;
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
   }
