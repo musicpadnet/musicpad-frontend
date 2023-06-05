@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists, changePlaylistOpenState, changeNextSongTitle } from "./app.actions";
+import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists, changePlaylistOpenState, changeNextSongTitle, appIsReady, webScoketDisconnectError, isNotLoaded, appIsNotReady, removeErrors } from "./app.actions";
 
 interface IPlaylstItem {
   title: string,
@@ -16,12 +16,14 @@ interface InintalStateI {
   isLoaded: boolean,
   loadingError: boolean,
   socketLoadingError: boolean,
+  socketDisconnected: boolean,
   loggedIn: boolean,
   pfp: string,
   username: string,
   playlistStyle: {bottom: string, width?: string},
   playlistOpenState: boolean,
   nextSongTitle: string | null,
+  appIsReady: boolean,
   playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[],
 }
 
@@ -29,10 +31,12 @@ export const initsalState: InintalStateI = {
   loaderStyle: {opacity: 1},
   isLoaded: false,
   loadingError: false,
+  appIsReady: false,
   socketLoadingError: false,
   loggedIn: false,
   pfp: "null",
   username: "null",
+  socketDisconnected: false,
   playlistStyle: {bottom: "-100vh", width: "calc(100vw - 300px)"},
   playlistOpenState: false,
   nextSongTitle: null,
@@ -106,6 +110,38 @@ export const AppReducer = createReducer(
     return {
       ...state,
       nextSongTitle: action.title
+    }
+  }),
+  on(appIsReady, (state) => {
+    return {
+      ...state,
+      appIsReady: true
+    }
+  }),
+  on(webScoketDisconnectError, (state) => {
+    return {
+      ...state,
+      socketDisconnected: true
+    }
+  }),
+  on(isNotLoaded, (state) => {
+    return {
+      ...state,
+      isLoaded: false
+    }
+  }),
+  on(appIsNotReady, (state) => {
+    return {
+      ...state,
+      appIsReady: false
+    }
+  }),
+  on(removeErrors, (state) => {
+    return {
+      ...state,
+      loadingError: false,
+      socketLoadingError: false,
+      socketDisconnected: false
     }
   })
 )

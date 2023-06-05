@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngrx/store";
-import { LoadingNetworkError, LoadingWebSocketError, SetUserData, changeLoaderStyle, isLoaded } from "../store/app.actions";
+import { LoadingNetworkError, LoadingWebSocketError, SetUserData, appIsReady, changeLoaderStyle, isLoaded, removeErrors } from "../store/app.actions";
 import { AuthService } from "./auth.service";
 import { ConfigService } from "./config.service";
 import { SocketService } from "./socket.service";
@@ -43,6 +43,8 @@ export class AppService {
         this.socket.connectToWebscoket().subscribe({
           next: () => {
 
+            this.store.dispatch(appIsReady());
+
             setTimeout(() => {
 
               this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
@@ -66,6 +68,10 @@ export class AppService {
                 next: () => {
                   
                   clearInterval(interval);
+
+                  this.store.dispatch(removeErrors());
+
+                  this.store.dispatch(appIsReady());
       
                   setTimeout(() => {
   
@@ -100,8 +106,32 @@ export class AppService {
 
               clearInterval(interval);
 
+              this.store.dispatch(removeErrors());
+
+              this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
+                headers: {
+                  // @ts-ignore
+                  Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
+                }
+              }).subscribe({
+                next: (data) => {
+      
+                  if (data.profile_image === null) {
+                    this.store.dispatch(SetUserData({pfp: "/assets/default.jpg", username: data.username}));
+                  } else {
+                    this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username}));
+                  }
+      
+                },
+                error: (error) => {
+                  console.log(error);
+                }
+              });
+
               this.auth.checkLogin();
       
+              this.store.dispatch(appIsReady());
+
               setTimeout(() => {
   
                 this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
