@@ -30,3 +30,14 @@
   font-size: 14px;
   font-weight: 500;
 }
+
+:host a {
+  color: #2E65CA;
+  text-decoration: none;
+  transition: color .2s;
+}
+
+:host a:hover {
+  color: #3372e8;
+  text-decoration: none;
+}

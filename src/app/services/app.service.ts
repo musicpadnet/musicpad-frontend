@@ -5,20 +5,28 @@ import { LoadingNetworkError, LoadingWebSocketError, SetUserData, appIsReady, ch
 import { AuthService } from "./auth.service";
 import { ConfigService } from "./config.service";
 import { SocketService } from "./socket.service";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root"
 })
 export class AppService {
 
-  constructor (private http: HttpClient, private store: Store<{app: { isLoaded: boolean, loaderStyle: {opacity: number}}}>, private auth: AuthService, private config: ConfigService, private socket: SocketService) {}
+  constructor (private router: Router, private http: HttpClient, private store: Store<{app: { isLoaded: boolean, loaderStyle: {opacity: number}}}>, private auth: AuthService, private config: ConfigService, private socket: SocketService) {}
 
-  async initiateApplicationCoreBundles () {
+  initiateApplicationCoreBundles () {
 
     this.http.get<{statusCode: number, message: string}>(this.config.conifgAPIURL).subscribe({
-      next: async (data) => {
+      next: (data) => {
 
-        this.auth.checkLogin();
+        this.auth.checkLogin().subscribe(({
+          next: () => {
+            
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        }));
 
         this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
           headers: {
@@ -29,7 +37,7 @@ export class AppService {
           next: (data) => {
 
             if (data.profile_image === null) {
-              this.store.dispatch(SetUserData({pfp: "/assets/default.jpg", username: data.username}));
+              this.store.dispatch(SetUserData({pfp: "/assets/default.png", username: data.username}));
             } else {
               this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username}));
             }
@@ -96,61 +104,29 @@ export class AppService {
 
       }, 
       error: (err) => {
+
+        this.store.dispatch(appIsReady());
+
+            
+        setTimeout(() => {
+
+              
+          this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
+      
+              
+          setTimeout(() => {
+                
+            this.store.dispatch(isLoaded());
+              
+          }, 500);
+      
+            
+        }, 1000);
         
-        this.store.dispatch(LoadingNetworkError());
-
-        let interval = setInterval(() => {
-
-          this.http.get<{statusCode: number, message: string}>(this.config.conifgAPIURL).subscribe({
-            next: (data) => {
-
-              clearInterval(interval);
-
-              this.store.dispatch(removeErrors());
-
-              this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
-                headers: {
-                  // @ts-ignore
-                  Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
-                }
-              }).subscribe({
-                next: (data) => {
-      
-                  if (data.profile_image === null) {
-                    this.store.dispatch(SetUserData({pfp: "/assets/default.jpg", username: data.username}));
-                  } else {
-                    this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username}));
-                  }
-      
-                },
-                error: (error) => {
-                  console.log(error);
-                }
-              });
-
-              this.auth.checkLogin();
-      
-              this.store.dispatch(appIsReady());
-
-              setTimeout(() => {
-  
-                this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
-  
-                setTimeout(() => {
-                  this.store.dispatch(isLoaded());
-                }, 500);
-  
-              }, 1000);
-
-            },
-            error: (err) => {
-              console.log(err);
-            }
-          });
-  
-        }, 30000);
+        this.router.navigate(["/maintenance"]);
 
       }
+      
     });
 
   }

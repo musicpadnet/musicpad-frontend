@@ -1,0 +1,75 @@
+:host {
+  height: 100vh;
+  width: 250px;
+  position: fixed;
+  z-index: 2900;
+  right: -300px;
+  top: 0;
+  background-color: #0a0b0d;
+  border-left: 2px solid #000000;
+  transition: right .3s cubic-bezier(.17,.67,0,1.03);
+}
+
+:host .user-menu-items {
+  height: calc(100vh - 100px);
+  width: 250px;
+}
+
+:host .user-menu-header {
+  height: 50px;
+  text-align: center;
+  width: 250px;
+  -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+  background-size: cover;
+}
+
+:host .user-menu-items .item {
+  height: 50px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  line-height: 50px;
+  cursor: pointer;
+  transition: background-color .2s;
+}
+
+:host .user-menu-items .item span {
+  float: right;
+  font-size: 14px;
+  margin-right: 10px;
+  font-weight: 600;
+  font-family: "Industrywf", sans-serif;
+  text-transform: uppercase;
+  color: #a8a8a8;
+}
+
+:host .user-menu-items .item:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+:host .user-menu-footer {
+  height: 50px;
+  width: 300px;
+  border-top: 2px solid #000000;
+  background-color: #101012;
+  display: flex;
+  text-align: center;
+  align-items: center;
+}
+
+:host .user-menu-footer .mat-mdc-button {
+  margin-left: 10px;
+}
+
+:host .user-menu-header span {
+  font-size: 19px;
+  color: #ffffff;
+  line-height: 150px;
+  width: 120px;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 5px;
+  overflow: hidden;
+  font-weight: 700;
+  font-family: "Industrywf", sans-serif;
+}

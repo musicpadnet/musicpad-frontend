@@ -50,8 +50,16 @@
         <div class="delete-pl-btn" (click)="openDeletePLDialog(pl.id)" matTooltip="Delete Playlist" matTooltipPosition="left"><mat-icon>delete</mat-icon></div>
       </div>
     </div>
-    <cdk-virtual-scroll-viewport #scrollCont *ngIf="openPlaylist === pl.id" class="viewport" itemSize="50px" cdkScrollable>
-      <div class="lib-sng" *cdkVirtualFor="let sng of pl.songs" title="{{sng.title}}" (dblclick)="openPreview(sng.cid)" [attr.data-cid]="sng._id" [attr.data-id]="pl.id" cdkDrag>
+    <div cdkDropList cdkScrollable class="viewport" #scrollCont (cdkDropListDropped)="moveDrop($event)">
+      <div class="lib-sng" *ngFor="let sng of pl.songs" title="{{sng.title}}" (dblclick)="openPreview(sng.cid)" [attr.data-cid]="sng._id" [attr.data-id]="pl.id" cdkDrag>
+        <div class="lib-sng isdragging" *cdkDragPlaceholder>
+          <img [src]="sng.thumbnail" class="lib-thumb">
+          <div class="text">{{sng.title}}</div>
+          <div class="nav btn-song-bot" #songr [attr.data-id]="pl.id" [attr.data-cid]="sng._id" (click)="onClickMoveBottom(songr)" style="margin-right: 5px;"><mat-icon>arrow_downward</mat-icon></div>
+          <div class="nav btn-song-top" #songr [attr.data-cid]="sng._id" [attr.data-id]="pl.id" (click)="onClickMoveTop(songr)" style="margin-right: 5px;"><mat-icon>arrow_upward</mat-icon></div>
+          <div class="nav btn-remove-song" #songr [attr.data-cid]="sng._id" [attr.data-id]="pl.id" (click)="onClickDeleteSong(songr)"><mat-icon>delete</mat-icon></div>
+          <div class="dur">{{makeTime(sng.duration)}}</div>
+        </div>
         <img [src]="sng.thumbnail" class="lib-thumb">
         <div class="text">{{sng.title}}</div>
         <div class="nav btn-song-bot" #songr [attr.data-id]="pl.id" [attr.data-cid]="sng._id" (click)="onClickMoveBottom(songr)" style="margin-right: 5px;"><mat-icon>arrow_downward</mat-icon></div>
@@ -59,7 +67,7 @@
         <div class="nav btn-remove-song" #songr [attr.data-cid]="sng._id" [attr.data-id]="pl.id" (click)="onClickDeleteSong(songr)"><mat-icon>delete</mat-icon></div>
         <div class="dur">{{makeTime(sng.duration)}}</div>
       </div>
-    </cdk-virtual-scroll-viewport>
+    </div>
   </div>
 </div>
 <div class="playlist-panels" [ngStyle]="ytpanelStyle" id="yt-search" *ngIf="openPlaylist === 'ytsearch'">
@@ -76,18 +84,4 @@
         <button mat-menu-item *ngFor="let pl of playlists" (click)="onClickAdd(ytsng.cid, pl.id)">{{pl.name}}</button>
       </mat-menu>
     </div>
-</div>
-
-<div class="video-preview-overlay" [ngStyle]="previewStyle">
-
-  <div class="video-preview-container centering-xy">
-
-    <h1 class="pre-title">Preview</h1>
-
-    <div id="preplayer"></div>
-
-    <div class="pre-close-btn" (click)="closePreview()">
-      <span>Close</span>
-    </div>
-  </div>
 </div>

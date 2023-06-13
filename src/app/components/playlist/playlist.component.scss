@@ -180,13 +180,12 @@
 }
 
 .playlist-panels {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 102px);
   width: calc(100% - 200px);
   position: absolute;
   bottom: 0;
   left: 200px;
 	display: none;
-  overflow-y: auto;
 }
 
 .playlist-panels .pl-header {
@@ -277,6 +276,7 @@
 .playlist-panels .viewport {
 	margin-top: 2px;
   height: calc(100vh - 152px);
+	overflow-y: auto;
 }
 
 .lib-folders {
@@ -743,58 +743,6 @@
 	transform: translate3d(-50%, -50%, 0);
 }
 
-.video-preview-overlay {
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 9999999999;
-  display: none;
-  background-color: rgba(0,0,0,0.85);
-}
-
-.video-preview-container {
-  height: 490px;
-  width: 640px;
-  position: absolute;
-  background-color: #111214;
-}
-
-.pre-title {
-  font-family: "Industrywf", sans-serif;
-  font-size: 23px;
-  text-transform: uppercase;
-  position: absolute;
-  color: #c9c9c9;
-  top: -4px;
-  left: 270px;
-}
-
-.pre-close-btn {
-	height: 50px;
-	width: 640px;
-	background-color: #0063b5;
-	line-height: 50px;
-	cursor: pointer;
-	align-items: center;
-	text-align: center;
-	transition: background-color .3s;
-}
-
-.pre-close-btn:hover {
-	background-color: #007fe8;
-}
-
-.pre-close-btn span {
-	color: #ffffff;
-	font-family: "Industrywf", sans-serif;
-	text-transform: uppercase;
-	font-weight: 800;
-	font-size: 18px;
-}
-
 .yt-sng .add-btn {
   float: right;
 	margin-top: -50px;
@@ -805,4 +753,31 @@
   font-size: 20px;
   cursor: pointer;
 	margin-top: 15px;
+}
+
+.lib-sng.isdragging {
+	border-bottom: 2px solid #0075d5;
+	background: rgba(0, 117, 213 ,0.2);
+	transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(71, 71, 71);
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  -webkit-border-radius: 3em;
+}
+
+::-webkit-scrollbar-track {
+  background: 0 0;
+  -webkit-border-radius: 3em;
 }

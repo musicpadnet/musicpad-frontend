@@ -3,13 +3,12 @@
 #room-header {
   height: 50px;
   width: 100%;
-  top: 0;
-  left: 0;
   background-color: #060708;
   border-bottom: 1px solid #000000;
   -webkit-box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48); 
   box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48);
-  z-index: 2600;
+  z-index: 2700;
+  position: absolute;
 }
 
 #room-header .container {
@@ -69,8 +68,10 @@
 }
 
 #room-header .btns-right {
-  margin-left: auto;
-  margin-right: 10px;
+  right: 5px;
+  z-index: 4000;
+  position: aboslute;
+  top: 6px;
 }
 
 // footer
@@ -228,7 +229,7 @@
   bottom: 50px;
   background: url(/assets/lmao.png) center center no-repeat;
   background-size: cover;
-  z-index: -300;
+  z-index: -1000;
 }
 
 // sidebar things
@@ -254,7 +255,8 @@
 .sidebar-chat-container {
   height: calc(100vh - 200px);
   width: 300px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar-chat-footer {
@@ -300,10 +302,11 @@
 
 // player things
 .player-container {
-  position: absolute;
+  position: fixed;
   height: 495px;
   width: 807px;
   left: 45%;
+  z-index: -700;
   background-color: #000000;
 }
 
@@ -419,7 +422,6 @@
 
 .player {
   position: absolute;
-  z-index: 1000;
   height: 455px;
   width: 807px;
 }
@@ -531,4 +533,51 @@
       -ms-transform: rotate(-360deg);  /* IE 9 */
       transform: rotate(-360deg);  /* Firefox 16+, IE 10+, Opera */
   }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(71, 71, 71);
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  -webkit-border-radius: 3em;
+}
+
+::-webkit-scrollbar-track {
+  background: 0 0;
+  -webkit-border-radius: 3em;
+}
+
+.right-username {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 50px;
+  display: inline;
+  font-weight: 500;
+  font-family: "Industrywf", sans-serif;
+  position: absolute;
+  z-index: 3000;
+  right: 83px;
+}
+
+.chat-connected-message {
+  height: 30px;
+  margin-top: 5px;
+  width: 100%;
+  font-family: "Industrywf", sans-serif;
+  font-size: 15px;
+  color: #575757;
+  line-height: 30px;
+}
+
+.chat-connected-message span {
+  margin-left: 10px;
 }

@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists, changePlaylistOpenState, changeNextSongTitle, appIsReady, webScoketDisconnectError, isNotLoaded, appIsNotReady, removeErrors } from "./app.actions";
+import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists, changePlaylistOpenState, changeNextSongTitle, appIsReady, webScoketDisconnectError, isNotLoaded, appIsNotReady, removeErrors, changeUserMenuStyle, changeUserMenuOpen, changePreviewStyle } from "./app.actions";
 
 interface IPlaylstItem {
   title: string,
@@ -25,6 +25,9 @@ interface InintalStateI {
   nextSongTitle: string | null,
   appIsReady: boolean,
   playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[],
+  userMenuIsOpen: boolean,
+  userMenuStyle: {right: string},
+  prevStyle: {display: string}
 }
 
 export const initsalState: InintalStateI = {
@@ -40,7 +43,10 @@ export const initsalState: InintalStateI = {
   playlistStyle: {bottom: "-100vh", width: "calc(100vw - 300px)"},
   playlistOpenState: false,
   nextSongTitle: null,
-  playlists: []
+  playlists: [],
+  userMenuIsOpen: false,
+  userMenuStyle: {right: "-300px"},
+  prevStyle: {display: "none"}
 }
 
 export const AppReducer = createReducer(
@@ -142,6 +148,24 @@ export const AppReducer = createReducer(
       loadingError: false,
       socketLoadingError: false,
       socketDisconnected: false
+    }
+  }),
+  on(changeUserMenuStyle, (state, action) => {
+    return {
+      ...state,
+      userMenuStyle: action.style
+    }
+  }),
+  on(changeUserMenuOpen, (state, action) => {
+    return {
+      ...state,
+      userMenuIsOpen: action.isOpen
+    }
+  }),
+  on(changePreviewStyle, (state, action) => {
+    return {
+      ...state,
+      prevStyle: action.style
     }
   })
 )

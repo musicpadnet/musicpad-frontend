@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
-import { appIsNotReady, appIsReady, changeLoaderStyle, isLoaded, isNotLoaded, removeErrors, webScoketDisconnectError } from "../store/app.actions";
+import { LoadingWebSocketError, appIsNotReady, appIsReady, changeLoaderStyle, isLoaded, isNotLoaded, removeErrors, webScoketDisconnectError } from "../store/app.actions";
 
 @Injectable({
   providedIn: "root"
@@ -70,7 +70,7 @@ export class SocketService {
 
         this.store.dispatch(changeLoaderStyle({style: {opacity: 1}}));
 
-        this.store.dispatch(webScoketDisconnectError());
+        this.store.dispatch(LoadingWebSocketError());
 
       }, 500);
 

@@ -1,9 +1,6 @@
 .dashboard-header {
   height: 50px;
   width: 100%;
-  top: 0;
-  left: 0;
-  position: fixed;
   z-index: 200;
   background-color: #0a0b0d;
   border-bottom: 1px solid #000000;
@@ -20,8 +17,6 @@
 .dashboard-btn {
   height: 50px;
   width: 50px;
-  background-color: #191b20;
-  border-right: 1px solid #000000;
   line-height: 70px;
   cursor: pointer;
 }
@@ -42,9 +37,17 @@
 }
 
 .dashboard-room-items {
-  height: calc(100% - 50px);
+  height: calc(100% - 110px);
   width: 100vw;
-  top: 50px;
+  top: 55px;
+  overflow-y: auto;
+  position: absolute;
+}
+
+.dashboard-room-items.loggedout {
+  height: calc(100% - 55px);
+  width: 100vw;
+  top: 55px;
   position: absolute;
 }
 
@@ -87,11 +90,13 @@
   color: #ffffff;
   text-align: center;
 }
+
 #dashboard-footer .playlist-song-title {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 45px;
   text-overflow: ellipsis;
+  font-family: "Industrywf", sans-serif;
   color: #ffffff;
 }
 
@@ -109,4 +114,36 @@
   height: 27px;
   padding-top:12px;
   width: 27px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(71, 71, 71);
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  -webkit-border-radius: 3em;
+}
+
+::-webkit-scrollbar-track {
+  background: 0 0;
+  -webkit-border-radius: 3em;
+}
+
+.right-username {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 50px;
+  display: inline;
+  font-weight: 500;
+  font-family: "Industrywf", sans-serif;
+  margin-right: 3px;
+  margin-left: 30px;
 }

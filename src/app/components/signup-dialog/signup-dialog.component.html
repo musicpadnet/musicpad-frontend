@@ -40,7 +40,7 @@
       Verify password is required
       </mat-error>
     </mat-form-field>
-    <mat-checkbox class="form-checkbox" formControlName="terms">I agree to the terms of service and privacy policy</mat-checkbox>
+    <mat-checkbox class="form-checkbox" formControlName="terms">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a></mat-checkbox>
     <p class="req-error" *ngIf="usernameAlreadyUsedError == true">Username is already used.</p>
     <p class="req-error" *ngIf="emailAlreadyUsed == true">Email is already being used.</p>
     <p class="req-error" *ngIf="passwordError == true">Password must be between 7 - 300 characters long</p>

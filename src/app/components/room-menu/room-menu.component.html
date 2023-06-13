@@ -1,0 +1,31 @@
+<div class="navigation">
+  <div class="item" (click)="onClickInfo()" [ngStyle]="roomInfoBStyle" matTooltip="Room Info" matTooltipPosition="right">
+    <mat-icon>info</mat-icon>
+  </div>
+  <div class="item" (click)="onClickHistory()" [ngStyle]="roomHistoryBStyle" matTooltip="Room History" matTooltipPosition="right">
+    <mat-icon>history</mat-icon>
+  </div>
+  <div class="item" (click)="onClickRooms()" [ngStyle]="roomRoomsBStyle" matTooltip="Browse Rooms" matTooltipPosition="right">
+    <mat-icon>group</mat-icon>
+  </div>
+  <div class="item" style="position:absolute;bottom: 0;left:0;" routerLink="/" matTooltip="Exit Room" matTooltipPosition="right">
+    <mat-icon>power_settings_new</mat-icon>
+  </div>
+</div>
+
+<div class="room-menu-panels" *ngIf="roomInfoPanel === true"></div>
+<div class="room-menu-panels" *ngIf="roomHistoryPanel === true"></div>
+<div class="room-menu-panels" *ngIf="roomRoomsPanel === true">
+  <mat-grid-list cols="4">
+    <mat-grid-tile *ngFor="let roomItem of rooms">
+      <a [href]="'/'+roomItem.slug">
+        <mat-card>
+          <mat-card-content>
+            <div class="dashboard-image"></div>
+            <p class="roomname">{{roomItem.name}} - {{roomItem.users.length}}</p>
+          </mat-card-content>
+        </mat-card>
+      </a>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

@@ -7,6 +7,18 @@ const routes: Routes = [
     loadChildren: () => import('./views/dashboard/dahboard.module').then(m => m.DahboardModule) 
   },
   { 
+    path: 'terms', 
+    loadChildren: () => import('./views/terms/terms.module').then(m => m.TermsModule) 
+  },
+  { 
+    path: 'privacy', 
+    loadChildren: () => import('./views/privacy/privacy.module').then(m => m.PrivacyModule) 
+  },
+  { 
+    path: 'maintenance', 
+    loadChildren: () => import('./views/maintenance/maintenance.module').then(m => m.MaintenanceModule)
+  },
+  { 
     path: ':slug', 
     loadChildren: () => import('./views/room/room.module').then(m => m.RoomModule) 
   }

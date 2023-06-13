@@ -9,11 +9,11 @@ import { ConfigService } from 'src/app/services/config.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { cloneDeep } from 'lodash-es';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DeletePlaylistDialog } from '../delete-playlist-dialog/delete-playlist-dialog.component';
 import { RenamePlaylistDialog } from '../rename-playlist-dialog/rename-playlist-dialog.component';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { ImportPlaylistDialog } from '../import-playlist-dialog/import-playlist-dialog.component';
+import { SongPrevService } from 'src/app/services/song-preview.service';
 
 interface ISearchItem {
   cid: string,
@@ -51,7 +51,7 @@ export class PlaylistComponent implements OnInit {
 
   @ViewChildren("pp") pps!: QueryList<ElementRef>;
 
-  @ViewChild("scrollCont") scrollContElm!: CdkVirtualScrollViewport;
+  @ViewChild("scrollCont") scrollContElm!: ElementRef;
 
   playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: ILibSong[]}[] = [];
 
@@ -79,7 +79,7 @@ export class PlaylistComponent implements OnInit {
 
   openPlaylist: string | null | undefined = null;
 
-  constructor(private store: Store<{app: {playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: ILibSong[]}[]}}>, public dialog: MatDialog, private http: HttpClient, private config: ConfigService, private snackBar: MatSnackBar) {
+  constructor(private prevsong: SongPrevService, private store: Store<{app: {playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: ILibSong[]}[]}}>, public dialog: MatDialog, private http: HttpClient, private config: ConfigService, private snackBar: MatSnackBar) {
 
     this.app$ = store.select("app");
 
@@ -190,36 +190,7 @@ export class PlaylistComponent implements OnInit {
 
   openPreview (cid: string) {
 
-    this.previewStyle = {"display": "block"};
-
-    const onPlayerReady = (event: any) => {
-
-      event.target.playVideo();
-
-    }
-
-    // @ts-ignore
-    this.player = new YT.Player("preplayer", {
-      height: '390',
-      width: '640',
-      videoId: cid,
-      playerVars: {
-        'playsinline': 1
-      },
-      events: {
-        'onReady': onPlayerReady
-      }
-    })
-
-  }
-
-  closePreview () {
-
-    this.player.destroy();
-
-    this.player = null;
-
-    this.previewStyle = {display: "none"};
+    this.prevsong.openPlayer(cid);
 
   }
 
@@ -300,6 +271,10 @@ export class PlaylistComponent implements OnInit {
     }).subscribe({
       next: (data) => {
 
+        if (!lastActivepl1) {
+          this.openPlaylist = data.playlists[0].id;
+        }
+
         this.store.dispatch(UpdatePlaylists({playlists: data.playlists}));
 
         const IndexOfActive = data.playlists.findIndex(obj => obj.isActive === true);
@@ -315,7 +290,7 @@ export class PlaylistComponent implements OnInit {
         }
 
         this.fldrelms.changes.subscribe({
-          next: (data) => {
+          next: (data3) => {
 
             this.pps.changes.subscribe({
               next: (data2) => {
@@ -336,11 +311,13 @@ export class PlaylistComponent implements OnInit {
 
                 if (lastActivepl) {
 
+                  this.openPlaylist = lastActivepl;
+
                   let elm1:any;
 
                   let elm2:any;
 
-                  data.forEach((elm: ElementRef) => {
+                  data3.forEach((elm: ElementRef) => {
 
                     if (elm.nativeElement.dataset.id === lastActivepl) {
 
@@ -350,11 +327,41 @@ export class PlaylistComponent implements OnInit {
 
                   });
 
-                  this.openPlaylist = lastActivepl;
-
                   data2.forEach((elm: ElementRef) => {
 
                     if (elm.nativeElement.dataset.id === lastActivepl) {
+
+                      elm2 = elm.nativeElement;
+
+                    }
+
+                  });
+
+                  elm1.style.backgroundColor = "#0075d5";
+
+                  elm2.style.display = "block";
+
+                } else {
+
+                  let elm1:any;
+
+                  let elm2:any;
+
+                  this.openPlaylist = data.playlists[0].id;
+
+                  data3.forEach((elm: ElementRef) => {
+
+                    if (elm.nativeElement.dataset.id === data.playlists[0].id) {
+
+                      elm1 = elm.nativeElement;
+
+                    }
+
+                  });
+
+                  data2.forEach((elm: ElementRef) => {
+
+                    if (elm.nativeElement.dataset.id === data.playlists[0].id) {
 
                       elm2 = elm.nativeElement;
 
@@ -536,6 +543,8 @@ export class PlaylistComponent implements OnInit {
 
     const songid = songr.dataset["cid"];
 
+    const currentPos = this.scrollContElm.nativeElement.scrollTop;
+
     if (songr.dataset["id"] && songr.dataset["cid"]) {
 
       const temp = cloneDeep(this.playlists);
@@ -559,6 +568,12 @@ export class PlaylistComponent implements OnInit {
 
           this.store.dispatch(UpdatePlaylists({playlists: temp}));
 
+          setTimeout(() =>{
+
+            this.scrollContElm.nativeElement.scrollTop = currentPos;
+
+          }, 1)
+
         },
         error: (error) => {
 
@@ -576,6 +591,8 @@ export class PlaylistComponent implements OnInit {
     const playlistid = songr.dataset["id"];
 
     const songid = songr.dataset["cid"];
+
+    const currentPos = this.scrollContElm.nativeElement.scrollTop;
 
     if (songr.dataset["cid"] && songr.dataset["id"]) {
 
@@ -605,6 +622,12 @@ export class PlaylistComponent implements OnInit {
 
           this.store.dispatch(UpdatePlaylists({playlists: temp}));
 
+          setTimeout(() =>{
+
+            this.scrollContElm.nativeElement.scrollTop = currentPos;
+
+          }, 1);
+
         },
         error: (error) => {
           console.log(error);
@@ -617,13 +640,35 @@ export class PlaylistComponent implements OnInit {
 
   moveDrop(event: CdkDragDrop<string[]>) {
 
-    let currentPos = this.scrollContElm.measureScrollOffset("top");
-
     const playlistid = event.item.element.nativeElement.dataset["id"];
 
     const songid = event.item.element.nativeElement.dataset["cid"];
 
     if (playlistid && songid) {
+
+      const currentPos = this.scrollContElm.nativeElement.scrollTop;
+
+      const temp = cloneDeep(this.playlists);
+
+      const index = temp.findIndex(obj => obj.id === playlistid);
+
+      const fromIndex = temp[index].songs.findIndex(obj => obj._id === songid);
+
+      const toIndex = event.currentIndex;
+
+      let elm = temp[index].songs.splice(fromIndex, 1)[0];
+
+      temp[index].songs.splice(toIndex, 0, elm);
+
+      this.playlists = temp;
+
+      this.store.dispatch(UpdatePlaylists({playlists: temp}));
+
+      setTimeout(() => {
+
+        this.scrollContElm.nativeElement.scrollTop = currentPos;
+
+      }, 1);
 
       this.http.put(`${this.config.conifgAPIURL}playlists/${playlistid}/${songid}/move/${event.currentIndex}`, null, {
         headers: {
@@ -632,27 +677,7 @@ export class PlaylistComponent implements OnInit {
       }).subscribe({
         next: () => {
 
-          const temp = cloneDeep(this.playlists);
-
-          const index = temp.findIndex(obj => obj.id === playlistid);
-
-          const fromIndex = temp[index].songs.findIndex(obj => obj._id === songid);
-
-          const toIndex = event.currentIndex;
-
-          let elm = temp[index].songs.splice(fromIndex, 1)[0];
-
-          temp[index].songs.splice(toIndex, 0, elm);
-
-          this.playlists = temp;
-
-          this.store.dispatch(UpdatePlaylists({playlists: temp}));
-
-          setTimeout(() => {
-
-            this.scrollContElm.scrollTo({top: currentPos});
-
-          }, 1);
+          console.log("Playlist updated :))")
 
         },
         error: (error) => {

@@ -1,9 +1,12 @@
+<div class="black-bg"></div>
 <div id="room-background"></div>
+
+<m-app-room-menu [tab]="tabToOpen" [ngStyle]="roomMenuStyle" *ngIf="roomMenuIsOpen === true"></m-app-room-menu>
 
 <div id="room-header">
   <div class="container">
 
-    <div routerLink="/" class="dashboard-btn" matTooltip="Dashboard" matTooltipPosition="right">
+    <div class="dashboard-btn" matTooltip="Dashboard" matTooltipPosition="right" (click)="toggleRoomMenuRooms()">
       <div class="logo"></div>
     </div>
 
@@ -15,19 +18,25 @@
     </div>
 
     <div class="btns-center">
-      <button mat-stroked-button color="primary" matTooltip="Room Info" matTooltipPosition="below">Info <mat-icon>info</mat-icon></button>
+      <button mat-stroked-button color="primary" matTooltip="Room Info" matTooltipPosition="below" (click)="toggleRoomMenu()">Info <mat-icon>info</mat-icon></button>
       <button mat-stroked-button color="primary" matTooltip="Room Moderation" matTooltipPosition="below">Moderation <mat-icon>gavel</mat-icon></button>
       <button mat-stroked-button color="primary" matTooltip="Room Settings" matTooltipPosition="below">settings <mat-icon>settings</mat-icon></button>
-      <button mat-stroked-button color="primary" matTooltip="Song History" matTooltipPosition="below">History <mat-icon>history</mat-icon></button>
+      <button mat-stroked-button color="primary" matTooltip="Song History" matTooltipPosition="below" (click)="toggleRoomMenuHistory()">History <mat-icon>history</mat-icon></button>
     </div>
 
-    <div class="btns-right">
-      <a mat-button class="user-btn" color="primary">
-        <span class="inline-btn-content"><img [src]="pfp" class="avatar-right" style="margin-right: 4px;"><mat-icon>chevron_right</mat-icon></span>
-      </a>
+    <div class="btns-right" *ngIf="loggedIn === false">
+      <button mat-button color="primary" (click)="openLoginDialog()">Login</button>
+      <button mat-raised-button color="accent" (click)="openSignupDialog()">Signup</button>
     </div>
 
   </div>
+</div>
+
+<div class="btns-right" *ngIf="loggedIn === true">
+  <span class="right-username">{{username}}</span>
+  <a mat-button class="user-btn" color="primary" style="z-index: 4000; right: 5px; position: fixed;top: 8px;" (click)="onClickUserMenu()">
+    <span class="inline-btn-content"><img [src]="pfp" class="avatar-right" style="margin-right: 4px;"><mat-icon>chevron_right</mat-icon></span>
+  </a>
 </div>
 
 <div class="room-container">
@@ -68,7 +77,11 @@
         <ng-template mat-tab-label>
           <mat-icon style="font-size: 20px;">chat</mat-icon>
         </ng-template>
-        <div class="sidebar-chat-container"></div>
+        <div class="sidebar-chat-container">
+          <div class="chat-connected-message">
+            <span>Welcome to the chat!</span>
+          </div>
+        </div>
         <div class="sidebar-chat-footer">
           <button class="icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
             <mat-icon>mood</mat-icon>
@@ -103,7 +116,8 @@
       <mat-icon aria-hidden="false" aria-label="Playlist Icon" fontIcon="format_list_bulleted" class="playlist-icon"></mat-icon>
     </div>
     <div class="playlist-song-contain">
-      <span class="playlist-song-title">{{nextSongtitle}}</span>
+      <span class="playlist-song-title" *ngIf="loggedIn === true">{{nextSongtitle}}</span>
+      <span class="playlist-song-title" *ngIf="loggedIn === false">Login or Signup to join the party!!!</span>
     </div>
     <div class="right-content">
       <div class="queue-btn leave" matTooltip="Join/Leave Queue" matTooltipPosition="left">

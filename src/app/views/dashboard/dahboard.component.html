@@ -5,13 +5,17 @@
     <div class="dashboard-btn" matTooltip="Dashboard" matTooltipPosition="right">
       <div class="logo"></div>
     </div>
+    <a mat-button color="primary">About</a>
+    <a mat-button color="primary" href="/terms" target="_blank">Terms</a>
+    <a mat-button color="primary" href="/privacy" target="_blank">Privacy</a>
     <div class="right-content" *ngIf="loggedIn === false">
       <button mat-button color="primary" (click)="openLoginDialog()">Login</button>
       <button mat-raised-button color="accent" (click)="openSignupDialog()">Signup</button>
     </div>
     <div class="right-content" *ngIf="loggedIn === true">
       <button mat-raised-button color="accent" (click)="openCreateRoomDialog()">Create Room</button>
-      <a mat-button class="user-btn" color="primary">
+      <span class="right-username">{{username}}</span>
+      <a mat-button class="user-btn" color="primary" style="z-index: 3005;position: relative;" (click)="onClickUserMenu()">
         <span class="inline-btn-content"><img [src]="pfp" class="avatar-right" style="margin-right: 4px;"><mat-icon>chevron_right</mat-icon></span>
       </a>
     </div>
@@ -20,20 +24,37 @@
 
 </div>
 
-<div class="dashboard-room-items">
+<div class="dashboard-room-items" *ngIf="loggedIn === true">
   <mat-grid-list cols="4">
     <mat-grid-tile *ngFor="let roomItem of renderedRoomTitles">
-      <mat-card [routerLink]="roomItem.slug">
-        <mat-card-content>
-          <div class="dashboard-image"></div>
-          <p class="roomname">{{roomItem.name}} - {{roomItem.users.length}}</p>
-        </mat-card-content>
-      </mat-card>
+      <a [href]="'/'+roomItem.slug">
+        <mat-card>
+          <mat-card-content>
+            <div class="dashboard-image"></div>
+            <p class="roomname">{{roomItem.name}} - {{roomItem.users.length}}</p>
+          </mat-card-content>
+        </mat-card>
+      </a>
     </mat-grid-tile>
   </mat-grid-list>
 </div>
 
-<div id="dashboard-footer">
+<div class="dashboard-room-items loggedout" *ngIf="loggedIn === false">
+  <mat-grid-list cols="4">
+    <mat-grid-tile *ngFor="let roomItem of renderedRoomTitles">
+      <a [href]="'/'+roomItem.slug">
+        <mat-card>
+          <mat-card-content>
+            <div class="dashboard-image"></div>
+            <p class="roomname">{{roomItem.name}} - {{roomItem.users.length}}</p>
+          </mat-card-content>
+        </mat-card>
+      </a>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
+<div id="dashboard-footer" *ngIf="loggedIn === true">
   <div class="container">
     <div class="playlist-btn" matTooltip="Playlists" matTooltipPosition="right" (click)="openPlaylistPanel()">
       <mat-icon aria-hidden="false" aria-label="Playlist Icon" fontIcon="format_list_bulleted" class="playlist-icon"></mat-icon>
@@ -43,3 +64,5 @@
     </div>
   </div>
 </div>
+
+<div class="black-bg"></div>
