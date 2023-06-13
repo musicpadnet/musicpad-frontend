@@ -1,0 +1,84 @@
+:host {
+  height: calc(100vh - 50px);
+  width: calc(100vw - 300px);
+  position: fixed;
+	border-top: 1px solid #000000;
+  top: 50px;
+  left: 0;
+  background-color: #0a0b0d;
+  z-index: 2700;
+  transition: top 0.3s;
+  display: flex;
+}
+
+:host .navigation {
+  height: 100%;
+  width: 50px;
+  border-right: 1px solid #000000;
+  background-color: #18191b;
+}
+
+:host .navigation .item {
+  height: 50px;
+  width: 50px;
+  border-bottom: 1px solid #000000;
+  line-height: 60px;
+  color: #ffffff;
+  text-align: center;
+  cursor: pointer;
+}
+
+:host .navigation .item .mat-icon {
+  font-size: 21px;
+  height: 21px;
+  width: 21px;
+}
+
+:host .navigation .item:hover {
+  height: 50px;
+  width: 50px;
+  background-color: rgba(0, 117, 213 ,0.2)!important;
+  line-height: 60px;
+  text-align: center;
+  cursor: pointer;
+}
+
+:host .room-menu-panels {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.dashboard-image {
+  height: 200px;
+  width: 290px;
+  background: url(/assets/background.png) center center no-repeat;
+  background-size: cover;
+}
+
+.roomname {
+  font-family: "Industrywf", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(71, 71, 71);
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  -webkit-border-radius: 3em;
+}
+
+::-webkit-scrollbar-track {
+  background: 0 0;
+  -webkit-border-radius: 3em;
+}

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Login, Logout } from '../store/app.actions';
 import { ConfigService } from './config.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -48,27 +49,54 @@ export class AuthService {
   }
 
   // check login method
-  checkLogin () {
+  checkLogin (): Observable<boolean> {
 
-    const refreshtoken = window.localStorage.getItem("refreshtoken");
+    return new Observable((observer) => {
 
-    const expires = window.localStorage.getItem("expires");
+      const refreshtoken = window.localStorage.getItem("refreshtoken");
 
-    if (refreshtoken) {
+      const expires = window.localStorage.getItem("expires");
 
-      this.store.dispatch(Login());
+      if (refreshtoken) {
 
-      // @ts-ignore
-      const adjustTime = Math.abs(((Date.now() - parseInt(expires)) / 1000)) * 1000;
+        this.store.dispatch(Login());
 
-      // @ts-ignore
-      const adjustAcctime = ((Date.now() - parseInt(expires)) / 1000);
+        // @ts-ignore
+        const adjustTime = Math.abs(((Date.now() - parseInt(expires)) / 1000)) * 1000;
 
-      console.log(adjustTime);
+        // @ts-ignore
+        const adjustAcctime = ((Date.now() - parseInt(expires)) / 1000);
 
-      if (adjustAcctime >= 0) {
+        console.log(adjustTime);
 
-        this.refreshTokens().then(() => {
+        if (adjustAcctime >= 0) {
+
+          this.refreshTokens().subscribe({
+            next: () => {
+
+              // @ts-ignore
+              const expires2 = parseInt(window.localStorage.getItem("expires"));
+
+              // @ts-ignore
+              const adjustTime2 = Math.abs(((Date.now() - parseInt(expires2)) / 1000)) * 1000;
+
+                this.timeout = setInterval(() => {
+
+                this.refreshTokens().subscribe();
+
+              }, adjustTime2);
+
+              observer.next(true);
+
+            },
+            error: (err) => {
+
+              observer.error(err);
+
+            }
+          });
+
+        } else {
 
           // @ts-ignore
           const expires2 = parseInt(window.localStorage.getItem("expires"));
@@ -78,29 +106,21 @@ export class AuthService {
 
           this.timeout = setInterval(() => {
 
-            this.refreshTokens().then().catch();
+            this.refreshTokens().subscribe()
 
           }, adjustTime2);
 
-        }).catch();
+          observer.next(true);
+
+        }
 
       } else {
-
-        // @ts-ignore
-        const expires2 = parseInt(window.localStorage.getItem("expires"));
-
-        // @ts-ignore
-        const adjustTime2 = Math.abs(((Date.now() - parseInt(expires2)) / 1000)) * 1000;
-
-        this.timeout = setInterval(() => {
-
-          this.refreshTokens().then().catch();
-
-        }, adjustTime2);
+        
+        observer.next(false);
 
       }
 
-    }
+    });
 
   }
 
@@ -142,18 +162,16 @@ export class AuthService {
 
     clearInterval(this.timeout);
 
-    window.localStorage.removeItem("refreshtoken");
-    window.localStorage.removeItem("accesstoken");
-    window.localStorage.removeItem("expires");
+    window.localStorage.clear();
 
     this.store.dispatch(Logout());
 
   }
 
   // refresh tokens method
-  refreshTokens () {
+  refreshTokens (): Observable<{access_token: string, refresh_token: string, expires: number}> {
 
-    const promise = new Promise((resolve, reject) => {
+    return new Observable((observer) => {
 
       if (!window.localStorage.getItem("refreshtoken")) return console.log("unable to access refresh token");
 
@@ -166,7 +184,7 @@ export class AuthService {
           window.localStorage.setItem("refreshtoken", data.refresh_token);
           window.localStorage.setItem("expires", data.expires.toString());
 
-          resolve(data);
+          observer.next(data);
 
         },
         error: (err) => {
@@ -174,13 +192,11 @@ export class AuthService {
           window.localStorage.removeItem("accesstoken");
           window.localStorage.removeItem("refreshtoken");
           window.localStorage.removeItem("expires");
-          reject(err);
+          observer.error(err);
         }
       })
 
     });
-
-    return promise;
 
   }
 }

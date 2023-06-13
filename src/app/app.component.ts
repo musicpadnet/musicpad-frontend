@@ -6,6 +6,7 @@ import { AuthService } from './services/auth.service';
 import { AppService } from './services/app.service';
 import { changeNextSongTitle } from './store/app.actions';
 import { ConfigService } from './services/config.service';
+import { SongPrevService } from './services/song-preview.service';
 
 interface ILibSong {
   title: string,
@@ -23,9 +24,8 @@ interface ILibSong {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'mixtrack-web';
 
-  app$: Observable<{playlistOpenState: boolean, appIsReady: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, isLoaded: boolean}>;
+  app$: Observable<{prevStyle: {display: string}, loggedIn: boolean, userMenuIsOpen: boolean, userMenuStyle: {right: string}, playlistOpenState: boolean, appIsReady: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, isLoaded: boolean}>;
 
   isLoaded: boolean = false;
 
@@ -35,9 +35,17 @@ export class AppComponent implements OnInit {
 
   playlistOpenState = false;
 
+  userMenuStyle = {right: "-300px"};
+
+  loggedIn = false;
+
   appReady = false;
 
-  constructor (private config: ConfigService, private store: Store<{app: { appIsReady: boolean, isLoaded: boolean, playlistOpenState: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}}}>, private http: HttpClient, private auth: AuthService, private app: AppService) {
+  userMenuIsOpen = false;
+
+  prevStyle = {display: "none"};
+
+  constructor (private songprev: SongPrevService, private config: ConfigService, private store: Store<{app: { prevStyle: {display: string}, userMenuStyle: {right: string}, appIsReady: boolean, isLoaded: boolean, playlistOpenState: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, loggedIn: boolean, userMenuIsOpen: boolean}}>, private http: HttpClient, private auth: AuthService, private app: AppService) {
     this.app$ = store.select("app");
 
     this.app$.subscribe({
@@ -47,6 +55,10 @@ export class AppComponent implements OnInit {
         this.playlistOpenState = state.playlistOpenState;
         this.playlistPanelStyle = state.playlistStyle;
         this.appReady = state.appIsReady;
+        this.loggedIn = state.loggedIn;
+        this.userMenuStyle = state.userMenuStyle;
+        this.userMenuIsOpen = state.userMenuIsOpen;
+        this.prevStyle = state.prevStyle;
       }
     })
     
@@ -65,18 +77,26 @@ export class AppComponent implements OnInit {
         Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
       }
     }).subscribe({
-
+  
       next: (data) => {
-      
-        const IndexOfActive = data.playlists.findIndex(obj => obj.isActive === true);
 
-        if (!data.playlists[IndexOfActive].songs[0]) {
+        if (!data.playlists[0]) {
 
-          this.store.dispatch(changeNextSongTitle({title: "No songs in playlist"}));
+          this.store.dispatch(changeNextSongTitle({title: "Create a playlist to play music!!!"}));
 
         } else {
 
-          this.store.dispatch(changeNextSongTitle({title: data.playlists[IndexOfActive].songs[0].title}));
+          const IndexOfActive = data.playlists.findIndex(obj => obj.isActive === true);
+
+          if (!data.playlists[IndexOfActive].songs[0]) {
+  
+            this.store.dispatch(changeNextSongTitle({title: "No songs in playlist"}));
+  
+          } else {
+  
+            this.store.dispatch(changeNextSongTitle({title: data.playlists[IndexOfActive].songs[0].title}));
+  
+          }
 
         }
 
@@ -85,6 +105,12 @@ export class AppComponent implements OnInit {
         console.log(error);
       }
     });
+
+  }
+
+  closePreview () {
+
+    this.songprev.closePlayer();
 
   }
 

@@ -1,9 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/services/auth.service';
-import { Login } from 'src/app/store/app.actions';
+import { ConfigService } from 'src/app/services/config.service';
+import { Login, SetUserData, changeNextSongTitle } from 'src/app/store/app.actions';
 
 @Component({
   selector: 'm-dialog-signup',
@@ -26,7 +28,7 @@ export class SingupDialogComponent {
 
   passwordMatchError = false;
 
-  constructor (private auth: AuthService, private dialogRef: MatDialogRef<SingupDialogComponent>, private store: Store) {
+  constructor (private auth: AuthService, private dialogRef: MatDialogRef<SingupDialogComponent>, private store: Store, private http: HttpClient, private config: ConfigService) {
     this.signupForm = new FormGroup({
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'username': new FormControl(null, [Validators.required, Validators.pattern(new RegExp("^(?![_.])(?!.*[_. ]{2})[a-zA-Z0-9._ ]+(?<![_.])$"))]),
@@ -58,7 +60,29 @@ export class SingupDialogComponent {
 
         this.passwordMatchError = false;
 
+        this.store.dispatch(changeNextSongTitle({title: "Create a playlist to play music!!!"}))
+
         this.auth.signupRequest(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username).then(data => {
+
+          this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
+            headers: {
+              // @ts-ignore
+              Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
+            }
+          }).subscribe({
+            next: (data) => {
+  
+              if (data.profile_image === null) {
+                this.store.dispatch(SetUserData({pfp: "/assets/default.png", username: data.username}));
+              } else {
+                this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username}));
+              }
+  
+            },
+            error: (error) => {
+              console.log(error);
+            }
+          });
 
           setTimeout(() => {
 

@@ -13,10 +13,14 @@ import { SpinnerModule } from 'src/app/spinner/spinner.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { RoomMenuComponent } from 'src/app/components/room-menu/room-menu.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
-    RoomComponent
+    RoomComponent,
+    RoomMenuComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +34,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     SpinnerModule,
     DragDropModule,
     MatMenuModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatCardModule,
+    MatGridListModule
   ]
 })
 export class RoomModule { }

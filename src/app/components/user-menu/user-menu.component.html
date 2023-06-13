@@ -1,0 +1,16 @@
+<div class="user-menu-header">
+  <span>{{username}}</span>
+</div>
+<div class="user-menu-items">
+  <div class="item" matRipple [matRippleColor]="'rgba(255, 255, 255, 0.08)'">
+    <span>Your Rooms</span>
+  </div>
+  <div class="item" matRipple [matRippleColor]="'rgba(255, 255, 255, 0.08)'">
+    <span>Account Settings</span>
+  </div>
+</div>
+<div class="user-menu-footer">
+  <a mat-button color="primary" href="/terms" target="_blank" style="margin-left: 15px;">Terms</a>
+  <a mat-button color="primary" href="/privacy" target="_blank">Privacy</a>
+  <a mat-button color="primary" (click)="onClickLogout()">Logout</a>
+</div>

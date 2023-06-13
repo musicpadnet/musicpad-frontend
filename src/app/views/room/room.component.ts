@@ -1,8 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { LoginDialogComponent } from 'src/app/components/login-dialog/login-dialog.component';
+import { SingupDialogComponent } from 'src/app/components/signup-dialog/signup-dialog.component';
 import { IRoomData, RoomService } from 'src/app/services/room.service';
-import { ChangePlaylistPanel, changePlaylistOpenState } from 'src/app/store/app.actions';
+import { ChangePlaylistPanel, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
+import { changeRoomIsOpen, changeRoomMenuStyle } from 'src/app/store/room.actions';
 
 @Component({
   selector: 'm-app-view-room',
@@ -10,6 +14,8 @@ import { ChangePlaylistPanel, changePlaylistOpenState } from 'src/app/store/app.
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit, OnDestroy {
+
+  tabToOpen: string = "room";
   
   roomName: string | null = null;
 
@@ -27,17 +33,38 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   username: string = "null";
 
-  app$: Observable<{nextSongTitle: string, username: string, pfp: string, playlistStyle: {bottom: string}, playlistOpenState: boolean}>;
+  userMenuIsOpen = false;
 
-  constructor (private room: RoomService, private store: Store<{app: {username: string, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean}}>) {
+  loggedIn = false;
+
+  roomMenuStyle = {top: "-100vh"};
+
+  roomMenuIsOpen = false;
+
+  app$: Observable<{loggedIn: boolean, nextSongTitle: string, userMenuIsOpen: boolean, username: string, pfp: string, playlistStyle: {bottom: string}, playlistOpenState: boolean}>;
+
+  room$: Observable<{roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}>;
+
+  constructor (public dialog: MatDialog, private room: RoomService, private store: Store<{app: {username: string, userMenuIsOpen: boolean, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean, loggedIn: boolean}, room: {roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}}>) {
 
     this.app$ = store.select("app");
+
+    this.room$ = store.select("room");
 
     this.app$.subscribe({
       next: (state) => {
         this.nextSongtitle = state.nextSongTitle;
         this.username = state.username;
         this.pfp = state.pfp;
+        this.userMenuIsOpen = state.userMenuIsOpen;
+        this.loggedIn = state.loggedIn;
+      }
+    });
+
+    this.room$.subscribe({
+      next: (state) => {
+        this.roomMenuStyle = state.roomMenuStyle;
+        this.roomMenuIsOpen = state.roomMenuIsOpen;
       }
     });
 
@@ -45,13 +72,37 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   openPlaylistPanel () {
 
-    this.store.dispatch(changePlaylistOpenState({open: true}));
+    if (this.loggedIn === true) {
 
-    setTimeout(() => {
+      this.store.dispatch(changePlaylistOpenState({open: true}));
 
-      this.store.dispatch(ChangePlaylistPanel({style: {bottom: "0"}}));
+      setTimeout(() => {
 
-    }, 1);
+        this.store.dispatch(ChangePlaylistPanel({style: {bottom: "0"}}));
+
+      }, 1);
+
+    } else {
+
+      this.openSignupDialog();
+
+    }
+
+  }
+
+  openLoginDialog () {
+
+    const dialogRef = this.dialog.open(LoginDialogComponent, {
+      width: '420px'
+    });
+
+  }
+
+  openSignupDialog () {
+
+    const dialogRef = this.dialog.open(SingupDialogComponent, {
+      width: '420px'
+    });
 
   }
 
@@ -89,9 +140,127 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   }
 
+  onClickUserMenu () {
+
+    if (this.userMenuIsOpen === true) {
+
+      this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
+
+      setTimeout(() => {
+
+        this.store.dispatch(changeUserMenuOpen({isOpen: false}));
+
+      }, 300);
+
+    } else {
+
+      this.store.dispatch(changeUserMenuOpen({isOpen: true}));
+
+      setTimeout(() => {
+
+        this.store.dispatch(changeUserMenuStyle({style: {right: "0"}}))
+
+      }, 100);
+
+    }
+
+  }
+
+  toggleRoomMenu () {
+
+    if (this.roomMenuIsOpen === true) {
+
+      this.store.dispatch(changeRoomMenuStyle({style: {top: "-100vh"}}));
+
+      setTimeout(() => {
+
+        this.store.dispatch(changeRoomIsOpen({isOpen: false}));
+
+      }, 300);
+
+    } else {
+
+      this.tabToOpen = "room";
+
+      this.store.dispatch(changeRoomIsOpen({isOpen: true}));
+
+      setTimeout(() => {
+        
+        this.store.dispatch(changeRoomMenuStyle({style: {top: "50px"}}))
+
+      }, 1);
+
+    }
+
+  }
+
+  toggleRoomMenuHistory () {
+
+    if (this.roomMenuIsOpen === true) {
+
+      this.store.dispatch(changeRoomMenuStyle({style: {top: "-100vh"}}));
+
+      setTimeout(() => {
+
+        this.store.dispatch(changeRoomIsOpen({isOpen: false}));
+
+      }, 300);
+
+    } else {
+
+      this.tabToOpen = "history";
+
+      this.store.dispatch(changeRoomIsOpen({isOpen: true}));
+
+      setTimeout(() => {
+        
+        this.store.dispatch(changeRoomMenuStyle({style: {top: "50px"}}))
+
+      }, 1);
+
+    }
+
+  }
+
+  toggleRoomMenuRooms () {
+
+    if (this.roomMenuIsOpen === true) {
+
+      this.store.dispatch(changeRoomMenuStyle({style: {top: "-100vh"}}));
+
+      setTimeout(() => {
+
+        this.store.dispatch(changeRoomIsOpen({isOpen: false}));
+
+      }, 300);
+
+    } else {
+
+      this.tabToOpen = "rooms";
+
+      this.store.dispatch(changeRoomIsOpen({isOpen: true}));
+
+      setTimeout(() => {
+        
+        this.store.dispatch(changeRoomMenuStyle({style: {top: "50px"}}))
+
+      }, 1);
+
+    }
+
+  }
+
   ngOnDestroy() {
 
     this.store.dispatch(ChangePlaylistPanel({style:{bottom: "-100vh"}}));
+
+    this.store.dispatch(changeRoomMenuStyle({style: {top: "-100vh"}}));
+
+    setTimeout(() => {
+
+      this.store.dispatch(changeRoomIsOpen({isOpen: false}));
+
+    }, 300);
 
   }
 

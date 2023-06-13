@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateRoomDialog } from 'src/app/components/create-room-dialog/create-room-dialog.component';
 import { ConfigService } from 'src/app/services/config.service';
-import { ChangePlaylistPanel, changePlaylistOpenState } from 'src/app/store/app.actions';
+import { ChangePlaylistPanel, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
 
 interface IRoom {
   name: string,
@@ -36,7 +36,7 @@ interface IRoom {
 })
 export class DahboardComponent implements OnInit {
 
-  app$: Observable<{loggedIn: boolean, nextSongTitle: string, pfp: string, username: string}>
+  app$: Observable<{loggedIn: boolean, userMenuIsOpen: boolean, nextSongTitle: string, pfp: string, username: string}>
 
   loggedIn: boolean = false;
 
@@ -49,8 +49,10 @@ export class DahboardComponent implements OnInit {
   pageNumber = 1;
 
   nextSongTitle: string | null = null;
+
+  userMenuIsOpen = false;
   
-  constructor (public dialog: MatDialog, private store: Store<{app: {loggedIn: boolean, nextSongTitle: string, pfp: string, username: string}}>, private auth: AuthService, private http: HttpClient, private config: ConfigService) {
+  constructor (public dialog: MatDialog, private store: Store<{app: {loggedIn: boolean, userMenuIsOpen: boolean, nextSongTitle: string, pfp: string, username: string}}>, private auth: AuthService, private http: HttpClient, private config: ConfigService) {
 
     this.app$ = store.select("app");
 
@@ -60,6 +62,7 @@ export class DahboardComponent implements OnInit {
         this.pfp = state.pfp;
         this.username = state.username;
         this.nextSongTitle = state.nextSongTitle;
+        this.userMenuIsOpen = state.userMenuIsOpen;
       }
     });
 
@@ -124,6 +127,32 @@ export class DahboardComponent implements OnInit {
         console.log(error);
       }
     })
+
+  }
+
+  onClickUserMenu () {
+
+    if (this.userMenuIsOpen === true) {
+
+      this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
+
+      setTimeout(() => {
+
+        this.store.dispatch(changeUserMenuOpen({isOpen: false}));
+
+      }, 300);
+
+    } else {
+
+      this.store.dispatch(changeUserMenuOpen({isOpen: true}));
+
+      setTimeout(() => {
+
+        this.store.dispatch(changeUserMenuStyle({style: {right: "0"}}))
+
+      }, 100);
+
+    }
 
   }
 

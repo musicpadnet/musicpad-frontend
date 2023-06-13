@@ -1,0 +1,55 @@
+.centering-xy {
+	position:absolute;
+	display:inline-block;
+	top:50%;
+	left:50%;
+	-webkit-transform: translate3d(-50%, -50%, 0);
+	-moz-transform: translate3d(-50%, -50%, 0);
+	-ms-transform: translate3d(-50%, -50%, 0);
+	-o-transform: translate3d(-50%, -50%, 0);
+	transform: translate3d(-50%, -50%, 0);
+}
+
+h1 {
+  color: #ffffff;
+}
+
+p {
+  color: #ffffff;
+  font-size: 17px;
+  font-family: "Industrywf", sans-serif;
+}
+
+.background-main {
+  background: url(/assets/lmao.png) center center no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: -100;
+}
+
+:host a {
+  color: #2E65CA;
+  text-decoration: none;
+  transition: color .2s;
+}
+
+:host a:hover {
+  color: #3372e8;
+  text-decoration: none;
+}
+
+.m-player {
+  border: 1px solid #2E65CA;
+}
+
+.maint-logo {
+  height: 70px;
+  width: 70px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}

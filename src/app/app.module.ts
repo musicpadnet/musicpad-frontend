@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PreloaderComponent } from './components/preloader/preloader.component';
 import { AppReducer } from './store/app.reducer';
+import { RoomReducer } from './store/room.reducer'; 
 import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -30,6 +31,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DeletePlaylistDialog } from './components/delete-playlist-dialog/delete-playlist-dialog.component';
 import { RenamePlaylistDialog } from './components/rename-playlist-dialog/rename-playlist-dialog.component';
 import { ImportPlaylistDialog } from './components/import-playlist-dialog/import-playlist-dialog.component';
+import { UserMenuComponent } from './components/user-menu/user-menu.component';
+import {MatRippleModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -42,12 +45,13 @@ import { ImportPlaylistDialog } from './components/import-playlist-dialog/import
     PlaylistComponent,
     DeletePlaylistDialog,
     RenamePlaylistDialog,
-    ImportPlaylistDialog
+    ImportPlaylistDialog,
+    UserMenuComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({app: AppReducer}),
+    StoreModule.forRoot({app: AppReducer, room: RoomReducer}),
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -62,7 +66,8 @@ import { ImportPlaylistDialog } from './components/import-playlist-dialog/import
     MatTabsModule,
     DragDropModule,
     MatMenuModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

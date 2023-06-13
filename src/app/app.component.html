@@ -1,3 +1,20 @@
 <m-app-preloader *ngIf="isLoaded !== true" [ngStyle]="loaderStyle"></m-app-preloader>
 <router-outlet *ngIf="appReady === true"></router-outlet>
-<m-app-playlist-panel [ngStyle]="playlistPanelStyle" *ngIf="playlistOpenState === true"></m-app-playlist-panel>
+<div *ngIf="appReady === true">
+  <m-app-playlist-panel [ngStyle]="playlistPanelStyle" *ngIf="playlistOpenState === true"></m-app-playlist-panel>
+</div>
+<m-app-user-menu [ngStyle]="userMenuStyle" *ngIf="userMenuIsOpen === true"></m-app-user-menu>
+
+<div class="video-preview-overlay" [ngStyle]="prevStyle">
+
+  <div class="video-preview-container centering-xy">
+
+    <h1 class="pre-title">Preview</h1>
+
+    <div id="preplayer"></div>
+
+    <div class="pre-close-btn" (click)="closePreview()">
+      <span>Close</span>
+    </div>
+  </div>
+</div>
