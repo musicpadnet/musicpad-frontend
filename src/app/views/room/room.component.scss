@@ -184,6 +184,15 @@
   align-items: center;
 }
 
+#room-footer .queue-btn:hover {
+  height: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
+  background: #0088f8;
+  cursor: pointer;
+  align-items: center;
+}
+
 #room-footer .queue-btn.leave {
   height: 50px;
   padding-left: 25px;
@@ -211,10 +220,10 @@
 }
 
 .playlist-icon {
-  font-size: 27px;
-  height: 27px;
+  font-size: 25px;
+  height: 25px;
   padding-top:12px;
-  width: 27px;
+  width: 25px;
 }
 
 // bg
@@ -224,10 +233,10 @@
   position: fixed;
   top: 50px;
   left: 0;
-  opacity: 0.9;
+  opacity: 0.4;
   right: 300;
   bottom: 50px;
-  background: url(/assets/lmao.png) center center no-repeat;
+  background: url(/assets/bg004.png) center center no-repeat;
   background-size: cover;
   z-index: -1000;
 }
@@ -307,6 +316,8 @@
   width: 807px;
   left: 45%;
   z-index: -700;
+  background: url(/assets/logo1.png) center center no-repeat;
+  background-size: 70px 70px;
   background-color: #000000;
 }
 
@@ -368,7 +379,7 @@
 }
 
 .control-title span {
-  line-height: 40px;
+  line-height: 30px;
   width: 500px!important;
   text-align: center;
   display: inline-block;

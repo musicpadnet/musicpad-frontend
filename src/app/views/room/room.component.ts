@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
+import { cloneDeep } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { LoginDialogComponent } from 'src/app/components/login-dialog/login-dialog.component';
 import { SingupDialogComponent } from 'src/app/components/signup-dialog/signup-dialog.component';
 import { IRoomData, RoomService } from 'src/app/services/room.service';
+import { SocketService } from 'src/app/services/socket.service';
 import { ChangePlaylistPanel, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
 import { changeRoomIsOpen, changeRoomMenuStyle } from 'src/app/store/room.actions';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'm-app-view-room',
@@ -22,6 +25,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   roomDJ: string | null = null;
 
   nextSongtitle: string | null = null;
+
+  roomUsers:number = 0;
 
   pfp: string = "null";
 
@@ -39,17 +44,27 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   roomMenuStyle = {top: "-100vh"};
 
+  userCount = 0;
+
   roomMenuIsOpen = false;
+
+  chatMessages: {message: string, pfp: string, username: string}[] = [];
+
+  chatForm: FormGroup;
 
   app$: Observable<{loggedIn: boolean, nextSongTitle: string, userMenuIsOpen: boolean, username: string, pfp: string, playlistStyle: {bottom: string}, playlistOpenState: boolean}>;
 
   room$: Observable<{roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}>;
 
-  constructor (public dialog: MatDialog, private room: RoomService, private store: Store<{app: {username: string, userMenuIsOpen: boolean, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean, loggedIn: boolean}, room: {roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}}>) {
+  constructor (public dialog: MatDialog, private room: RoomService, private store: Store<{app: {username: string, userMenuIsOpen: boolean, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean, loggedIn: boolean}, room: {roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}}>, private socket: SocketService) {
 
     this.app$ = store.select("app");
 
     this.room$ = store.select("room");
+
+    this.chatForm = new FormGroup({
+      "chat": new FormControl(null, Validators.required)
+    });
 
     this.app$.subscribe({
       next: (state) => {
@@ -113,9 +128,43 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.room.fetchRoom(window.location.pathname.slice(1, window.location.pathname.length)).then((data: IRoomData) => {
 
       this.roomName = data.name;
+      
+      this.socket.joinRoom(data.slug);
+
+      this.socket.listenForMessages().subscribe({
+        next: (data) => {
+
+          if (data.event === "userJoined") {
+
+            this.userCount = data.users.length;
+
+          } else if (data.event === "chatmessage") {
+
+            console.log("new chat");
+
+            let message = {
+              username: data.username,
+              pfp: data.pfp,
+              message: data.message
+            }
+            
+            let dep = cloneDeep(this.chatMessages);
+
+            dep.push(message);
+
+            this.chatMessages = dep;
+
+          } else if (data.event === "userLeft") {
+
+            this.userCount = data.users.length;
+
+          }
+
+        }
+      })
 
       if (data.current_dj.user === null) {
-        this.roomDJ = "current dj: LIFELINE";
+        this.roomDJ = "current dj: Nobody";
       }
 
       setTimeout(() => {
@@ -150,7 +199,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(changeUserMenuOpen({isOpen: false}));
 
-      }, 300);
+      }, 400);
 
     } else {
 
@@ -176,7 +225,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(changeRoomIsOpen({isOpen: false}));
 
-      }, 300);
+      }, 400);
 
     } else {
 
@@ -204,7 +253,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(changeRoomIsOpen({isOpen: false}));
 
-      }, 300);
+      }, 400);
 
     } else {
 
@@ -232,7 +281,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(changeRoomIsOpen({isOpen: false}));
 
-      }, 300);
+      }, 400);
 
     } else {
 
@@ -260,7 +309,19 @@ export class RoomComponent implements OnInit, OnDestroy {
 
       this.store.dispatch(changeRoomIsOpen({isOpen: false}));
 
-    }, 300);
+    }, 400);
+
+  }
+
+  onChatSubmit() {
+
+    if (this.chatForm.valid) {
+
+      this.socket.sendMessage(this.chatForm.value.chat);
+
+      this.chatForm.reset();
+
+    }
 
   }
 

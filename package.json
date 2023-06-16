@@ -24,6 +24,7 @@
     "@types/node": "^18.15.10",
     "lodash-es": "^4.17.21",
     "rxjs": "~7.8.0",
+    "socket.io-client": "^4.6.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },

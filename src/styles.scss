@@ -251,7 +251,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .mat-mdc-card {
   position: relative;
-  border-radius: var(--mdc-elevated-card-container-shape, var(--mdc-shape-medium, 4px));
   background-color: #18191b!important;
   border-width: 0;
   cursor: pointer;
@@ -259,8 +258,45 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Industrywf", sans-serif;
   font-weight: 500;
   border-style: solid;
-  border-radius: 10px!important;
   border-color: var(--mdc-elevated-card-container-color, transparent);
+}
+
+.mat-card-room-header {
+  height: 40px;
+  width: 290px;
+  line-height: 40px;
+  display: flex;
+}
+
+.mat-card-room-header .count {
+  font-size: 17px;
+  margin-left: 10px;
+}
+
+.mat-card-room-header .mat-icon {
+  font-size: 20px;
+  height: 20px;
+  width: 20px;
+  color: #757575;
+  margin-left: 10px;
+  margin-top: 9px;
+}
+
+.mat-card-room-footer {
+  height: 60px;
+  width: 290px;
+}
+
+.mat-mdc-card-content:last-child {
+  padding-top: 0!important;
+}
+
+.mat-mdc-card-content:first-child {
+  padding-bottom: 0!important;
+}
+
+.mat-mdc-card-content {
+  padding: 0 0!important;
 }
 
 .avatar-right {
@@ -433,4 +469,12 @@ a {
 	text-transform: uppercase;
 	font-weight: 800;
 	font-size: 18px;
+}
+
+.fav-btn {
+  transition: color .2s;
+}
+
+.fav-btn:hover {
+  color: #ffffff;
 }

@@ -8,7 +8,7 @@
   <div class="item" (click)="onClickRooms()" [ngStyle]="roomRoomsBStyle" matTooltip="Browse Rooms" matTooltipPosition="right">
     <mat-icon>group</mat-icon>
   </div>
-  <div class="item" style="position:absolute;bottom: 0;left:0;" routerLink="/" matTooltip="Exit Room" matTooltipPosition="right">
+  <div class="item" style="position:absolute;bottom: 0;left:0;border-top: 2px solid #000000;" routerLink="/" matTooltip="Exit Room" matTooltipPosition="right">
     <mat-icon>power_settings_new</mat-icon>
   </div>
 </div>
@@ -16,13 +16,22 @@
 <div class="room-menu-panels" *ngIf="roomInfoPanel === true"></div>
 <div class="room-menu-panels" *ngIf="roomHistoryPanel === true"></div>
 <div class="room-menu-panels" *ngIf="roomRoomsPanel === true">
-  <mat-grid-list cols="4">
+  <mat-grid-list cols="5">
     <mat-grid-tile *ngFor="let roomItem of rooms">
       <a [href]="'/'+roomItem.slug">
         <mat-card>
+          <div class="mat-card-room-header">
+            <mat-icon>group</mat-icon>
+            <span class="count">{{roomItem.users.length}}</span>
+            <mat-icon style="margin-left: auto;margin-right: 10px;cursor: pointer;" class="fav-btn">star_outline</mat-icon>
+          </div>
           <mat-card-content>
             <div class="dashboard-image"></div>
-            <p class="roomname">{{roomItem.name}} - {{roomItem.users.length}}</p>
+            <div class="mat-card-room-footer">
+              <span class="roomname">{{roomItem.name}}</span>
+              <div class="divider"></div>
+              <span class="currently-playing">Nobody is playing</span>
+            </div>
           </mat-card-content>
         </mat-card>
       </a>
