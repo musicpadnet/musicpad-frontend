@@ -42,7 +42,10 @@
 <div class="room-container">
 
   <div class="player-container centering-xy">
-    <iframe class="player" src="https://www.youtube.com/embed/pYzLDNR4DfM?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <div class="nobody-is-playing">
+      
+    </div>
+    <!-- <iframe class="player" src="https://www.youtube.com/embed/kMRe5A215xs?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>-->
     <div class="player-controls-bar">
       <div class="container">
         <div class="btns-left">
@@ -50,11 +53,11 @@
             <mat-icon>volume_up</mat-icon>
           </div>
           <div class="control-btn-time">
-            <span>01:15</span>
+            <span>00:00</span>
           </div>
         </div>
         <div class="control-title">
-          <span>Excision, Wooli, & Codeko - Don't Look Down (Hold On) | Official Visualizer</span>
+          <span>Nobody is playing</span>
         </div>
         <div class="btns-right">
           <div class="control-btn-right" matTooltip="Skip Song" matTooltipPosition="below">
@@ -81,21 +84,26 @@
           <div class="chat-connected-message">
             <span>Welcome to the chat!</span>
           </div>
+          <div *ngFor="let message of chatMessages" class="chat-connected-message">
+            <span>{{message.message}}</span>
+          </div>
         </div>
         <div class="sidebar-chat-footer">
           <button class="icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
             <mat-icon>mood</mat-icon>
           </button>
-          <input id="chat-text-input" placeholder="Type your message..." type="text">
-          <button class="send-icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
-            <mat-icon>send</mat-icon>
-          </button>
+          <form [formGroup]="chatForm" (submit)="onChatSubmit()">
+            <input id="chat-text-input" placeholder="Type your message..." type="text" formControlName="chat">
+            <button class="send-icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
+              <mat-icon>send</mat-icon>
+            </button>
+          </form>
         </div>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon style="font-size: 20px;">group</mat-icon>
-          <span style="margin-left: 4px;">1</span>
+          <span style="margin-left: 4px;">{{userCount}}</span>
         </ng-template>
          Content 2 
       </mat-tab>
@@ -120,8 +128,8 @@
       <span class="playlist-song-title" *ngIf="loggedIn === false">Login or Signup to join the party!!!</span>
     </div>
     <div class="right-content">
-      <div class="queue-btn leave" matTooltip="Join/Leave Queue" matTooltipPosition="left">
-        <span>Leave Queue</span>
+      <div class="queue-btn" matTooltip="Join/Leave Queue" matTooltipPosition="left">
+        <span>Join Queue</span>
       </div>
       <div class="song-voting">
         <div class="vote-btn upvote">

@@ -52,16 +52,28 @@
 }
 
 .dashboard-image {
-  height: 200px;
+  height: 150px;
   width: 290px;
-  background: url(/assets/background.png) center center no-repeat;
-  background-size: cover;
+  background: url(/assets/logo1.png) center center no-repeat;
+  background-color: #000000;
+  background-size: 50px 50px;
 }
 
 .roomname {
   font-family: "Industrywf", sans-serif;
   font-size: 17px;
   font-weight: 700;
+  line-height: 30px;
+  margin-left: 10px;
+}
+
+.currently-playing {
+  font-family: "Industrywf", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: -100px;
+  color: #757575;
+  margin-left: 10px;
 }
 
 #dashboard-footer {

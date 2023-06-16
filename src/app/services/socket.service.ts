@@ -3,12 +3,14 @@ import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { LoadingWebSocketError, appIsNotReady, appIsReady, changeLoaderStyle, isLoaded, isNotLoaded, removeErrors, webScoketDisconnectError } from "../store/app.actions";
 
+import { io, Socket } from "socket.io-client";
+
 @Injectable({
   providedIn: "root"
 })
 export class SocketService {
 
-  socket: WebSocket | null = null;
+  socket: Socket | null = null;
 
   constructor (private store: Store) {}
 
@@ -16,21 +18,21 @@ export class SocketService {
 
     return new Observable((observer) => {
 
-      this.socket = new WebSocket("ws://localhost:4000");
+      this.socket = io("http://localhost:4000", { transports : ['websocket']});
 
-      this.socket.addEventListener("error", (event) => {
+      this.socket.on("connect", () => {
 
-        observer.error("Unable to connect to musicpad's realtime websocket reeeeeerooooo!!! :(((((");
+        observer.next("Connected to sockie");
+
+        this.listenForDisconnect();
+
+        this.authenticate();
 
       });
 
-      this.socket.addEventListener("open", (event) => {
-      
-        observer.next("Connected to sockie");
+      this.socket.on("error", () => {
 
-        this.listenForHeartbeats();
-
-        this.authenticate();
+        observer.error("Unable to connect to musicpad's realtime websocket reeeeeerooooo!!! :(((((");
 
       });
 
@@ -38,29 +40,31 @@ export class SocketService {
 
   }
 
-  listenForHeartbeats () {
+  listenForMessages (): Observable<any> {
 
-    console.log("now listneing for and returning heartbeats")
+    return new Observable ((observer) => {
 
-    this.socket?.addEventListener("message", (event) => {
-      
-      try {
+      this.socket?.on("message", (data) => {
 
-        const parsedMessage = JSON.parse(event.data);
+        console.log()
 
-        if (parsedMessage.type === "heartbeat") {
-          this.socket?.send(JSON.stringify({"type": "heartbeat"}));
-        }
+        observer.next(data);
 
-      } catch (err) {
-
-        console.log(err);
-
-      }
+      });
 
     });
 
-    this.socket?.addEventListener("close", (event) => {
+  }
+
+  joinRoom (room: string) {
+
+    this.socket?.emit("message", {type: "method", method: "joinroom", room: room});
+
+  }
+
+  listenForDisconnect () {
+
+    this.socket?.on("disconnect", (event) => {
 
       this.store.dispatch(isNotLoaded());
 
@@ -111,9 +115,15 @@ export class SocketService {
 
     if (window.localStorage.getItem("refreshtoken")) {
 
-      this.socket?.send(JSON.stringify({"type":"auth","token":window.localStorage.getItem("accesstoken")}));
+      this.socket?.emit("message", {type: "method", method:"auth", token: window.localStorage.getItem("accesstoken")});
 
     }
+
+  }
+
+  sendMessage (message: string) {
+
+    this.socket?.emit("message", {type: "method", "method": "chatmessage", message: message});
 
   }
 

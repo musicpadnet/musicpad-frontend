@@ -63,6 +63,7 @@
   text-decoration: none;
   background-color: transparent;
   outline: none;
+	line-height: 5px;
   font-size: 14px;
   border: none;
   width: calc(100vw - 475px);
@@ -180,6 +181,15 @@
 }
 
 .playlist-panels {
+  height: calc(100vh - 102px);
+  width: calc(100% - 200px);
+  position: absolute;
+  bottom: 0;
+  left: 200px;
+	display: none;
+}
+
+.playlist-panel-no-pl {
   height: calc(100vh - 102px);
   width: calc(100% - 200px);
   position: absolute;
