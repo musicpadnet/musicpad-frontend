@@ -391,7 +391,7 @@
 	margin-top: 10px!important;
 	vertical-align: middle;
 	line-height: 40px;
-	cursor: default;
+	cursor: pointer;
 	background: #191b1e;
 }
 .lib-sng:first-child .btn-song-top {
@@ -401,19 +401,13 @@
 	display: none;
 }
 .lib-sng:first-child {
-	background: rgba(0, 117, 213 ,0.2)!important;
+	background: rgba(0, 117, 213 ,0.5)!important;
 }
 .lib-sng:last-child {
 	border: none;
 }
 .lib-sng:hover {
-	background: rgba(0, 117, 213 ,0.2)!important;
-}
-.lib-history {
-	color: #F46B40;
-}
-.lib-unavailable {
-	background: rgba(88, 121, 171, 0.2);
+	background: rgba(0, 117, 213 ,0.5)!important;
 }
 .lib-thumb {
 	width: 51px;
@@ -428,50 +422,6 @@
 	overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-.yt-blocked-sng .text, .yt-sng .text, .hist-sng .text {
-	margin: 0 10px;
-	float: left;
-	width: calc(100% - 273px);
-	overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.hist-sng .texts {
-	width: calc(100% - 452px);
-	float: left;
-    margin: 20px 10px;
-}
-.text.sng {
-	color: #ddd;
-    font-size: 14px;
-}
-.text.dj {
-	color: #ddd;
-    font-size: 10px;
-}
-.hist-sng .voting {
-	float: right;
-    height: 68px;
-    display: flex;
-}
-.voting > div {
-	float: left;
-	font-size: 16px;
-	line-height: 70px;
-	text-align: center;
-}
-.dp.upvote {
-	background: rgba(167, 202, 0, .25);
-}
-.dp.grab {
-	background: rgba(146, 90, 255, .25);
-}
-.dp.downvote {
-	background: rgba(200, 48, 62, .25);
-}
-.dp {
-	width: 40px;
 }
 .library .nav, .library .dur, .history .nav {
 	float: right;
@@ -584,7 +534,7 @@
 	vertical-align: middle;
 	font-weight: 400;
 	line-height: 50px;
-	cursor: move;
+	cursor: pointer;
   color: #ffffff;
 	transition: background .2s;
 }
@@ -602,6 +552,9 @@
 }
 .lib-sng:hover {
 	background: rgba(167,125,194,0.2);
+}
+.lib-sng:focus {
+	background: #0075d5!important;
 }
 .lib-history {
 	color: #F46B40;

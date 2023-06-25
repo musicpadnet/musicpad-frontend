@@ -4,14 +4,14 @@
   <mat-dialog-content class="mat-typography">
     <mat-form-field class="input-full-width" appearance="outline">
       <mat-label>Name</mat-label>
-      <input matInput required type="text" formControlName="name">
+      <input matInput required type="text" formControlName="name" autocomplete="off">
       <mat-error *ngIf="CreateRoomForm.get('name')?.hasError('required')">
         Name is required
       </mat-error>
     </mat-form-field>
     <mat-form-field class="input-full-width" appearance="outline">
       <mat-label>Slug</mat-label>
-      <input matInput required type="text" formControlName="slug">
+      <input matInput required type="text" formControlName="slug" autocomplete="off">
       <mat-error *ngIf="CreateRoomForm.get('slug')?.hasError('required')">
         Slug is required
       </mat-error>

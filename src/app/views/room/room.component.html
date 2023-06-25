@@ -75,17 +75,21 @@
 
 <div id="room-sidebar">
   <div class="sidebar-header">
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="onTabChanged($event);">
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon style="font-size: 20px;">chat</mat-icon>
         </ng-template>
-        <div class="sidebar-chat-container">
+        <div class="sidebar-chat-container" #chatScroll>
           <div class="chat-connected-message">
             <span>Welcome to the chat!</span>
           </div>
-          <div *ngFor="let message of chatMessages" class="chat-connected-message">
-            <span>{{message.message}}</span>
+          <div *ngFor="let message of chatMessages" class="chat-message">
+            <div class="pfp">
+              <img [src]="message.pfp">
+            </div>
+            <span class="username">{{message.username}}</span>
+            <span class="message">{{message.message}}</span>
           </div>
         </div>
         <div class="sidebar-chat-footer">
@@ -93,7 +97,7 @@
             <mat-icon>mood</mat-icon>
           </button>
           <form [formGroup]="chatForm" (submit)="onChatSubmit()">
-            <input id="chat-text-input" placeholder="Type your message..." type="text" formControlName="chat">
+            <input id="chat-text-input" placeholder="Type your message..." type="text" formControlName="chat" autocomplete="off">
             <button class="send-icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
               <mat-icon>send</mat-icon>
             </button>
@@ -128,8 +132,11 @@
       <span class="playlist-song-title" *ngIf="loggedIn === false">Login or Signup to join the party!!!</span>
     </div>
     <div class="right-content">
-      <div class="queue-btn" matTooltip="Join/Leave Queue" matTooltipPosition="left">
+      <div class="queue-btn" *ngIf="inQueue === false" (click)="onClickJoinQueue()" matTooltip="Join Queue" matTooltipPosition="left">
         <span>Join Queue</span>
+      </div>
+      <div class="queue-btn leave" *ngIf="inQueue === true" (click)="onClickLeaveQueue()" matTooltip="Leave Queue" matTooltipPosition="left">
+        <span>Leave Queue</span>
       </div>
       <div class="song-voting">
         <div class="vote-btn upvote">
@@ -150,7 +157,6 @@
 </div>
 
 <div class="room-loading" *ngIf="roomIsLoaded === false" [ngStyle]="roomLoaderStyle">
-  <div class="loader" [ngStyle]="loaderStyle">
-    <img class="centering-xy" src="/assets/logo1.png" style="height: 70px; width: 70px;">
-  </div>
+  <m-app-spinner [ngStyle]="loaderStyle" class="centering-xy"></m-app-spinner>
+  <p class="centering-xy" style="top: 55%;color:#ffffff;font-family: 'Industrywf', sans-serif;font-size: 17px;font-weight: 700;" [ngStyle]="loaderStyle">Connecting to room . . .</p>
 </div>
