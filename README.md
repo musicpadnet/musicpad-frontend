@@ -4,8 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Other Mixzy Repos:
 
-- [Musicpad Core](https://github.com/mixzyhq/mixzy-core)
-- [Musicpad Websocket](https://github.com/mixzyhq/mixzy-websocket)
+- [Mixzy Core](https://github.com/mixzyhq/mixzy-core)
+- [Mixzy Websocket](https://github.com/mixzyhq/mixzy-websocket)
 
 ## Preview of what it looks like
 ![Preview](https://i.imgur.com/lZlxO1Y.png)
