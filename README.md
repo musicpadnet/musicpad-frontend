@@ -1,11 +1,11 @@
-![musicpad logo](https://i.imgur.com/YnWT1Hb.png)
+![Mixzy logo](https://i.imgur.com/kAKMfIW.png)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0.
 
-Other Musicpad Repos:
+Other Mixzy Repos:
 
-- [Musicpad Core](https://github.com/musicpadnet/musicpad-core)
-- [Musicpad Websocket](https://github.com/musicpadnet/musicpad-websocket)
+- [Musicpad Core](https://github.com/mixzyhq/mixzy-core)
+- [Musicpad Websocket](https://github.com/mixzyhq/mixzy-websocket)
 
 ## Preview of what it looks like
 ![Preview](https://i.imgur.com/lZlxO1Y.png)

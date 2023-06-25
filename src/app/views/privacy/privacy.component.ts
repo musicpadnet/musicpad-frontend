@@ -9,7 +9,7 @@ export class PrivacyComponent implements OnInit {
 
   ngOnInit(): void {
     
-    document.title = "Musicpad - Privacy Policy"
+    document.title = "Mixzy - Privacy Policy"
 
   }
 

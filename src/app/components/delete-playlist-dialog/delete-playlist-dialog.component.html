@@ -4,7 +4,7 @@
   <mat-dialog-content class="mat-typography">
     <mat-form-field class="input-full-width" appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput required type="password" formControlName="password">
+      <input matInput required type="password" formControlName="password" autocomplete="off">
       <mat-error *ngIf="CreatePlaylistForm.get('password')?.hasError('required')">
         Password is required
       </mat-error>

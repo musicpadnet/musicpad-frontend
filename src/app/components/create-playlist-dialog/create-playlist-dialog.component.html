@@ -4,7 +4,7 @@
   <mat-dialog-content class="mat-typography">
     <mat-form-field class="input-full-width" appearance="outline">
       <mat-label>Name</mat-label>
-      <input matInput required type="text" formControlName="name">
+      <input matInput required type="text" formControlName="name" autocomplete="off">
       <mat-error *ngIf="CreatePlaylistForm.get('name')?.hasError('required')">
         Name is required
       </mat-error>

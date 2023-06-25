@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash-es';
@@ -10,6 +10,7 @@ import { SocketService } from 'src/app/services/socket.service';
 import { ChangePlaylistPanel, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
 import { changeRoomIsOpen, changeRoomMenuStyle } from 'src/app/store/room.actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 @Component({
   selector: 'm-app-view-room',
@@ -52,6 +53,10 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   chatForm: FormGroup;
 
+  inQueue: boolean = false;
+
+  @ViewChild("chatScroll") chatScroll!: ElementRef;
+
   app$: Observable<{loggedIn: boolean, nextSongTitle: string, userMenuIsOpen: boolean, username: string, pfp: string, playlistStyle: {bottom: string}, playlistOpenState: boolean}>;
 
   room$: Observable<{roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}>;
@@ -63,7 +68,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.room$ = store.select("room");
 
     this.chatForm = new FormGroup({
-      "chat": new FormControl(null, Validators.required)
+      "chat": new FormControl(null, [Validators.required, Validators.maxLength(300)])
     });
 
     this.app$.subscribe({
@@ -134,29 +139,59 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.socket.listenForMessages().subscribe({
         next: (data) => {
 
-          if (data.event === "userJoined") {
+          switch (data.event) {
 
-            this.userCount = data.users.length;
+            case "userJoined":
 
-          } else if (data.event === "chatmessage") {
+              this.userCount = data.users.length;
 
-            console.log("new chat");
+            break;
 
-            let message = {
-              username: data.username,
-              pfp: data.pfp,
-              message: data.message
-            }
-            
-            let dep = cloneDeep(this.chatMessages);
+            case "chatmessage":
 
-            dep.push(message);
+              let message = {
+                username: data.username,
+                pfp: data.pfp || "/assets/default.png",
+                message: data.message
+              }
+              
+              let dep = cloneDeep(this.chatMessages);
 
-            this.chatMessages = dep;
+              dep.push(message);
 
-          } else if (data.event === "userLeft") {
+              this.chatMessages = dep;
 
-            this.userCount = data.users.length;
+              setTimeout(() => {
+
+                try {
+
+                  this.chatScroll.nativeElement.scrollTop = this.chatScroll.nativeElement.scrollHeight;
+
+                } catch (err) {
+                  console.log(err);
+                }
+
+              }, 1.5);
+
+            break;
+
+            case "userLeft":
+
+              this.userCount = data.users.length;
+
+            break;
+
+            case "joinedqueue":
+
+              this.inQueue = true;
+
+            break;
+
+            case "leftqueue":
+
+              this.inQueue = false;
+
+            break;
 
           }
 
@@ -169,7 +204,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
       setTimeout(() => {
 
-        document.title = `Musicpad - ${data.name}`;
+        document.title = `Mixzy - ${data.name}`;
 
         this.roomLoaderStyle = {height: "0%"};
 
@@ -186,6 +221,30 @@ export class RoomComponent implements OnInit, OnDestroy {
     }).catch(err => {
       console.log(err);
     });
+
+  }
+
+  onTabChanged ($event: any) {
+
+    try {
+
+      this.chatScroll.nativeElement.scrollTop = this.chatScroll.nativeElement.scrollHeight;
+
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
+  async onClickJoinQueue () {
+
+    this.socket.joinQueue();
+
+  }
+
+  async onClickLeaveQueue () {
+
+    this.socket.leaveQueue();
 
   }
 

@@ -121,6 +121,18 @@ export class SocketService {
 
   }
 
+  joinQueue () {
+
+    this.socket?.emit("message", {type: "method", method: "joinqueue"});
+
+  }
+
+  leaveQueue () {
+
+    this.socket?.emit("message", {type: "method", method: "leavequeue"});
+
+  }
+
   sendMessage (message: string) {
 
     this.socket?.emit("message", {type: "method", "method": "chatmessage", message: message});

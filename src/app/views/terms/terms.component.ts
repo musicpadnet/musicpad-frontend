@@ -9,7 +9,7 @@ export class TermsComponent implements OnInit {
 
   ngOnInit(): void {
     
-    document.title = "Musicpad - Terms Of Service"
+    document.title = "Mixzy - Terms Of Service"
 
   }
 
