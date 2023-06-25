@@ -204,7 +204,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
       setTimeout(() => {
 
-        document.title = `Musicpad - ${data.name}`;
+        document.title = `Mixzy - ${data.name}`;
 
         this.roomLoaderStyle = {height: "0%"};
 

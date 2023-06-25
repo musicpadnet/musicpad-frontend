@@ -21,7 +21,7 @@ export class MaintenanceComponent implements OnInit {
       },
       error: () => {
 
-        document.title = "Musicpad - Maintenance Mode";
+        document.title = "Mixzy - Maintenance Mode";
 
       }
     });
