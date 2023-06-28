@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { AppService } from './services/app.service';
-import { changeNextSongTitle } from './store/app.actions';
+import { changeNextSongTitle, changeUserMenuOpen, changeUserMenuStyle } from './store/app.actions';
 import { ConfigService } from './services/config.service';
 import { SongPrevService } from './services/song-preview.service';
 
@@ -105,6 +105,14 @@ export class AppComponent implements OnInit {
         console.log(error);
       }
     });
+
+  }
+
+  closeUserMenu () {
+
+    this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
+
+    this.store.dispatch(changeUserMenuOpen({isOpen: false}));
 
   }
 

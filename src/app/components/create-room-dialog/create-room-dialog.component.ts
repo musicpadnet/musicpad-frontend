@@ -64,11 +64,11 @@ export class CreateRoomDialog {
           
           setTimeout(() => {
 
-            this.router.navigate([`/${data.slug}`])
+            window.location.replace(`/${data.slug}`);
 
             this.dialogRef.close();        
 
-          }, 1000);
+          }, 5000);
 
         },
         error: (err) => {

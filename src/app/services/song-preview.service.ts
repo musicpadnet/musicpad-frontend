@@ -1,17 +1,22 @@
 import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { changePreviewStyle } from "../store/app.actions";
+import { RoomService } from "./room.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class SongPrevService {
 
-  constructor (private store: Store) {}
+  constructor (private store: Store, private room: RoomService) {}
 
   yt: any;
 
   openPlayer (cid: string) {
+
+    if (this.room.getYTPlayerExists()) {
+      this.room.mutePlayer();
+    }
 
     this.store.dispatch(changePreviewStyle({style: {display: "block"}}));
 
@@ -39,6 +44,10 @@ export class SongPrevService {
   closePlayer () {
 
     this.yt.destroy();
+
+    if (this.room.getYTPlayerExists()) {
+      this.room.unmutePlayer();
+    }
 
     this.store.dispatch(changePreviewStyle({style: {display: "none"}}));
 

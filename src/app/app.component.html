@@ -3,7 +3,8 @@
 <div *ngIf="appReady === true">
   <m-app-playlist-panel [ngStyle]="playlistPanelStyle" *ngIf="playlistOpenState === true"></m-app-playlist-panel>
 </div>
-<m-app-user-menu [ngStyle]="userMenuStyle" *ngIf="userMenuIsOpen === true"></m-app-user-menu>
+<div class="user-menu-backdrop" *ngIf="userMenuIsOpen === true" (click)="closeUserMenu()"></div>
+<m-app-user-menu [ngStyle]="userMenuStyle"></m-app-user-menu>
 
 <div class="video-preview-overlay" [ngStyle]="prevStyle">
 

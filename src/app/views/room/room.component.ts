@@ -7,10 +7,9 @@ import { LoginDialogComponent } from 'src/app/components/login-dialog/login-dial
 import { SingupDialogComponent } from 'src/app/components/signup-dialog/signup-dialog.component';
 import { IRoomData, RoomService } from 'src/app/services/room.service';
 import { SocketService } from 'src/app/services/socket.service';
-import { ChangePlaylistPanel, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
+import { ChangePlaylistPanel, UpdatePlaylists, changeNextSongTitle, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
 import { changeRoomIsOpen, changeRoomMenuStyle } from 'src/app/store/room.actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatGridTileHeaderCssMatStyler } from '@angular/material/grid-list';
 
 @Component({
   selector: 'm-app-view-room',
@@ -52,6 +51,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   chatMessages: {message: string, pfp: string, username: string}[] = [];
 
   chatForm: FormGroup;
+
+  cidToPlay: string = "null";
+
+  title = "null";
 
   inQueue: boolean = false;
 
@@ -133,6 +136,12 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.room.fetchRoom(window.location.pathname.slice(1, window.location.pathname.length)).then((data: IRoomData) => {
 
       this.roomName = data.name;
+
+      if (!data.current_dj.song.title) {
+        this.title = "Nobody is playing";
+      } else {
+        this.title = data.current_dj.song.title;
+      }
       
       this.socket.joinRoom(data.slug);
 
@@ -193,13 +202,77 @@ export class RoomComponent implements OnInit, OnDestroy {
 
             break;
 
+            case "currenttime":
+
+              console.log(data.time);
+
+              if (data.time !== null) {
+
+                this.room.startPlayer(this.cidToPlay, data.time);
+
+              }
+
+            break;
+
+            case "advance":
+
+              if (data.current_dj.song.cid !== null) {
+
+                if (this.room.getYTPlayerExists() === true) {
+
+                  this.room.destoryPlayer();
+
+                }
+
+                this.room.startPlayer(data.current_dj.song.cid, null);
+
+                this.title = data.current_dj.song.title;
+
+                this.roomDJ = `current dj: ${data.current_dj.user.username}`;
+
+              } else {
+
+                this.room.destoryPlayer();
+
+                this.title = "Nobody is playing";
+
+                this.roomDJ = "current dj: Nobody";
+
+              }
+
+            break;
+
+            case "updateuserpl":
+
+              this.store.dispatch(UpdatePlaylists({playlists: data.playlists}));
+
+              const plIndex = data.playlists.findIndex((obj: any) => obj.isActive === true);
+
+              this.store.dispatch(changeNextSongTitle({title: data.playlists[plIndex].songs[0].title}));
+
+            break;
+
           }
 
         }
       })
 
       if (data.current_dj.user === null) {
+
         this.roomDJ = "current dj: Nobody";
+
+      } else {
+
+        this.roomDJ = `current dj: ${data.current_dj.user.username}`;
+
+        this.cidToPlay = data.current_dj.song.cid;
+
+        setTimeout(() => {
+
+          this.socket.getRoomTime();
+
+        }, 3000);
+
       }
 
       setTimeout(() => {
@@ -254,21 +327,13 @@ export class RoomComponent implements OnInit, OnDestroy {
 
       this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
 
-      setTimeout(() => {
-
-        this.store.dispatch(changeUserMenuOpen({isOpen: false}));
-
-      }, 400);
+      this.store.dispatch(changeUserMenuOpen({isOpen: false}));
 
     } else {
 
       this.store.dispatch(changeUserMenuOpen({isOpen: true}));
 
-      setTimeout(() => {
-
-        this.store.dispatch(changeUserMenuStyle({style: {right: "0"}}))
-
-      }, 100);
+      this.store.dispatch(changeUserMenuStyle({style: {right: "0"}}))
 
     }
 
@@ -381,6 +446,28 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.chatForm.reset();
 
     }
+
+  }
+
+  reloadPlayer () {
+
+    this.room.fetchRoom(window.location.pathname.slice(1, window.location.pathname.length)).then(data => {
+
+      if (this.room.getYTPlayerExists()) {
+
+        this.room.destoryPlayer();
+  
+        this.socket.getRoomTime();
+
+        this.cidToPlay = data.current_dj.song.cid;
+  
+      }
+
+    }).catch(err => {
+
+      console.log(err);
+
+    });
 
   }
 

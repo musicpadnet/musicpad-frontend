@@ -34,6 +34,7 @@ export class SingupDialogComponent {
       'username': new FormControl(null, [Validators.required, Validators.pattern(new RegExp("^(?![_.])(?!.*[_. ]{2})[a-zA-Z0-9._ ]+(?<![_.])$"))]),
       'password': new FormControl(null, [Validators.required, Validators.minLength(7), Validators.maxLength(300)]),
       'verifypassword': new FormControl(null, Validators.required),
+      'captcha': new FormControl(null, Validators.required),
       'terms': new FormControl(false)
     })
   }
@@ -62,7 +63,7 @@ export class SingupDialogComponent {
 
         this.store.dispatch(changeNextSongTitle({title: "Create a playlist to play music!!!"}))
 
-        this.auth.signupRequest(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username).then(data => {
+        this.auth.signupRequest(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username, this.signupForm.value.captcha).then(data => {
 
           this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
             headers: {
