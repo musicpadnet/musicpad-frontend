@@ -42,9 +42,7 @@
 <div class="room-container">
 
   <div class="player-container centering-xy">
-    <div class="nobody-is-playing">
-      
-    </div>
+    <div class="player" id="roomplayer"></div>
     <!-- <iframe class="player" src="https://www.youtube.com/embed/kMRe5A215xs?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>-->
     <div class="player-controls-bar">
       <div class="container">
@@ -57,13 +55,13 @@
           </div>
         </div>
         <div class="control-title">
-          <span>Nobody is playing</span>
+          <span>{{title}}</span>
         </div>
         <div class="btns-right">
           <div class="control-btn-right" matTooltip="Skip Song" matTooltipPosition="below">
             <mat-icon>skip_next</mat-icon>
           </div>
-          <div class="control-btn-right" matTooltip="Refresh Video" matTooltipPosition="below">
+          <div class="control-btn-right" matTooltip="Refresh Video" matTooltipPosition="below" (click)="reloadPlayer()">
             <mat-icon>refresh</mat-icon>
           </div>
         </div>

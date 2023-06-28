@@ -182,6 +182,7 @@
   background: #0075d5;
   cursor: pointer;
   align-items: center;
+  transition: all .3s;
 }
 
 #room-footer .queue-btn:hover {
@@ -198,6 +199,16 @@
   padding-left: 25px;
   padding-right: 25px;
   background: #c50000;
+  cursor: pointer;
+  align-items: center;
+  transition: all .3s;
+}
+
+#room-footer .queue-btn.leave:hover {
+  height: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
+  background: #e70000;
   cursor: pointer;
   align-items: center;
 }
@@ -233,10 +244,10 @@
   position: fixed;
   top: 50px;
   left: 0;
-  opacity: 0.95;
+  opacity: 0.5;
   right: 300;
   bottom: 50px;
-  background: url(/assets/lmao.png) center center no-repeat;
+  background: url(/assets/bg004.png) center center no-repeat;
   background-size: cover;
   z-index: -1000;
 }
@@ -431,7 +442,7 @@
   font-size: 20px;
 }
 
-.player {
+#roomplayer {
   position: absolute;
   height: 455px;
   width: 807px;

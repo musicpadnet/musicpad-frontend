@@ -33,6 +33,7 @@ import { RenamePlaylistDialog } from './components/rename-playlist-dialog/rename
 import { ImportPlaylistDialog } from './components/import-playlist-dialog/import-playlist-dialog.component';
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import {MatRippleModule} from '@angular/material/core';
+import { NgHcaptchaModule } from 'ng-hcaptcha';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,9 @@ import {MatRippleModule} from '@angular/material/core';
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({app: AppReducer, room: RoomReducer}),
+    NgHcaptchaModule.forRoot({
+      siteKey: '10000000-ffff-ffff-ffff-000000000001'
+    }),
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,

@@ -15,14 +15,15 @@ export class AuthService {
   timeout: ReturnType<typeof setInterval> | undefined = undefined;
 
   // signup request method
-  signupRequest (email: string, password: string, username: string) {
+  signupRequest (email: string, password: string, username: string, captcha: string) {
 
       const promise = new Promise ((resolve, reject) => {
 
         this.http.post<{access_token: string, refresh_token: string, expires: number}>(`${this.config.conifgAPIURL}auth/register`, {
           email,
           password,
-          username
+          username,
+          captcha
         }).subscribe({
           next: (data) => {
             window.localStorage.setItem("accesstoken", data.access_token);

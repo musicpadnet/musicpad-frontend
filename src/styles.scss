@@ -357,7 +357,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.lib-sng .nav, .lib-sng .dur {
+.m-sng .nav, .m-sng .dur {
 	float: right;
 }
 
@@ -378,7 +378,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.playlist-panels .viewport.cdk-drop-list-dragging .lib-sng:not(.cdk-drag-placeholder) {
+.playlist-panels .viewport.cdk-drop-list-dragging .m-sng:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
@@ -477,4 +477,9 @@ a {
 
 .fav-btn:hover {
   color: #ffffff;
+}
+
+.h-captcha {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

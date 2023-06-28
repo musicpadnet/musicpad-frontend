@@ -136,21 +136,13 @@ export class DahboardComponent implements OnInit {
 
       this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
 
-      setTimeout(() => {
-
-        this.store.dispatch(changeUserMenuOpen({isOpen: false}));
-
-      }, 300);
+      this.store.dispatch(changeUserMenuOpen({isOpen: false}));
 
     } else {
 
       this.store.dispatch(changeUserMenuOpen({isOpen: true}));
 
-      setTimeout(() => {
-
-        this.store.dispatch(changeUserMenuStyle({style: {right: "0"}}))
-
-      }, 100);
+      this.store.dispatch(changeUserMenuStyle({style: {right: "0"}}))
 
     }
 
@@ -158,7 +150,7 @@ export class DahboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    document.title = "Musicpad - Dashboard";
+    document.title = "Mixzy - Dashboard";
     
     this.http.get<{next: number, prev: number, current: number, totalPages: number, items: IRoom[]}>(`${this.config.conifgAPIURL}rooms/1`).subscribe({
       next: (data) => {

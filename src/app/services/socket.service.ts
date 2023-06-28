@@ -62,6 +62,12 @@ export class SocketService {
 
   }
 
+  getRoomTime () {
+
+    this.socket?.emit("message", {type: "method", method: "getcurrenttime"});
+
+  }
+
   listenForDisconnect () {
 
     this.socket?.on("disconnect", (event) => {

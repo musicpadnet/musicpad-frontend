@@ -8,9 +8,9 @@
   <div class="item" (click)="onClickRooms()" [ngStyle]="roomRoomsBStyle" matTooltip="Browse Rooms" matTooltipPosition="right">
     <mat-icon>group</mat-icon>
   </div>
-  <div class="item" style="position:absolute;bottom: 0;left:0;border-top: 2px solid #000000;" routerLink="/" matTooltip="Exit Room" matTooltipPosition="right">
+  <a href="/"><div class="item" style="position:absolute;bottom: 0;left:0;border-top: 2px solid #000000;" matTooltip="Exit Room" matTooltipPosition="right">
     <mat-icon>power_settings_new</mat-icon>
-  </div>
+  </div></a>
 </div>
 
 <div class="room-menu-panels" *ngIf="roomInfoPanel === true"></div>

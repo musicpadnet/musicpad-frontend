@@ -40,6 +40,7 @@
       Verify password is required
       </mat-error>
     </mat-form-field>
+    <ng-hcaptcha formControlName="captcha"></ng-hcaptcha>
     <mat-checkbox class="form-checkbox" formControlName="terms">I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a></mat-checkbox>
     <p class="req-error" *ngIf="usernameAlreadyUsedError == true">Username is already used.</p>
     <p class="req-error" *ngIf="emailAlreadyUsed == true">Email is already being used.</p>

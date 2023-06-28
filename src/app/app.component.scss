@@ -9,3 +9,13 @@
 	-o-transform: translate3d(-50%, -50%, 0);
 	transform: translate3d(-50%, -50%, 0);
 }
+
+.user-menu-backdrop {
+	height: 100vh;
+	width: calc(100vw - 250px);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 2900;
+	background: transparent;
+}
