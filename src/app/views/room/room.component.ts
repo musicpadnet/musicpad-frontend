@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash-es';
@@ -16,7 +16,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit, OnDestroy {
+export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   tabToOpen: string = "room";
   
@@ -26,7 +26,11 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   nextSongtitle: string | null = null;
 
+  currentDJId: string | null = null;
+
   roomUsers:number = 0;
+
+  waitlist: any[] = [];
 
   pfp: string = "null";
 
@@ -40,11 +44,13 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   userMenuIsOpen = false;
 
+  time = 0;
+
   loggedIn = false;
 
   roomMenuStyle = {top: "-100vh"};
 
-  userCount = 0;
+  users: any[] = []; 
 
   roomMenuIsOpen = false;
 
@@ -52,19 +58,33 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   chatForm: FormGroup;
 
+  upvotes: any[] = [];
+
+  downvotes: any[] = [];
+
+  volStyle = {"display": "none"};
+
   cidToPlay: string = "null";
+
+  durationTOStart: number = 0;
 
   title = "null";
 
+  id!: string | null;
+
   inQueue: boolean = false;
+
+  timer!: ReturnType<typeof setInterval>;
+
+  @ViewChild("volume") volume!: ElementRef;
 
   @ViewChild("chatScroll") chatScroll!: ElementRef;
 
-  app$: Observable<{loggedIn: boolean, nextSongTitle: string, userMenuIsOpen: boolean, username: string, pfp: string, playlistStyle: {bottom: string}, playlistOpenState: boolean}>;
+  app$: Observable<{id: string | null, loggedIn: boolean, nextSongTitle: string, userMenuIsOpen: boolean, username: string, pfp: string, playlistStyle: {bottom: string}, playlistOpenState: boolean}>;
 
   room$: Observable<{roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}>;
 
-  constructor (public dialog: MatDialog, private room: RoomService, private store: Store<{app: {username: string, userMenuIsOpen: boolean, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean, loggedIn: boolean}, room: {roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}}>, private socket: SocketService) {
+  constructor (public dialog: MatDialog, private room: RoomService, private store: Store<{app: {id: string | null, username: string, userMenuIsOpen: boolean, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean, loggedIn: boolean}, room: {roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}}>, private socket: SocketService) {
 
     this.app$ = store.select("app");
 
@@ -81,6 +101,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.pfp = state.pfp;
         this.userMenuIsOpen = state.userMenuIsOpen;
         this.loggedIn = state.loggedIn;
+        this.id = state.id;
       }
     });
 
@@ -90,6 +111,14 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.roomMenuIsOpen = state.roomMenuIsOpen;
       }
     });
+
+  }
+
+  changeVolume (value: string) {
+
+    window.localStorage.setItem("volume", value);
+
+    this.room.setVol(parseInt(value));
 
   }
 
@@ -132,15 +161,29 @@ export class RoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     document.title = "Connecting...";
+
+    let volval = window.localStorage.getItem("volume");
+    
+    if (volval) {
+      console.log(this.volume);
+    }
     
     this.room.fetchRoom(window.location.pathname.slice(1, window.location.pathname.length)).then((data: IRoomData) => {
 
       this.roomName = data.name;
 
+      this.waitlist = data.waitlist;
+
+      this.users = data.users;
+
       if (!data.current_dj.song.title) {
         this.title = "Nobody is playing";
+        this.durationTOStart = 0;
+        this.currentDJId = null;
       } else {
         this.title = data.current_dj.song.title;
+        this.durationTOStart = data.current_dj.song.duration;
+        this.currentDJId = data.current_dj.user.id;
       }
       
       this.socket.joinRoom(data.slug);
@@ -152,7 +195,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
             case "userJoined":
 
-              this.userCount = data.users.length;
+              this.users = data.users;
 
             break;
 
@@ -186,7 +229,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
             case "userLeft":
 
-              this.userCount = data.users.length;
+              this.users = data.users;
 
             break;
 
@@ -210,11 +253,35 @@ export class RoomComponent implements OnInit, OnDestroy {
 
                 this.room.startPlayer(this.cidToPlay, data.time);
 
+                let time = this.durationTOStart - data.time;
+
+                this.stopTimer();
+
+                this.startTimer(Math.trunc(time));
+
               }
 
             break;
 
+            case "userjoinqueue":
+
+              this.waitlist = data.waitlist;
+
+            break;
+
+            case "userleavewaitlist":
+
+              this.waitlist = data.waitlist;
+
+            break;
+
             case "advance":
+
+              this.waitlist = data.waitlist;
+
+              this.upvotes = [];
+
+              this.downvotes = [];
 
               if (data.current_dj.song.cid !== null) {
 
@@ -224,7 +291,13 @@ export class RoomComponent implements OnInit, OnDestroy {
 
                 }
 
+                this.currentDJId = data.current_dj.user.id;
+
                 this.room.startPlayer(data.current_dj.song.cid, null);
+
+                this.stopTimer();
+
+                this.startTimer(data.current_dj.song.duration);
 
                 this.title = data.current_dj.song.title;
 
@@ -233,6 +306,10 @@ export class RoomComponent implements OnInit, OnDestroy {
               } else {
 
                 this.room.destoryPlayer();
+
+                this.stopTimer();
+
+                this.currentDJId = null;
 
                 this.title = "Nobody is playing";
 
@@ -252,10 +329,22 @@ export class RoomComponent implements OnInit, OnDestroy {
 
             break;
 
+            case "upvotesupdate":
+
+              this.upvotes = data.upvotes;
+
+            break;
+
+            case "downvotesupdate":
+
+              this.downvotes = data.downvotes;
+
+            break;
+
           }
 
         }
-      })
+      });
 
       if (data.current_dj.user === null) {
 
@@ -289,12 +378,32 @@ export class RoomComponent implements OnInit, OnDestroy {
   
           }, 2000);
 
-      }, 2500);
+      }, 3000);
 
     }).catch(err => {
       console.log(err);
     });
 
+  }
+
+  clickUpvote () {
+
+    this.socket.upvote();
+
+  }
+
+  clickDownvote () {
+
+    this.socket.downvote();
+
+  }
+
+  showVolSlider () {
+    this.volStyle = {"display": "block"};
+  }
+
+  removeVolSlider() {
+    this.volStyle = {"display": "none"};
   }
 
   onTabChanged ($event: any) {
@@ -306,6 +415,47 @@ export class RoomComponent implements OnInit, OnDestroy {
     } catch (err) {
       console.log(err);
     }
+
+  }
+
+  startTimer (seconds: number) {
+   
+    this.time = seconds;
+
+    this.timer = setInterval(() => {
+      
+      this.time = this.time - 1;
+
+      if (this.time <= 0) {
+
+        this.time = 0;
+
+        clearInterval(this.timer);
+
+      }
+
+    }, 1000);
+    
+  }
+
+  stopTimer () {
+
+    this.time = 0;
+
+    clearInterval(this.timer);
+
+  }
+
+  makeTime (seconds: number): string {
+      
+    const hours   = Math.floor(seconds / 3600);
+    const minutes = Math.floor(seconds / 60) % 60;
+    const secs = seconds % 60;
+  
+    return [hours,minutes,secs]
+        .map(v => v < 10 ? "0" + v : v)
+        .filter((v,i) => v !== "00" || i > 0)
+        .join(":")
 
   }
 
@@ -460,6 +610,8 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.socket.getRoomTime();
 
         this.cidToPlay = data.current_dj.song.cid;
+
+        this.durationTOStart = data.current_dj.song.duration;
   
       }
 
@@ -468,6 +620,42 @@ export class RoomComponent implements OnInit, OnDestroy {
       console.log(err);
 
     });
+
+  }
+
+  checkIfUpvotes (): boolean {
+
+    let index = this.upvotes.findIndex(elm => elm === this.id);
+
+    if (index !== -1) {
+      return true
+    } else {
+      return false;
+    }
+
+  }
+
+  checkIfDownvotes (): boolean {
+
+    let index = this.downvotes.findIndex(elm => elm === this.id);
+
+    if (index !== -1) {
+      return true
+    } else {
+      return false;
+    }
+
+  }
+
+  ngAfterViewInit(): void {
+    
+    let volval = window.localStorage.getItem("volume");
+
+    if (volval) {
+
+      this.volume.nativeElement.value = parseInt(volval);
+
+    }
 
   }
 

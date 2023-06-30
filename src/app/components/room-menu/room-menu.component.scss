@@ -73,6 +73,11 @@
   margin-top: -100px;
   color: #757575;
   margin-left: 10px;
+  width: 250px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 ::-webkit-scrollbar {

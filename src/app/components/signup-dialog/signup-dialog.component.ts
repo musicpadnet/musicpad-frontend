@@ -65,26 +65,6 @@ export class SingupDialogComponent {
 
         this.auth.signupRequest(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username, this.signupForm.value.captcha).then(data => {
 
-          this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
-            headers: {
-              // @ts-ignore
-              Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
-            }
-          }).subscribe({
-            next: (data) => {
-  
-              if (data.profile_image === null) {
-                this.store.dispatch(SetUserData({pfp: "/assets/default.png", username: data.username}));
-              } else {
-                this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username}));
-              }
-  
-            },
-            error: (error) => {
-              console.log(error);
-            }
-          });
-
           setTimeout(() => {
 
             this.formLoaderStyle = {opacity: 0};
@@ -94,6 +74,8 @@ export class SingupDialogComponent {
             this.store.dispatch(Login());
 
             this.dialogRef.close();
+
+            window.location.reload();
 
           }, 1000);
 

@@ -190,9 +190,6 @@ export class AuthService {
         },
         error: (err) => {
           clearTimeout(this.timeout);
-          window.localStorage.removeItem("accesstoken");
-          window.localStorage.removeItem("refreshtoken");
-          window.localStorage.removeItem("expires");
           observer.error(err);
         }
       })

@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists, changePlaylistOpenState, changeNextSongTitle, appIsReady, webScoketDisconnectError, isNotLoaded, appIsNotReady, removeErrors, changeUserMenuStyle, changeUserMenuOpen, changePreviewStyle } from "./app.actions";
+import { changeLoaderStyle, ChangePlaylistPanel, isLoaded, LoadingNetworkError, LoadingWebSocketError, Login, Logout, SetUserData, UpdatePlaylists, changePlaylistOpenState, changeNextSongTitle, appIsReady, webScoketDisconnectError, isNotLoaded, appIsNotReady, changeUserMenuStyle, changeUserMenuOpen, changePreviewStyle } from "./app.actions";
 
 interface IPlaylstItem {
   title: string,
@@ -27,7 +27,8 @@ interface InintalStateI {
   playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: IPlaylstItem[]}[],
   userMenuIsOpen: boolean,
   userMenuStyle: {right: string},
-  prevStyle: {display: string}
+  prevStyle: {display: string},
+  id: string | null
 }
 
 export const initsalState: InintalStateI = {
@@ -39,6 +40,7 @@ export const initsalState: InintalStateI = {
   loggedIn: false,
   pfp: "null",
   username: "null",
+  id: null,
   socketDisconnected: false,
   playlistStyle: {bottom: "-100vh", width: "calc(100vw - 300px)"},
   playlistOpenState: false,
@@ -91,7 +93,8 @@ export const AppReducer = createReducer(
     return {
       ...state,
       pfp: action.pfp,
-      username: action.username
+      username: action.username,
+      id: action.id
     }
   }),
   on(ChangePlaylistPanel, (state, action) => {
@@ -140,14 +143,6 @@ export const AppReducer = createReducer(
     return {
       ...state,
       appIsReady: false
-    }
-  }),
-  on(removeErrors, (state) => {
-    return {
-      ...state,
-      loadingError: false,
-      socketLoadingError: false,
-      socketDisconnected: false
     }
   }),
   on(changeUserMenuStyle, (state, action) => {

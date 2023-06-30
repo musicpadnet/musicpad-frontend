@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngrx/store";
-import { LoadingNetworkError, LoadingWebSocketError, SetUserData, appIsReady, changeLoaderStyle, isLoaded, removeErrors } from "../store/app.actions";
+import { LoadingNetworkError, LoadingWebSocketError, SetUserData, appIsReady, changeLoaderStyle, isLoaded } from "../store/app.actions";
 import { AuthService } from "./auth.service";
 import { ConfigService } from "./config.service";
 import { SocketService } from "./socket.service";
@@ -22,108 +22,61 @@ export class AppService {
         this.auth.checkLogin().subscribe(({
           next: () => {
             
+            this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
+              headers: {
+                // @ts-ignore
+                Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
+              }
+            }).subscribe({
+              next: (data) => {
+    
+                if (data.profile_image === null) {
+                  this.store.dispatch(SetUserData({pfp: "/assets/default.png", username: data.username, id: data.id}));
+                } else {
+                  this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username, id: data.id}));
+                }
+    
+              },
+              error: (error) => {
+                console.log(error);
+              }
+            });
+    
+            this.socket.connectToWebscoket().subscribe({
+              next: () => {
+    
+                this.store.dispatch(appIsReady());
+    
+                setTimeout(() => {
+    
+                  this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
+          
+                  setTimeout(() => {
+                    this.store.dispatch(isLoaded());
+                  }, 500);
+          
+                }, 1000);
+    
+              },
+              error: (error) => {
+    
+                console.log(error);
+    
+                this.store.dispatch(LoadingWebSocketError());
+    
+              }
+            });
+
           },
           error: (error) => {
             console.log(error);
           }
         }));
 
-        this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
-          headers: {
-            // @ts-ignore
-            Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
-          }
-        }).subscribe({
-          next: (data) => {
-
-            if (data.profile_image === null) {
-              this.store.dispatch(SetUserData({pfp: "/assets/default.png", username: data.username}));
-            } else {
-              this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username}));
-            }
-
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
-
-        this.socket.connectToWebscoket().subscribe({
-          next: () => {
-
-            this.store.dispatch(appIsReady());
-
-            setTimeout(() => {
-
-              this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
-      
-              setTimeout(() => {
-                this.store.dispatch(isLoaded());
-              }, 500);
-      
-            }, 1000);
-
-          },
-          error: (error) => {
-
-            console.log(error);
-
-            this.store.dispatch(LoadingWebSocketError());
-
-            let interval = setInterval(() => {
-            
-              this.socket.connectToWebscoket().subscribe({
-                next: () => {
-                  
-                  clearInterval(interval);
-
-                  this.store.dispatch(removeErrors());
-
-                  this.store.dispatch(appIsReady());
-      
-                  setTimeout(() => {
-  
-                    this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
-  
-                    setTimeout(() => {
-                      this.store.dispatch(isLoaded());
-                    }, 500);
-  
-                  }, 1000);
-
-                },
-                error: () => {
-                  console.log("still unable to connect to musicpad's realtime websocket!!!!!! :((((((");
-                }
-              });
-
-            }, 30000);
-
-          }
-        });
-
       }, 
       error: (err) => {
 
-        this.store.dispatch(appIsReady());
-
-            
-        setTimeout(() => {
-
-              
-          this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
-      
-              
-          setTimeout(() => {
-                
-            this.store.dispatch(isLoaded());
-              
-          }, 500);
-      
-            
-        }, 1000);
-        
-        this.router.navigate(["/maintenance"]);
+        this.store.dispatch(LoadingNetworkError());
 
       }
       

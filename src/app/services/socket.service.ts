@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
-import { LoadingWebSocketError, appIsNotReady, appIsReady, changeLoaderStyle, isLoaded, isNotLoaded, removeErrors, webScoketDisconnectError } from "../store/app.actions";
+import { LoadingWebSocketError, appIsNotReady, appIsReady, changeLoaderStyle, isLoaded, isNotLoaded, webScoketDisconnectError } from "../store/app.actions";
 
 import { io, Socket } from "socket.io-client";
 
@@ -18,7 +18,7 @@ export class SocketService {
 
     return new Observable((observer) => {
 
-      this.socket = io("http://localhost:4000", { transports : ['websocket']});
+      this.socket = io("http://localhost:4000", { transports : ['websocket'], reconnection: true});
 
       this.socket.on("connect", () => {
 
@@ -30,7 +30,13 @@ export class SocketService {
 
       });
 
-      this.socket.on("error", () => {
+      this.socket.io.on("reconnect", () => {
+
+        window.location.reload();
+
+      });
+
+      this.socket.on("connect_error", () => {
 
         observer.error("Unable to connect to musicpad's realtime websocket reeeeeerooooo!!! :(((((");
 
@@ -68,6 +74,18 @@ export class SocketService {
 
   }
 
+  upvote () {
+
+    this.socket?.emit("message", {type: "method", method: "upvote"});
+
+  }
+
+  downvote () {
+
+    this.socket?.emit("message", {type: "method", method: "downvote"});
+
+  }
+
   listenForDisconnect () {
 
     this.socket?.on("disconnect", (event) => {
@@ -83,35 +101,6 @@ export class SocketService {
         this.store.dispatch(LoadingWebSocketError());
 
       }, 500);
-
-      let interval = setInterval(() => {
-
-        this.connectToWebscoket().subscribe({
-          next: () => {
-
-            this.store.dispatch(removeErrors());
-
-            clearInterval(interval);
-
-            this.store.dispatch(appIsReady());
-      
-            setTimeout(() => {
-  
-              this.store.dispatch(changeLoaderStyle({style: {opacity: 0}}));
-  
-              setTimeout(() => {
-                this.store.dispatch(isLoaded());
-              }, 500);
-  
-            }, 1000);
-
-          },
-          error: () => {
-            console.log("Still trying to reconnect!!!")
-          }
-        })
-
-      }, 30000);
 
     });
 
