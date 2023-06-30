@@ -15,10 +15,6 @@ const routes: Routes = [
     loadChildren: () => import('./views/privacy/privacy.module').then(m => m.PrivacyModule) 
   },
   { 
-    path: 'maintenance', 
-    loadChildren: () => import('./views/maintenance/maintenance.module').then(m => m.MaintenanceModule)
-  },
-  { 
     path: ':slug', 
     loadChildren: () => import('./views/room/room.module').then(m => m.RoomModule) 
   }

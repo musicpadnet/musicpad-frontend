@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ConfigService } from './config.service';
 
 export interface IRoomData {
+  waitlist: any[];
   current_dj: {
     user: {
       username: string,
@@ -106,6 +107,14 @@ export class RoomService {
 
       event.target.playVideo();
 
+      let volValue = window.localStorage.getItem("volume");
+
+      if (volValue) {
+
+        this.yt.setVolume(parseInt(volValue));
+
+      }
+
     }
 
     const onPlayerStateChange = (event: any) => {
@@ -138,6 +147,22 @@ export class RoomService {
         'onStateChange': onPlayerStateChange
       }
     });
+
+  }
+
+  getPlayerTime (): number {
+
+    return this.yt.getCurrentTime();
+
+  }
+
+  setVol (vol: number) {
+
+    if (this.getYTPlayerExists()) {
+
+      this.yt.setVolume(vol);
+
+    }
 
   }
 

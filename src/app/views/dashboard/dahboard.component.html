@@ -35,11 +35,12 @@
             <mat-icon style="margin-left: auto;margin-right: 10px;cursor: pointer;" class="fav-btn">star_outline</mat-icon>
           </div>
           <mat-card-content>
-            <div class="dashboard-image"></div>
+            <div class="dashboard-image" *ngIf="!roomItem.current_dj.song.thumbnail"></div>
+            <div class="dashboard-image" *ngIf="roomItem.current_dj.song.thumbnail" [style]="'background: url('+ roomItem.current_dj.song.thumbnail +') center center no-repeat; background-size: cover;'"></div>
             <div class="mat-card-room-footer">
               <span class="roomname">{{roomItem.name}}</span>
               <div class="divider"></div>
-              <span class="currently-playing">Nobody is playing</span>
+              <span class="currently-playing">{{roomItem.current_dj.song.title ? roomItem.current_dj.song.title : "Nobody is playing"}}</span>
             </div>
           </mat-card-content>
         </mat-card>

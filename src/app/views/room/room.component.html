@@ -47,18 +47,21 @@
     <div class="player-controls-bar">
       <div class="container">
         <div class="btns-left">
-          <div class="control-btn-left">
+          <div class="control-volume-slider-container" [ngStyle]="volStyle" (mouseenter)="showVolSlider()" (mouseleave)="removeVolSlider()">
+            <input type="range" #volume (input)="changeVolume(volume.value)" min="0" max="100" value="0" class="volume">
+          </div>
+          <div class="control-btn-left vol" (mouseenter)="showVolSlider()" (mouseleave)="removeVolSlider()">
             <mat-icon>volume_up</mat-icon>
           </div>
           <div class="control-btn-time">
-            <span>00:00</span>
+            <span>{{makeTime(time)}}</span>
           </div>
         </div>
         <div class="control-title">
           <span>{{title}}</span>
         </div>
         <div class="btns-right">
-          <div class="control-btn-right" matTooltip="Skip Song" matTooltipPosition="below">
+          <div class="control-btn-right" matTooltip="Skip Your Turn" matTooltipPosition="below" *ngIf="id === currentDJId">
             <mat-icon>skip_next</mat-icon>
           </div>
           <div class="control-btn-right" matTooltip="Refresh Video" matTooltipPosition="below" (click)="reloadPlayer()">
@@ -105,16 +108,24 @@
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon style="font-size: 20px;">group</mat-icon>
-          <span style="margin-left: 4px;">{{userCount}}</span>
+          <span style="margin-left: 4px;">{{users.length}}</span>
         </ng-template>
-         Content 2 
+         <div class="user-list-container">
+          <div class="user-list-item" *ngFor="let user of users">
+            <span>{{user.username}}</span>
+          </div>
+         </div>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon style="font-size: 20px;">queue_music</mat-icon>
-          <span style="margin-left: 4px;">0</span>
+          <span style="margin-left: 4px;">{{this.waitlist.length}}</span>
         </ng-template>
-        Content 3 
+        <div class="queue-list-container">
+          <div class="queue-list-item" *ngFor="let wlusr of waitlist">
+            <span>{{wlusr.username}}</span>
+          </div>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>
@@ -130,24 +141,38 @@
       <span class="playlist-song-title" *ngIf="loggedIn === false">Login or Signup to join the party!!!</span>
     </div>
     <div class="right-content">
-      <div class="queue-btn" *ngIf="inQueue === false" (click)="onClickJoinQueue()" matTooltip="Join Queue" matTooltipPosition="left">
+      <div class="queue-btn" *ngIf="inQueue === false && loggedIn === false" (click)="openSignupDialog()" matTooltip="Join Queue" matTooltipPosition="left">
         <span>Join Queue</span>
       </div>
-      <div class="queue-btn leave" *ngIf="inQueue === true" (click)="onClickLeaveQueue()" matTooltip="Leave Queue" matTooltipPosition="left">
+      <div class="queue-btn" *ngIf="inQueue === false && loggedIn === true" (click)="onClickJoinQueue()" matTooltip="Join Queue" matTooltipPosition="left">
+        <span>Join Queue</span>
+      </div>
+      <div class="queue-btn leave" *ngIf="inQueue === true && id !== currentDJId" (click)="onClickLeaveQueue()" matTooltip="Leave Queue" matTooltipPosition="left">
         <span>Leave Queue</span>
       </div>
+      <div class="queue-btn leave" *ngIf="inQueue === true && id === currentDJId" (click)="onClickLeaveQueue()" matTooltip="Stop Playing" matTooltipPosition="left">
+        <span>Stop Playing</span>
+      </div>
       <div class="song-voting">
-        <div class="vote-btn upvote">
+        <div class="vote-btn upvote voteing" *ngIf="checkIfUpvotes() === true" (click)="clickUpvote()">
           <mat-icon>thumb_up</mat-icon>
-          <span>0</span>
+          <span>{{upvotes.length}}</span>
+        </div>
+        <div class="vote-btn upvote" *ngIf="checkIfUpvotes() === false" (click)="clickUpvote()">
+          <mat-icon>thumb_up</mat-icon>
+          <span>{{upvotes.length}}</span>
         </div>
         <div class="vote-btn grab">
           <mat-icon>favorite</mat-icon>
           <span>0</span>
         </div>
-        <div class="vote-btn downvote">
+        <div class="vote-btn downvote voteing" *ngIf="checkIfDownvotes() === true" (click)="clickDownvote()">
           <mat-icon>thumb_down</mat-icon>
-          <span>0</span>
+          <span>{{downvotes.length}}</span>
+        </div>
+        <div class="vote-btn downvote" *ngIf="checkIfDownvotes() === false" (click)="clickDownvote()">
+          <mat-icon>thumb_down</mat-icon>
+          <span>{{downvotes.length}}</span>
         </div>
       </div>
     </div>

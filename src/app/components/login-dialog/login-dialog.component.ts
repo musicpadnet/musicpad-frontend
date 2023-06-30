@@ -55,59 +55,7 @@ export class LoginDialogComponent {
 
           this.dialogRef.close();
 
-          this.http.get<{playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: ILibSong[]}[]}>(`${this.config.conifgAPIURL}playlists`, {
-            headers: {
-              Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
-            }
-          }).subscribe({
-        
-            next: (data) => {
-              
-              const IndexOfActive = data.playlists.findIndex(obj => obj.isActive === true);
-        
-              if (!data.playlists[0]) {
-                
-                this.store.dispatch(changeNextSongTitle({title: "Create a playlist to play songs!!!"}));
-
-              } else {
-
-                if (!data.playlists[IndexOfActive].songs[0]) {
-        
-                  this.store.dispatch(changeNextSongTitle({title: "No songs in playlist"}));
-          
-                } else {
-          
-                  this.store.dispatch(changeNextSongTitle({title: data.playlists[IndexOfActive].songs[0].title}));
-          
-                }
-
-              }
-
-              this.http.get<{id: string, username: string, profile_image: string}>(`${this.config.conifgAPIURL}accounts/@me`, {
-                headers: {
-                  // @ts-ignore
-                  Authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
-                }
-              }).subscribe({
-                next: (data) => {
-      
-                  if (data.profile_image === null) {
-                    this.store.dispatch(SetUserData({pfp: "/assets/default.png", username: data.username}));
-                  } else {
-                    this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username}));
-                  }
-      
-                },
-                error: (error) => {
-                  console.log(error);
-                }
-              });
-      
-            },
-            error: (error) => {
-              console.log(error);
-            }
-          });
+          window.location.reload();
 
           this.store.dispatch(Login());
 

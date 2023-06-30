@@ -7,7 +7,11 @@ interface IRoom {
   id: string,
   slug: string,
   current_dj: {
-    user: string,
+    user: {
+      username: string,
+      id: string,
+      pfp: string
+    },
     song: {
       title: string,
       duration: number,
