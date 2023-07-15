@@ -159,6 +159,8 @@ html, body {
   padding: 0;
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 body{
@@ -325,7 +327,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .mat-mdc-tab-body-content {
-  height: calc(100vh - 150px)!important;
+  height: calc(100vh - 152px)!important;
   overflow: hidden!important;
 }
 
@@ -482,4 +484,22 @@ a {
 .h-captcha {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.bg-circle-1 {
+  position: fixed;
+  left: -4%;
+  top: calc(-4% + 50px);
+  height: 500px;
+  width: 500px;
+  filter: blur(80px);
+}
+
+.bg-circle-2 {
+  position: fixed;
+  right: calc(-4% + 300px);
+  bottom: calc(-4% + 50px);
+  height: 500px;
+  width: 500px;
+  filter: blur(80px);
 }

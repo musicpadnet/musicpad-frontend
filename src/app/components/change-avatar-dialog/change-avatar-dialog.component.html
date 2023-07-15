@@ -1,0 +1,15 @@
+<div class="form-things" [ngStyle]="formThingsStyle">
+  <form [formGroup]="ChangeAvatarForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="mat-typography">
+      <h4 mat-dialog-title class="big-txt">Upload Avatar</h4>
+      <img class="current-avatar" (click)="onUploadClick()" [src]="avatarUrl">
+      <input type="file" id="avatar-input" (change)="onChange($event)" formControlName="avatar" autocomplete="off" #uploadInput accept="image/*">
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button color="primary" mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="accent" type="submit">Upload</button>
+    </mat-dialog-actions>
+  </form>
+</div>
+
+<m-app-spinner class="formLoader" [ngStyle]="formLoaderStyle"></m-app-spinner>

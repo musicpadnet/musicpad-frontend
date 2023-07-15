@@ -34,6 +34,8 @@ import { ImportPlaylistDialog } from './components/import-playlist-dialog/import
 import { UserMenuComponent } from './components/user-menu/user-menu.component';
 import {MatRippleModule} from '@angular/material/core';
 import { NgHcaptchaModule } from 'ng-hcaptcha';
+import { ChangeAvatarDialog } from './components/change-avatar-dialog/change-avatar-dialog.component';
+import { ChangePasswordDialog } from "./components/change-password-dialog/change-password-dialog.component";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import { NgHcaptchaModule } from 'ng-hcaptcha';
     DeletePlaylistDialog,
     RenamePlaylistDialog,
     ImportPlaylistDialog,
-    UserMenuComponent
+    UserMenuComponent,
+    ChangeAvatarDialog,
+    ChangePasswordDialog
   ],
   imports: [
     BrowserModule,

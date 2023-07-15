@@ -1,3 +1,10 @@
+.scroll-conatiner {
+  height: calc(100vh - 52px);
+  width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 .text-container {
   padding-top: 100px;
   padding-left: 200px;
@@ -6,26 +13,214 @@
   padding-bottom: 100px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+.text-container h1, h2, h3, h4, h5, h6 {
   font-family: 'Segoe UI', sans-serif;
   color: #0059ff!important;
 }
 
-p {
+.text-container p {
   color: #e0e0e0;
 }
 
-li {
+.text-container li {
   color: #e0e0e0;
 }
 
-a {
+.text-container a {
   color: #2E65CA;
   text-decoration:underline;
   transition: color .2s;
 }
 
-a:hover {
+.text-container a:hover {
   color: #0059ff;
   text-decoration: none;
+}
+
+.dashboard-header {
+  height: 52px;
+  width: 100%;
+  z-index: 200;
+  background-color: #0a0b0d;
+  border-bottom: 1px solid #000000;
+}
+
+.dashboard-header .container {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  position: relative;
+  padding-right: 15px;
+}
+
+.dashboard-btn {
+  height: 52px;
+  width: 52px;
+  line-height: 70px;
+  cursor: pointer;
+}
+
+.dashboard-btn .logo {
+  margin: 0 auto;
+  height: 20px;
+  width: 20px;
+  padding-top: 30px;
+  background: url(/assets/logo1.png) center center no-repeat;
+  background-size: 20px 20px; 
+}
+
+.dashboard-header .right-content {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-room-items {
+  height: calc(100% - 110px);
+  width: 100vw;
+  top: 55px;
+  overflow-y: auto;
+  position: absolute;
+}
+
+.dashboard-room-items.loggedout {
+  height: calc(100% - 55px);
+  width: 100vw;
+  top: 55px;
+  position: absolute;
+}
+
+.dashboard-image {
+  height: 150px;
+  width: 290px;
+  background: url(/assets/logo1.png) center center no-repeat;
+  background-color: #000000;
+  background-size: 50px 50px;
+}
+
+.roomname {
+  font-family: "Industrywf", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 37px;
+  margin-left: 10px;
+}
+
+.currently-playing {
+  font-family: "Industrywf", sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: -100px;
+  color: #757575;
+  margin-left: 10px;
+  width: 250px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#dashboard-footer {
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #060708;
+  border-top: 1px solid #000000;
+  -webkit-box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48); 
+  box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48);
+}
+#dashboard-footer .container {
+  display: flex;
+  height: 50px;
+  width: 100%;
+  position: relative;
+}
+#dashboard-footer .playlist-btn {
+  height: 50px;
+  width: 50px;
+  border-right: 1px solid #000000;
+  background: rgb(0,140,255);
+  background: linear-gradient(360deg, rgba(0,140,255,1) 0%, rgba(0,88,161,1) 70%);
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+}
+
+#dashboard-footer .playlist-song-title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 45px;
+  text-overflow: ellipsis;
+  font-family: "Industrywf", sans-serif;
+  color: #ffffff;
+}
+
+.playlist-song-contain {
+  width: 500px;
+  height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-left: 15px;
+}
+
+.playlist-icon {
+  font-size: 27px;
+  height: 27px;
+  padding-top:12px;
+  width: 27px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(71, 71, 71);
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  -webkit-border-radius: 3em;
+}
+
+::-webkit-scrollbar-track {
+  background: 0 0;
+  -webkit-border-radius: 3em;
+}
+
+.right-username {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 52px;
+  display: inline;
+  font-weight: 500;
+  font-family: "Industrywf", sans-serif;
+  margin-right: 3px;
+  margin-left: 30px;
+}
+
+.bg-circles > div {
+  display: block;
+  width: 600px;
+  height: 600px;
+  border-radius: 100%;
+  position: fixed;
+  background: linear-gradient(to left, var(--color-tertiary), var(--color-quaternary));
+  filter: blur(300px);
+  z-index: -1
+}
+.bg-circles > div:first-child {
+  left: -20%;
+  top: -20%
+}
+.bg-circles > div:last-child {
+  right: -20%;
+  bottom: -20%;
+  mix-blend-mode: exclusion;
+  background: linear-gradient(to left, var(--color-primary), var(--color-secondary))
 }

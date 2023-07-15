@@ -1,20 +1,19 @@
 
 // header
 #room-header {
-  height: 50px;
+  height: 52px;
   width: 100%;
-  background-color: #060708;
-  border-bottom: 1px solid #000000;
-  -webkit-box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48); 
-  box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48);
+  background-color: #040505;
   z-index: 2700;
   position: absolute;
+  -webkit-box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48); 
+  box-shadow: 2px 12px 17px 5px rgba(0,0,0,0.48);
 }
 
 #room-header .container {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 52px;
   position: relative;
 }
 
@@ -43,12 +42,14 @@
 }
 
 #room-header .dashboard-btn {
-  height: 50px;
-  width: 50px;
+  height: 52px;
+  width: 52px;
   line-height: 70px;
   cursor: pointer;
   background-color: #15171c;
-  border-right: 1px solid #000000;
+  -webkit-box-shadow:inset 0 2px 0 -1px #000000;
+  -moz-box-shadow:inset 0 2px 0 -1px #000000;
+  box-shadow:inset 0 2px 0 -1px #000000;
 }
 
 #room-header .dashboard-btn .logo {
@@ -57,13 +58,13 @@
   width: 20px;
   padding-top: 30px;
   background: url(/assets/logo1.png) center center no-repeat;
-  background-size: 20px 20px; 
+  background-size: 24px 24px; 
 }
 
 #room-header .btns-center {
-  margin-left: 16%;
+  margin-left: 16.5%;
   height: 50px;
-  width: 500px;
+  max-width: 500px;
   line-height: 50px;
 }
 
@@ -76,29 +77,29 @@
 
 // footer
 #room-footer {
-  height: 50px;
+  height: 52px;
   width: 100%;
   position: absolute;
   bottom: 0;
   z-index: 2600;
-  background-color: #060708;
-  border-top: 1px solid #000000;
+  background-color: #040505;
   -webkit-box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48); 
   box-shadow: 2px -13px 17px 5px rgba(0,0,0,0.48);
 }
 
 #room-footer .container {
   display: flex;
-  height: 50px;
+  height: 52px;
   width: 100%;
   position: relative;
 }
 
 #room-footer .playlist-btn {
-  height: 50px;
-  width: 50px;
-  border-right: 1px solid #000000;
-  background: rgb(0,140,255);
+  height: 52px;
+  width: 52px;
+  -webkit-box-shadow:inset 0 2px 0 -1px #000000;
+  -moz-box-shadow:inset 0 2px 0 -1px #000000;
+  box-shadow:inset 0 2px 0 -1px #000000;
   background: linear-gradient(360deg, rgba(0,140,255,1) 0%, rgba(0,88,161,1) 70%);
   cursor: pointer;
   color: #ffffff;
@@ -108,7 +109,7 @@
 #room-footer .playlist-song-title {
   font-size: 14px;
   font-weight: 500;
-  line-height: 45px;
+  line-height: 52px;
   text-overflow: ellipsis;
   font-family: "Industrywf", sans-serif;
   color: #ffffff;
@@ -121,7 +122,7 @@
 
 #room-footer .song-voting {
   width: 300px;
-  height: 50px;
+  height: 52px;
   display: flex;
 }
 
@@ -150,12 +151,12 @@
 }
 
 #room-footer .song-voting .upvote:hover {
-  background: #97A737;
+  background: rgba(29,205,43, 0.5);
   transition: all 0.2s;
 }
 
 #room-footer .song-voting .upvote.voteing {
-  background: #97A737;
+  background: rgba(29,205,43, 0.5);
   transition: all 0.2s;
 }
 
@@ -164,17 +165,17 @@
 }
 
 #room-footer .song-voting .grab:hover {
-  background: #9E87FC;
+  background: rgba(158, 135, 252, 0.5);
   transition: all 0.2s;
 }
 
 #room-footer .song-voting .downvote:hover {
-  background: #B74644;
+  background: rgba(186,63,64, 0.5);
   transition: all 0.2s;
 }
 
 #room-footer .song-voting .downvote.voteing {
-  background: #B74644;
+  background: rgba(186,63,64, 0.5);
   transition: all 0.2s;
 }
 
@@ -185,8 +186,20 @@
   margin-top: 6px;
 }
 
+#room-footer .song-voting .upvote .mat-icon {
+  color: rgba(29,205,43, 1);
+}
+
+#room-footer .song-voting .downvote .mat-icon {
+  color: rgba(186,63,64, 1);
+}
+
+#room-footer .song-voting .grab .mat-icon {
+  color: rgba(158, 135, 252, 1);
+}
+
 #room-footer .queue-btn {
-  height: 50px;
+  height: 52px;
   padding-left: 25px;
   padding-right: 25px;
   background: #0075d5;
@@ -196,7 +209,7 @@
 }
 
 #room-footer .queue-btn:hover {
-  height: 50px;
+  height: 52px;
   padding-left: 25px;
   padding-right: 25px;
   background: #0088f8;
@@ -205,7 +218,7 @@
 }
 
 #room-footer .queue-btn.leave {
-  height: 50px;
+  height: 52px;
   padding-left: 25px;
   padding-right: 25px;
   background: #c50000;
@@ -215,7 +228,7 @@
 }
 
 #room-footer .queue-btn.leave:hover {
-  height: 50px;
+  height: 52px;
   padding-left: 25px;
   padding-right: 25px;
   background: #e70000;
@@ -227,13 +240,13 @@
   font-family: "Industrywf", sans-serif;
   font-size: 17px;
   font-weight: normal;
-  line-height: 50px;
+  line-height: 52px;
   color: #ffffff;
 }
 
 .playlist-song-contain {
   width: 500px;
-  height: 50px;
+  height: 52px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -243,20 +256,19 @@
 .playlist-icon {
   font-size: 25px;
   height: 25px;
-  padding-top:12px;
+  padding-top:13px;
   width: 25px;
 }
 
 // bg
 #room-background {
-  height: calc(100vh - 100px);
-  width: 100vw;
+  height: calc(100vh - 104px);
+  width: calc(100vw - 300px);
   position: fixed;
-  top: 50px;
+  top: 52px;
   left: 0;
-  opacity: 0.6;
+  opacity: 0.55;
   right: 300;
-  bottom: 50px;
   background: url(/assets/bg004.png) center center no-repeat;
   background-size: cover;
   z-index: -1000;
@@ -264,16 +276,16 @@
 
 // sidebar things
 #room-sidebar {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 104px);
   width: 300px;
   position: fixed;
-  -webkit-box-shadow: -3px 2px 21px 9px rgba(0,0,0,0.68); 
-  box-shadow: -3px 2px 21px 9px rgba(0,0,0,0.68);
   right: 0;
-  top: 50px;
+  top: 52px;
   z-index: 2500;
   background: #000000;
   right: 0;
+  -webkit-box-shadow: -3px 2px 21px 9px rgba(0,0,0,0.68); 
+  box-shadow: -3px 2px 21px 9px rgba(0,0,0,0.68);
 }
 
 .sidebar-header {
@@ -283,7 +295,7 @@
 }
 
 .sidebar-chat-container {
-  height: calc(100vh - 200px);
+  height: calc(100vh - 204px);
   width: 300px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -333,13 +345,13 @@
 // player things
 .player-container {
   position: fixed;
-  height: 495px;
-  width: 807px;
+  height: 550px;
+  width: 907px;
   left: 45%;
   z-index: -700;
   background: url(/assets/logo1.png) center center no-repeat;
   background-size: 70px 70px;
-  background-color: #000000;
+  background-color: rgb(0, 0, 0);
 }
 
 .player-controls-bar {
@@ -347,7 +359,7 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-  background: #020303;
+  background: #040505;
 }
 
 .player-controls-bar .container {
@@ -372,10 +384,10 @@
 
 .control-btn-left:hover {
   height: 40px;
-  color: #000000!important;
+  color: #ffffff!important;
   width: 40px;
   cursor: pointer;
-  background: #ffffff;
+  background: #121418;
   border-right: 1px solid #000000;
 }
 
@@ -400,7 +412,7 @@
 }
 
 .control-title span {
-  line-height: 30px;
+  line-height: 38px;
   width: 500px!important;
   text-align: center;
   display: inline-block;
@@ -439,10 +451,10 @@
 
 .control-btn-right:hover {
   height: 40px;
-  color: #000000!important;
+  color: #ffffff!important;
   width: 40px;
   cursor: pointer;
-  background: #ffffff;
+  background: #121418;
   border-left: 1px solid #000000;
 }
 
@@ -453,12 +465,12 @@
 }
 
 .control-volume-slider-container {
-  height: 200px;
+  height: 130px;
   width: 40px;
   position: absolute;
   bottom: 40px;
   left: 0;
-  background: #000000;
+  background: #060708;
   z-index: 8000;
 }
 
@@ -484,15 +496,15 @@
   -ms-apearnance-: none;
   -moz-transform: rotate(270deg);
   position: absolute;
-  width: 180px;
+  width: 120px;
   height: 40px;
   background: none;
-  bottom: 80px;
-  left: -72px;
+  bottom: 43px;
+  left: -42px;
 }
 
 .volume::-webkit-slider-runnable-track {
-  background: #1a1a1a;
+  background: #111517;
   border-radius: none;
   height: 20px;
   appearance: none;
@@ -614,7 +626,7 @@
 .right-username {
   color: #ffffff;
   font-size: 16px;
-  line-height: 50px;
+  line-height: 54px;
   display: inline;
   font-weight: 500;
   font-family: "Industrywf", sans-serif;
@@ -624,17 +636,37 @@
 }
 
 .chat-connected-message {
-  height: 30px;
   margin-top: 5px;
-  width: 100%;
+  margin-left: .375rem;
+  margin-right: .375rem;
+  border-radius: 4px;
+  padding: .20rem .5rem;
+  word-break: break-word;
   font-family: "Industrywf", sans-serif;
   font-size: 15px;
-  color: #575757;
-  line-height: 30px;
+  color: #7c7c7c;
 }
 
-.chat-connected-message span {
-  margin-left: 10px;
+.chat-info-message {
+  margin-left: .375rem;
+  margin-right: .375rem;
+  border-radius: 4px;
+  padding: .20rem .5rem;
+  word-break: break-word;
+  font-family: "Industrywf", sans-serif;
+  font-size: 15px;
+  color: #7c7c7c;
+}
+
+.chat-welcome-message {
+  margin-left: .375rem;
+  margin-right: .375rem;
+  border-radius: 4px;
+  padding: .20rem .5rem;
+  word-break: break-word;
+  font-family: "Industrywf", sans-serif;
+  font-size: 15px;
+  color: #0075d5;
 }
 
 .chat-message {
@@ -662,7 +694,7 @@
 .chat-message .pfp img {
   display: block;
   margin: 0 auto;
-  margin-top: 1.5px;
+  margin-top: 2px;
   height: 19px;
   width: 19px;
   border-radius: 9999px;
@@ -689,7 +721,7 @@
 }
 
 .user-list-container {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 154px);
   width: 300px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -721,7 +753,7 @@
 }
 
 .queue-list-container {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 154px);
   width: 300px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -750,4 +782,16 @@
   font-weight: 600;
   color: #ffffff;
   margin-left: 5px;
+}
+
+.current-dj-link {
+  color: #0075d5;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+.current-dj-link:hover {
+  color: #008cff;
+  text-decoration: none;
 }

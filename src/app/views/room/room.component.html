@@ -1,5 +1,5 @@
 <div class="black-bg"></div>
-<div id="room-background"></div>
+<div id="room-background" [ngStyle]="roomBGStyle"></div>
 
 <m-app-room-menu [tab]="tabToOpen" [ngStyle]="roomMenuStyle" *ngIf="roomMenuIsOpen === true"></m-app-room-menu>
 
@@ -13,15 +13,15 @@
     <div class="room-info">
 
       <h4 class="roomName">{{roomName}}</h4>
-      <p class="roomDJ">{{roomDJ}}</p>
+      <p class="roomDJ">current dj: <a class="current-dj-link">{{roomDJ}}</a></p>
 
     </div>
 
     <div class="btns-center">
       <button mat-stroked-button color="primary" matTooltip="Room Info" matTooltipPosition="below" (click)="toggleRoomMenu()">Info <mat-icon>info</mat-icon></button>
-      <button mat-stroked-button color="primary" matTooltip="Room Moderation" matTooltipPosition="below">Moderation <mat-icon>gavel</mat-icon></button>
-      <button mat-stroked-button color="primary" matTooltip="Room Settings" matTooltipPosition="below">settings <mat-icon>settings</mat-icon></button>
       <button mat-stroked-button color="primary" matTooltip="Song History" matTooltipPosition="below" (click)="toggleRoomMenuHistory()">History <mat-icon>history</mat-icon></button>
+      <button mat-stroked-button color="primary" matTooltip="Room Moderation" matTooltipPosition="below">Moderation <mat-icon>gavel</mat-icon></button>
+      <button mat-stroked-button *ngIf="roomOwnerId === id" color="primary" matTooltip="Room Settings" matTooltipPosition="below">settings <mat-icon>settings</mat-icon></button>
     </div>
 
     <div class="btns-right" *ngIf="loggedIn === false">
@@ -34,7 +34,7 @@
 
 <div class="btns-right" *ngIf="loggedIn === true">
   <span class="right-username">{{username}}</span>
-  <a mat-button class="user-btn" color="primary" style="z-index: 4000; right: 5px; position: fixed;top: 8px;" (click)="onClickUserMenu()">
+  <a mat-button class="user-btn" color="primary" style="z-index: 4000; right: 5px; position: fixed;top: 9px;" (click)="onClickUserMenu()">
     <span class="inline-btn-content"><img [src]="pfp" class="avatar-right" style="margin-right: 4px;"><mat-icon>chevron_right</mat-icon></span>
   </a>
 </div>
@@ -61,7 +61,7 @@
           <span>{{title}}</span>
         </div>
         <div class="btns-right">
-          <div class="control-btn-right" matTooltip="Skip Your Turn" matTooltipPosition="below" *ngIf="id === currentDJId">
+          <div class="control-btn-right" (click)="onClickSelfSkip()" matTooltip="Skip Your Turn" matTooltipPosition="below" *ngIf="id === currentDJId">
             <mat-icon>skip_next</mat-icon>
           </div>
           <div class="control-btn-right" matTooltip="Refresh Video" matTooltipPosition="below" (click)="reloadPlayer()">
@@ -74,6 +74,7 @@
 
 </div>
 
+<div [@.disabled]="true">
 <div id="room-sidebar">
   <div class="sidebar-header">
     <mat-tab-group (selectedTabChange)="onTabChanged($event);">
@@ -85,12 +86,8 @@
           <div class="chat-connected-message">
             <span>Welcome to the chat!</span>
           </div>
-          <div *ngFor="let message of chatMessages" class="chat-message">
-            <div class="pfp">
-              <img [src]="message.pfp">
-            </div>
-            <span class="username">{{message.username}}</span>
-            <span class="message">{{message.message}}</span>
+          <div class="chat-welcome-message" *ngIf="welcome_message">
+            {{welcome_message}}
           </div>
         </div>
         <div class="sidebar-chat-footer">
@@ -98,7 +95,7 @@
             <mat-icon>mood</mat-icon>
           </button>
           <form [formGroup]="chatForm" (submit)="onChatSubmit()">
-            <input id="chat-text-input" placeholder="Type your message..." type="text" formControlName="chat" autocomplete="off">
+            <input id="chat-text-input" placeholder="Type your message..." type="text" formControlName="chat" autocomplete="off" spellcheck="true">
             <button class="send-icon-btn" mat-icon-button aria-label="Emote Button" color="primary">
               <mat-icon>send</mat-icon>
             </button>
@@ -129,6 +126,7 @@
       </mat-tab>
     </mat-tab-group>
   </div>
+</div>
 </div>
 
 <div id="room-footer">

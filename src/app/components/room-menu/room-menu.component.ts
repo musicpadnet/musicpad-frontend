@@ -1,11 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, OnInit, ElementRef, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { ConfigService } from 'src/app/services/config.service';
+import { RoomService } from 'src/app/services/room.service';
 
 interface IRoom {
   name: string,
   id: string,
   slug: string,
+  owner: {
+    id: string,
+    username: string,
+    pfp: string
+  },
   current_dj: {
     user: {
       username: string,
@@ -48,9 +56,60 @@ export class RoomMenuComponent implements OnInit {
 
   roomRoomsBStyle: any = {background: "transparent", borderLeft: "transparent"};
 
-  constructor (private config: ConfigService, private http: HttpClient) {}
+  roomDescription: string | null | undefined = "none";
+
+  roomMessage: string | null | undefined = "none";
+
+  roomLock: boolean | null | undefined = false;
+
+  roomCycle: boolean | null | undefined = false;
+
+  roomOwnerId: string | null | undefined = null;
+
+  disableBtns = true;
+
+  userid: string | null | undefined = null;
+
+  app$: Observable<{id: string}>;
+
+  constructor (private config: ConfigService, private http: HttpClient, private room: RoomService, private store: Store<{app: {id: string}}>) {
+    this.app$ = this.store.select("app");
+
+    this.app$.subscribe({
+      next: (state) => {
+
+        this.userid = state.id;
+
+      }
+    })
+
+  }
 
   ngOnInit(): void {
+
+    this.room.fetchRoom(window.location.pathname.slice(1, window.location.pathname.length)).then(data => {
+
+      this.roomDescription = data.description;
+
+      this.roomMessage = data.welcome_message;
+
+      this.roomCycle = data.queue_cycle;
+
+      this.roomLock = data.queue_locked;
+
+      this.roomOwnerId = data.owner.id;
+
+      if (this.roomOwnerId === this.userid) {
+
+        this.disableBtns = false;
+
+      }
+
+    }).catch(err => {
+
+      console.log(err);
+
+    });
 
     this.http.get<{next: number, prev: number, current: number, totalPages: number, items: IRoom[]}>(`${this.config.conifgAPIURL}rooms/1`).subscribe({
       next: (data) => {
@@ -65,19 +124,19 @@ export class RoomMenuComponent implements OnInit {
 
       this.roomInfoPanel = true;
 
-      this.roomInfoBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "46px"};
+      this.roomInfoBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "48px"};
 
     } else if (this.tab === "history") {
 
       this.roomHistoryPanel = true;
 
-      this.roomHistoryBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "46px"};
+      this.roomHistoryBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "48px"};
 
     } else if (this.tab = "rooms") {
 
       this.roomRoomsPanel = true;
 
-      this.roomRoomsBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "46px"};
+      this.roomRoomsBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "48px"};
 
     }
 
@@ -89,7 +148,7 @@ export class RoomMenuComponent implements OnInit {
 
     this.roomRoomsPanel = true;
 
-    this.roomRoomsBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "46px"};
+    this.roomRoomsBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "48px"};
 
   }
 
@@ -99,7 +158,7 @@ export class RoomMenuComponent implements OnInit {
 
     this.roomHistoryPanel = true;
 
-    this.roomHistoryBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "46px"};
+    this.roomHistoryBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "48px"};
 
   }
 
@@ -109,7 +168,7 @@ export class RoomMenuComponent implements OnInit {
 
     this.roomInfoPanel = true;
 
-    this.roomInfoBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "46px"};
+    this.roomInfoBStyle = {background: "rgba(0, 117, 213 ,0.2)", borderLeft: "4px solid rgb(0, 117, 213)", width: "48px"};
 
   }
 

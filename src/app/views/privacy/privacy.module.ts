@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { PrivacyRoutingModule } from './privacy-routing.module';
 import { PrivacyComponent } from './privacy.component';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,9 @@ import { PrivacyComponent } from './privacy.component';
   ],
   imports: [
     CommonModule,
-    PrivacyRoutingModule
+    PrivacyRoutingModule,
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class PrivacyModule { }

@@ -29,8 +29,7 @@ export class AppService {
               }
             }).subscribe({
               next: (data) => {
-    
-                if (data.profile_image === null) {
+                if (!data.profile_image) {
                   this.store.dispatch(SetUserData({pfp: "/assets/default.png", username: data.username, id: data.id}));
                 } else {
                   this.store.dispatch(SetUserData({pfp: data.profile_image, username: data.username, id: data.id}));

@@ -48,7 +48,7 @@
         </div>
         <div class="rename-pl-btn" (click)="openRenamePLDialog(pl.id)" matTooltip="Rename Playlist" matTooltipPosition="left"><mat-icon>edit</mat-icon></div>
         <div class="delete-pl-btn" (click)="openDeletePLDialog(pl.id)" matTooltip="Delete Playlist" matTooltipPosition="left"><mat-icon>delete</mat-icon></div>
-        <div class="shuffle-pl-btn" matTooltip="Shuffle Playlist" matTooltipPosition="left"><mat-icon>shuffle</mat-icon></div>
+        <div class="shuffle-pl-btn" (click)="onClickShuffle(pl.id)" matTooltip="Shuffle Playlist" matTooltipPosition="left"><mat-icon>shuffle</mat-icon></div>
       </div>
     </div>
     <div cdkDropList cdkScrollable class="viewport" #scrollCont (cdkDropListDropped)="moveDrop($event)">

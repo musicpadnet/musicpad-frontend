@@ -13,7 +13,20 @@
   </div></a>
 </div>
 
-<div class="room-menu-panels" *ngIf="roomInfoPanel === true"></div>
+<div class="room-menu-panels" *ngIf="roomInfoPanel === true">
+  <div class="room-info-description">
+    <div class="title">Room Description:</div>
+    <br/>
+    <div class="content">{{roomDescription}}</div>
+  </div>
+  <div class="room-info-welcome-message">
+    <div class="title">Room Welcome Message:</div>
+    <br/>
+    <div class="content">{{roomMessage}}</div>
+  </div>
+  <mat-slide-toggle color="accent" [disabled]="disableBtns" [checked]="roomCycle">Queue Cycle</mat-slide-toggle>
+  <mat-slide-toggle color="accent" [disabled]="disableBtns" [checked]="roomLock">Queue Lock</mat-slide-toggle>
+</div>
 <div class="room-menu-panels" *ngIf="roomHistoryPanel === true"></div>
 <div class="room-menu-panels" *ngIf="roomRoomsPanel === true">
   <mat-grid-list cols="5">

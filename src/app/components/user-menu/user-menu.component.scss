@@ -16,7 +16,7 @@
 }
 
 :host .user-menu-header {
-  height: 50px;
+  height: 52px;
   text-align: center;
   width: 250px;
   -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
@@ -25,9 +25,9 @@
 }
 
 :host .user-menu-items .item {
-  height: 50px;
+  height: 52px;
   border-bottom: 2px solid rgba(255, 255, 255, 0.08);
-  line-height: 50px;
+  line-height: 52px;
   cursor: pointer;
   transition: background-color .2s;
 }
@@ -72,4 +72,48 @@
   overflow: hidden;
   font-weight: 700;
   font-family: "Industrywf", sans-serif;
+}
+
+:host .sub-menu {
+  height: 100vh;
+  width: 250px;
+  position: fixed;
+  z-index: 2800;
+  right: 250px;
+  top: 0;
+  background: #0a0b0d;
+  border-right: 1px solid #000000;
+  transition: right .3s cubic-bezier(.17,.67,0,1.03);
+}
+
+:host .sub-menu .user-menu-items {
+  height: calc(100vh - 100px);
+  width: 250px;
+}
+
+:host .sub-menu .user-menu-items .item {
+  height: 52px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  line-height: 52px;
+  cursor: pointer;
+  transition: background-color .2s;
+}
+
+:host .sub-menu .user-menu-items .item span {
+  float: right;
+  font-size: 14px;
+  margin-right: 10px;
+  font-weight: 600;
+  font-family: "Industrywf", sans-serif;
+  text-transform: uppercase;
+  color: #a8a8a8;
+}
+
+:host .sub-menu .user-menu-items .item:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.sub-menu .spacer {
+  height: 156px;
+  width: 250px;
 }

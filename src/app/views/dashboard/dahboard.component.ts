@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { CreateRoomDialog } from 'src/app/components/create-room-dialog/create-room-dialog.component';
 import { ConfigService } from 'src/app/services/config.service';
-import { ChangePlaylistPanel, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
+import { ChangePlaylistPanel, changePlaylistOpenState, changeUserAccountSettingsMenuOpen, changeUserAccountSettingsMenuStyle, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
 
 interface IRoom {
   name: string,
@@ -137,6 +137,10 @@ export class DahboardComponent implements OnInit {
       this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
 
       this.store.dispatch(changeUserMenuOpen({isOpen: false}));
+
+      this.store.dispatch(changeUserAccountSettingsMenuOpen({isOpen: false}));
+
+      this.store.dispatch(changeUserAccountSettingsMenuStyle({style: {right: "-250px"}}));
 
     } else {
 
