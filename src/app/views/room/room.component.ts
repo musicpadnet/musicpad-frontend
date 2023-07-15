@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash-es';
@@ -7,7 +7,7 @@ import { LoginDialogComponent } from 'src/app/components/login-dialog/login-dial
 import { SingupDialogComponent } from 'src/app/components/signup-dialog/signup-dialog.component';
 import { IRoomData, RoomService } from 'src/app/services/room.service';
 import { SocketService } from 'src/app/services/socket.service';
-import { ChangePlaylistPanel, UpdatePlaylists, changeNextSongTitle, changePlaylistOpenState, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
+import { ChangePlaylistPanel, UpdatePlaylists, changeNextSongTitle, changePlaylistOpenState, changeUserAccountSettingsMenuOpen, changeUserAccountSettingsMenuStyle, changeUserMenuOpen, changeUserMenuStyle } from 'src/app/store/app.actions';
 import { changeRoomIsOpen, changeRoomMenuStyle } from 'src/app/store/room.actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -21,6 +21,8 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
   tabToOpen: string = "room";
   
   roomName: string | null = null;
+
+  welcome_message: string | null | undefined = null;
 
   roomDJ: string | null = null;
 
@@ -50,7 +52,9 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   roomMenuStyle = {top: "-100vh"};
 
-  users: any[] = []; 
+  users: any[] = [];
+
+  roomBGStyle = {"background": "url(/assets/bg004.png) center center no-repeat"};
 
   roomMenuIsOpen = false;
 
@@ -72,6 +76,8 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   id!: string | null;
 
+  roomOwnerId: string | null | undefined = null;
+
   inQueue: boolean = false;
 
   timer!: ReturnType<typeof setInterval>;
@@ -84,7 +90,7 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   room$: Observable<{roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}>;
 
-  constructor (public dialog: MatDialog, private room: RoomService, private store: Store<{app: {id: string | null, username: string, userMenuIsOpen: boolean, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean, loggedIn: boolean}, room: {roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}}>, private socket: SocketService) {
+  constructor (public dialog: MatDialog, private room: RoomService, private store: Store<{app: {id: string | null, username: string, userMenuIsOpen: boolean, pfp: string, nextSongTitle: string, playlistStyle: {bottom: string}, playlistOpenState: boolean, loggedIn: boolean}, room: {roomMenuStyle: {top: string}, roomMenuIsOpen: boolean}}>, private socket: SocketService, private renderer: Renderer2) {
 
     this.app$ = store.select("app");
 
@@ -158,6 +164,68 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
 
+  /**
+   * create self skip message
+   * @param message string
+   */
+  async createSelfSkipMessage (message: string) {
+
+    const messageElm = this.renderer.createElement("div");
+
+    messageElm.innerHTML = message;
+
+    this.renderer.addClass(messageElm, "chat-info-message");
+
+    this.renderer.appendChild(this.chatScroll.nativeElement, messageElm);
+
+  }
+
+
+  // add chat messages to dom instead of rendering with for loop
+  async createChatMessage (pfp: string, username: string, message: string) {
+  
+    const messageElm = this.renderer.createElement("div");
+
+    this.renderer.addClass(messageElm, "chat-message");
+
+    const pfpElm = this.renderer.createElement("div");
+
+    this.renderer.addClass(pfpElm, "pfp");
+
+    const pfpImg = this.renderer.createElement("img");
+
+    this.renderer.setProperty(pfpImg, "src", pfp);
+
+    const usernameElm = this.renderer.createElement("span");
+
+    this.renderer.addClass(usernameElm, "username");
+
+    usernameElm.innerHTML = username;
+
+    const msgElm = this.renderer.createElement("span");
+    
+    this.renderer.addClass(msgElm, "message");
+
+    msgElm.innerHTML = message;
+
+    this.renderer.appendChild(pfpElm, pfpImg);
+
+    this.renderer.appendChild(messageElm, pfpElm);
+
+    this.renderer.appendChild(messageElm, usernameElm);
+
+    this.renderer.appendChild(messageElm, msgElm);
+
+    this.renderer.appendChild(this.chatScroll.nativeElement, messageElm);
+
+  }
+
+  onClickSelfSkip () {
+
+    this.socket.selfSkip();
+
+  }
+
   ngOnInit() {
 
     document.title = "Connecting...";
@@ -170,9 +238,17 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
     
     this.room.fetchRoom(window.location.pathname.slice(1, window.location.pathname.length)).then((data: IRoomData) => {
 
+      if (data.background) {
+        this.roomBGStyle = {"background": `url(${data.background}) center center no-repeat`}
+      }
+
       this.roomName = data.name;
 
+      this.welcome_message = data.welcome_message
+
       this.waitlist = data.waitlist;
+
+      this.roomOwnerId = data.owner.id;
 
       this.users = data.users;
 
@@ -207,11 +283,7 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
                 message: data.message
               }
               
-              let dep = cloneDeep(this.chatMessages);
-
-              dep.push(message);
-
-              this.chatMessages = dep;
+              this.createChatMessage(message.pfp, message.username, message.message);
 
               setTimeout(() => {
 
@@ -246,8 +318,6 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
             break;
 
             case "currenttime":
-
-              console.log(data.time);
 
               if (data.time !== null) {
 
@@ -301,7 +371,7 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 this.title = data.current_dj.song.title;
 
-                this.roomDJ = `current dj: ${data.current_dj.user.username}`;
+                this.roomDJ = `${data.current_dj.user.username}`;
 
               } else {
 
@@ -313,7 +383,7 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 this.title = "Nobody is playing";
 
-                this.roomDJ = "current dj: Nobody";
+                this.roomDJ = "Nobody";
 
               }
 
@@ -341,6 +411,12 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
             break;
 
+            case "selfskiped":
+
+              this.createSelfSkipMessage(data.username + " skipped their turn");
+
+            break;
+
           }
 
         }
@@ -348,11 +424,11 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (data.current_dj.user === null) {
 
-        this.roomDJ = "current dj: Nobody";
+        this.roomDJ = "Nobody";
 
       } else {
 
-        this.roomDJ = `current dj: ${data.current_dj.user.username}`;
+        this.roomDJ = `${data.current_dj.user.username}`;
 
         this.cidToPlay = data.current_dj.song.cid;
 
@@ -479,6 +555,10 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.store.dispatch(changeUserMenuOpen({isOpen: false}));
 
+      this.store.dispatch(changeUserAccountSettingsMenuOpen({isOpen: false}));
+
+      this.store.dispatch(changeUserAccountSettingsMenuStyle({style: {right: "-250px"}}));
+
     } else {
 
       this.store.dispatch(changeUserMenuOpen({isOpen: true}));
@@ -509,7 +589,7 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
       setTimeout(() => {
         
-        this.store.dispatch(changeRoomMenuStyle({style: {top: "50px"}}))
+        this.store.dispatch(changeRoomMenuStyle({style: {top: "52px"}}))
 
       }, 1);
 
@@ -537,7 +617,7 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
       setTimeout(() => {
         
-        this.store.dispatch(changeRoomMenuStyle({style: {top: "50px"}}))
+        this.store.dispatch(changeRoomMenuStyle({style: {top: "52px"}}))
 
       }, 1);
 
@@ -565,7 +645,7 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
       setTimeout(() => {
         
-        this.store.dispatch(changeRoomMenuStyle({style: {top: "50px"}}))
+        this.store.dispatch(changeRoomMenuStyle({style: {top: "52px"}}))
 
       }, 1);
 

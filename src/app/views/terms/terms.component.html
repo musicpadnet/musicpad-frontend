@@ -1,156 +1,182 @@
-<div class="text-container">
-<h1><strong>Terms Of Service</strong></h1>
+<div class="dashboard-header">
 
-<p><strong>Last Updated: June 10, 2023</strong></p>
+    <div class="container">
+  
+      <a routerLink="/"><img src="/assets/mixzy.png" style="height: 26px;margin-left: 12px;"></a>
+      <a mat-button color="primary">About</a>
+      <a mat-button color="primary" routerLink="/terms">Terms</a>
+      <a mat-button color="primary" routerLink="/privacy">Privacy</a>
+      <div class="right-content" *ngIf="loggedIn === false">
+        <button mat-button color="primary" (click)="openLoginDialog()">Login</button>
+        <button mat-raised-button color="accent" (click)="openSignupDialog()">Signup</button>
+      </div>
+      <div class="right-content" *ngIf="loggedIn === true">
+        <button mat-raised-button color="accent" (click)="openCreateRoomDialog()">Create Room</button>
+        <span class="right-username">{{username}}</span>
+        <a mat-button class="user-btn" color="primary" style="z-index: 3005;position: relative;" (click)="onClickUserMenu()">
+          <span class="inline-btn-content"><img [src]="pfp" class="avatar-right" style="margin-right: 4px;"><mat-icon>chevron_right</mat-icon></span>
+        </a>
+      </div>
+  
+    </div>
+  
+  </div>
 
-<p>Welcome to Mixzy!</p>
+<div class="scroll-conatiner">
+    <div class="text-container">
+        <h1><strong>Terms Of Service</strong></h1>
 
-<p>These terms of service outline the rules and regulations for the use of Mixzy Technologies, Inc.'s Website, located at https://Mixzy.net.</p>
+        <p><strong>Last Updated: June 10, 2023</strong></p>
 
-<p>By accessing this website we assume you accept these terms of service. Do not continue to use Mixzy if you do not agree to take all of the terms of service stated on this page.</p>
+        <p>Welcome to Mixzy!</p>
 
-<p>The following terminology applies to these terms of service, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company's terms of service. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of ca. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.</p>
+        <p>These terms of service outline the rules and regulations for the use of Mixzy Technologies, Inc.'s Website, located at https://Mixzy.net.</p>
 
-<h3><strong>Cookies</strong></h3>
+        <p>By accessing this website we assume you accept these terms of service. Do not continue to use Mixzy if you do not agree to take all of the terms of service stated on this page.</p>
 
-<p>We employ the use of cookies. By accessing Mixzy, you agreed to use cookies in agreement with the Mixzy Technologies, Inc.'s Privacy Policy. </p>
+        <p>The following terminology applies to these terms of service, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company's terms of service. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client's needs in respect of provision of the Company's stated services, in accordance with and subject to, prevailing law of ca. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.</p>
 
-<p>Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.</p>
+        <h3><strong>Cookies</strong></h3>
 
-<h3><strong>License</strong></h3>
+        <p>We employ the use of cookies. By accessing Mixzy, you agreed to use cookies in agreement with the Mixzy Technologies, Inc.'s Privacy Policy. </p>
 
-<p>Unless otherwise stated, Mixzy Technologies, Inc. and/or its licensors own the intellectual property rights for all material on Mixzy. All intellectual property rights are reserved. You may access this from Mixzy for your own personal use subjected to restrictions set in these terms of service.</p>
+        <p>Most interactive websites use cookies to let us retrieve the user's details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.</p>
 
-<p>You must not:</p>
-<ul>
-    <li>Republish material from Mixzy</li>
-    <li>Sell, rent or sub-license material from Mixzy</li>
-    <li>Reproduce, duplicate or copy material from Mixzy</li>
-    <li>Redistribute content from Mixzy</li>
-</ul>
+        <h3><strong>License</strong></h3>
 
-<p>This Agreement shall begin on the date hereof.</p>
+        <p>Unless otherwise stated, Mixzy Technologies, Inc. and/or its licensors own the intellectual property rights for all material on Mixzy. All intellectual property rights are reserved. You may access this from Mixzy for your own personal use subjected to restrictions set in these terms of service.</p>
 
-<p>Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. Mixzy Technologies, Inc. does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of Mixzy Technologies, Inc.,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, Mixzy Technologies, Inc. shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.</p>
+        <p>You must not:</p>
+        <ul>
+            <li>Republish material from Mixzy</li>
+            <li>Sell, rent or sub-license material from Mixzy</li>
+            <li>Reproduce, duplicate or copy material from Mixzy</li>
+            <li>Redistribute content from Mixzy</li>
+        </ul>
 
-<p>Mixzy Technologies, Inc. reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these terms of service.</p>
+        <p>This Agreement shall begin on the date hereof.</p>
 
-<p>You warrant and represent that:</p>
+        <p>Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. Mixzy Technologies, Inc. does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of Mixzy Technologies, Inc.,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, Mixzy Technologies, Inc. shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.</p>
 
-<ul>
-    <li>You are entitled to post the Comments on our website and have all necessary licenses and consents to do so;</li>
-    <li>The Comments do not invade any intellectual property right, including without limitation copyright, patent or trademark of any third party;</li>
-    <li>The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful material which is an invasion of privacy</li>
-    <li>The Comments will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.</li>
-</ul>
+        <p>Mixzy Technologies, Inc. reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these terms of service.</p>
 
-<p>You hereby grant Mixzy Technologies, Inc. a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.</p>
+        <p>You warrant and represent that:</p>
 
-<h3><strong>Hyperlinking to our Content</strong></h3>
+        <ul>
+            <li>You are entitled to post the Comments on our website and have all necessary licenses and consents to do so;</li>
+            <li>The Comments do not invade any intellectual property right, including without limitation copyright, patent or trademark of any third party;</li>
+            <li>The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful material which is an invasion of privacy</li>
+            <li>The Comments will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.</li>
+        </ul>
 
-<p>The following organizations may link to our Website without prior written approval:</p>
+        <p>You hereby grant Mixzy Technologies, Inc. a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.</p>
 
-<ul>
-    <li>Government agencies;</li>
-    <li>Search engines;</li>
-    <li>News organizations;</li>
-    <li>Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and</li>
-    <li>System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.</li>
-</ul>
+        <h3><strong>Hyperlinking to our Content</strong></h3>
 
-<p>These organizations may link to our home page, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking party's site.</p>
+        <p>The following organizations may link to our Website without prior written approval:</p>
 
-<p>We may consider and approve other link requests from the following types of organizations:</p>
+        <ul>
+            <li>Government agencies;</li>
+            <li>Search engines;</li>
+            <li>News organizations;</li>
+            <li>Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and</li>
+            <li>System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.</li>
+        </ul>
 
-<ul>
-    <li>commonly-known consumer and/or business information sources;</li>
-    <li>dot.com community sites;</li>
-    <li>associations or other groups representing charities;</li>
-    <li>online directory distributors;</li>
-    <li>internet portals;</li>
-    <li>accounting, law and consulting firms; and</li>
-    <li>educational institutions and trade associations.</li>
-</ul>
+        <p>These organizations may link to our home page, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking party's site.</p>
 
-<p>We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of Mixzy Technologies, Inc.; and (d) the link is in the context of general resource information.</p>
+        <p>We may consider and approve other link requests from the following types of organizations:</p>
 
-<p>These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking party's site.</p>
+        <ul>
+            <li>commonly-known consumer and/or business information sources;</li>
+            <li>dot.com community sites;</li>
+            <li>associations or other groups representing charities;</li>
+            <li>online directory distributors;</li>
+            <li>internet portals;</li>
+            <li>accounting, law and consulting firms; and</li>
+            <li>educational institutions and trade associations.</li>
+        </ul>
 
-<p>If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to Mixzy Technologies, Inc.. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.</p>
+        <p>We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of Mixzy Technologies, Inc.; and (d) the link is in the context of general resource information.</p>
 
-<p>Approved organizations may hyperlink to our Website as follows:</p>
+        <p>These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking party's site.</p>
 
-<ul>
-    <li>By use of our corporate name; or</li>
-    <li>By use of the uniform resource locator being linked to; or</li>
-    <li>By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party's site.</li>
-</ul>
+        <p>If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to Mixzy Technologies, Inc.. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.</p>
 
-<p>No use of Mixzy Technologies, Inc.'s logo or other artwork will be allowed for linking absent a trademark license agreement.</p>
+        <p>Approved organizations may hyperlink to our Website as follows:</p>
 
-<h3><strong>iFrames</strong></h3>
+        <ul>
+            <li>By use of our corporate name; or</li>
+            <li>By use of the uniform resource locator being linked to; or</li>
+            <li>By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party's site.</li>
+        </ul>
 
-<p>Without prior approval and written permission, you may not create frames around our Webpages that alter in any way the visual presentation or appearance of our Website.</p>
+        <p>No use of Mixzy Technologies, Inc.'s logo or other artwork will be allowed for linking absent a trademark license agreement.</p>
 
-<h3><strong>Content Liability</strong></h3>
+        <h3><strong>iFrames</strong></h3>
 
-<p>We shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights.</p>
+        <p>Without prior approval and written permission, you may not create frames around our Webpages that alter in any way the visual presentation or appearance of our Website.</p>
 
-<h3><strong>Reservation of Rights</strong></h3>
+        <h3><strong>Content Liability</strong></h3>
 
-<p>We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms of service and it's linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms of service.</p>
+        <p>We shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights.</p>
 
-<h3><strong>Removal of links from our website</strong></h3>
+        <h3><strong>Reservation of Rights</strong></h3>
 
-<p>If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.</p>
+        <p>We reserve the right to request that you remove all links or any particular link to our Website. You approve to immediately remove all links to our Website upon request. We also reserve the right to amen these terms of service and it's linking policy at any time. By continuously linking to our Website, you agree to be bound to and follow these linking terms of service.</p>
 
-<p>We do not ensure that the information on this website is correct, we do not warrant its completeness or accuracy; nor do we promise to ensure that the website remains available or that the material on the website is kept up to date.</p>
+        <h3><strong>Removal of links from our website</strong></h3>
 
-<h3><strong>Disclaimer</strong></h3>
+        <p>If you find any link on our Website that is offensive for any reason, you are free to contact and inform us any moment. We will consider requests to remove links but we are not obligated to or so or to respond to you directly.</p>
 
-<p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:</p>
+        <p>We do not ensure that the information on this website is correct, we do not warrant its completeness or accuracy; nor do we promise to ensure that the website remains available or that the material on the website is kept up to date.</p>
 
-<ul>
-    <li>limit or exclude our or your liability for death or personal injury;</li>
-    <li>limit or exclude our or your liability for fraud or fraudulent misrepresentation;</li>
-    <li>limit any of our or your liabilities in any way that is not permitted under applicable law; or</li>
-    <li>exclude any of our or your liabilities that may not be excluded under applicable law.</li>
-</ul>
+        <h3><strong>Disclaimer</strong></h3>
 
-<p>The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.</p>
+        <p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:</p>
 
-<p>As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</p>
+        <ul>
+            <li>limit or exclude our or your liability for death or personal injury;</li>
+            <li>limit or exclude our or your liability for fraud or fraudulent misrepresentation;</li>
+            <li>limit any of our or your liabilities in any way that is not permitted under applicable law; or</li>
+            <li>exclude any of our or your liabilities that may not be excluded under applicable law.</li>
+        </ul>
 
-<h3><strong>Investigations; Cooperation with Law Enforcement; Termination; Survival</strong></h3>
+        <p>The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.</p>
 
-<p>Mixzy reserves the right, without any limitation, to: (i) investigate any suspected breaches of its Site security or its information technology or other systems or networks, (ii) investigate any suspected breaches of these Terms and any Additional Terms, (iii) investigate any information obtained by Mixzy in connection with reviewing law enforcement databases or complying with criminal laws, (iv) involve and cooperate with law enforcement authorities in investigating any of the foregoing matters, (v) prosecute violators of these Terms and any Additional Terms, and (vi) discontinue the Site, in whole or in part, or, except as may be expressly set forth in any Additional Terms, suspend or terminate your access to it, in whole or in part, including any user accounts or registrations, at any time, without notice, for any reason and without any obligation to you or any third party. Any suspension or termination will not affect your obligations to Mixzy under these Terms or any Additional Terms. Upon suspension or termination of your access to the Site, or upon notice from Mixzy, all rights granted to you under these Terms or any Additional Terms will cease immediately, and you agree that you will immediately discontinue use of the Site. The provisions of these Terms and any Additional Terms, which by their nature should survive your suspension or termination will survive, including the rights and licenses you grant to Mixzy in these Terms, as well as the indemnities, releases, disclaimers, and limitations on liability and the provisions regarding jurisdiction, choice of law, no class action, and mandatory arbitration.</p>
+        <p>As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.</p>
 
-<h3><strong>Our Rules</strong></h3>
+        <h3><strong>Investigations; Cooperation with Law Enforcement; Termination; Survival</strong></h3>
 
-<p>We may, but are not obligated to, provide our users with the ability to post and receive messages from other Mixzy-listed users or allow you to participate in video or live chats with your friends or other users. If we do, you will not use the messaging system or your username to spam, defame, harass, or do anything we find to be objectionable (which is up to us), including, but not limited to, language that attacks or demeans a group based on race or ethnic origin, religion, disability, gender, age, veteran status and sexual orientation or gender identity. It is your responsibility to maintain proper etiquette, and we reserve the right to terminate the account for anyone who violates our policies. We also do not monitor any particular chat, but reserve the right to edit, modify, ban, or filter any User-Generated Content or username for any reason. If someone posts something that is offensive or objectionable please let us know and we will do our best to accommodate you. We do not, however, assume any obligation to remove such User-Generated Content.</p>
+        <p>Mixzy reserves the right, without any limitation, to: (i) investigate any suspected breaches of its Site security or its information technology or other systems or networks, (ii) investigate any suspected breaches of these Terms and any Additional Terms, (iii) investigate any information obtained by Mixzy in connection with reviewing law enforcement databases or complying with criminal laws, (iv) involve and cooperate with law enforcement authorities in investigating any of the foregoing matters, (v) prosecute violators of these Terms and any Additional Terms, and (vi) discontinue the Site, in whole or in part, or, except as may be expressly set forth in any Additional Terms, suspend or terminate your access to it, in whole or in part, including any user accounts or registrations, at any time, without notice, for any reason and without any obligation to you or any third party. Any suspension or termination will not affect your obligations to Mixzy under these Terms or any Additional Terms. Upon suspension or termination of your access to the Site, or upon notice from Mixzy, all rights granted to you under these Terms or any Additional Terms will cease immediately, and you agree that you will immediately discontinue use of the Site. The provisions of these Terms and any Additional Terms, which by their nature should survive your suspension or termination will survive, including the rights and licenses you grant to Mixzy in these Terms, as well as the indemnities, releases, disclaimers, and limitations on liability and the provisions regarding jurisdiction, choice of law, no class action, and mandatory arbitration.</p>
 
-<p>You may share videos and music that is hosted on a third party website (i.e., Youtube, Soundcloud, etc.) but only if it does not conflict with their terms or any applicable law. You may not, however, share, post or otherwise communicate any content (video, audio, or text) that is unlawful, threatening, violent, pornographic, harassing, obscene, racist, defamatory, or otherwise objectionable. We reserve the right to determine what is objectionable at our sole discretion.</p>
+        <h3><strong>Our Rules</strong></h3>
 
-<p>In addition to the above, you agree that you will not:</p>
-<ul>
-  <li>Infringe on anyone's intellectual property or other legal rights (i.e. invasion of privacy).</li>
-  <li>Hack, crack, phish, SQL inject, or otherwise compromise the security of our website or its servers.</li>
-  <li>Solicit business, spam, or otherwise use our service for commercial purposes unless expressly authorized by us.</li>
-  <li>Defraud or threaten any of our users through any method, whether it be through our website or through another method of communication.</li>
-  <li>Create more than one active user account, or create a new user account if we have previously banned, suspended, or otherwise terminated your first user account.</li>
-  <li>Harass anyone.</li>
-  <li>Impersonate anyone.</li>
-  <li>Do anything unlawful or bad (we define what is bad).</li>
-</ul>
-<p>How we react to your violation of any of these Terms does not mean we will treat everyone the same. We may do anything from yell at you, temporarily suspend your account, ban you, or haul you into Court.</p>
+        <p>We may, but are not obligated to, provide our users with the ability to post and receive messages from other Mixzy-listed users or allow you to participate in video or live chats with your friends or other users. If we do, you will not use the messaging system or your username to spam, defame, harass, or do anything we find to be objectionable (which is up to us), including, but not limited to, language that attacks or demeans a group based on race or ethnic origin, religion, disability, gender, age, veteran status and sexual orientation or gender identity. It is your responsibility to maintain proper etiquette, and we reserve the right to terminate the account for anyone who violates our policies. We also do not monitor any particular chat, but reserve the right to edit, modify, ban, or filter any User-Generated Content or username for any reason. If someone posts something that is offensive or objectionable please let us know and we will do our best to accommodate you. We do not, however, assume any obligation to remove such User-Generated Content.</p>
 
-<h3><strong>Sharing Videos and Music</strong></h3>
+        <p>You may share videos and music that is hosted on a third party website (i.e., Youtube, Soundcloud, etc.) but only if it does not conflict with their terms or any applicable law. You may not, however, share, post or otherwise communicate any content (video, audio, or text) that is unlawful, threatening, violent, pornographic, harassing, obscene, racist, defamatory, or otherwise objectionable. We reserve the right to determine what is objectionable at our sole discretion.</p>
 
-<p>Mixzy may permit you to share videos and music with your friends. We may also allow you to use video or live chat to discuss the video or music as it is playing. Please note, however, that we do not host any User-Generated Content ourselves. Instead, you must use our platform to share your video or music from the third party video hosting website. You agree that you will be responsible for the User-Generated Content you upload, and that nothing you share will infringe on the rights of anyone. Furthermore, you warrant you have the ability to grant the right to share such User-Generated Content without any obligation to pay any royalties to any copyright owner. You will be responsible for the payment of any royalty and any associated damages, fees, fines or penalties, in the event we find out you have shared User-Generated Content in violation of another’s intellectual property rights.</p>
-<p>Not to sound like a broken record, but we have to make sure you understand that you will be responsible for any User-Generated Content that you upload, including the consequences of any infringement. By sharing any User-Generated Content you are, in essence, utilizing a third party license to distribute and share User-Generated Content. You may only do this if the Site from which you are linking has given you a license to share such User-Generated Content in the manner contemplated. If it does not, then you cannot share that User-Generated Content.</p>
-<p>For further clarity, you must only distribute videos or music that you are legally permitted to...meaning you cannot share videos or music that violates anyone’s third party intellectual property rights. For example, you must not share anything that the third party site would prohibit. In addition you will not modify, edit, disassemble, or create derivatives of anything that you do not own the rights to.</p>
-<p>Should you believe that your rights are being infringed on by, please note that we are not responsible for hosting it and it is the third party site which is serving the file, and until is removed from the third party site, it will still be available through their search engine. As such, copyright notices should be sent to both us and the third party site, and you should visit their terms for more information.</p>
+        <p>In addition to the above, you agree that you will not:</p>
+        <ul>
+        <li>Infringe on anyone's intellectual property or other legal rights (i.e. invasion of privacy).</li>
+        <li>Hack, crack, phish, SQL inject, or otherwise compromise the security of our website or its servers.</li>
+        <li>Solicit business, spam, or otherwise use our service for commercial purposes unless expressly authorized by us.</li>
+        <li>Defraud or threaten any of our users through any method, whether it be through our website or through another method of communication.</li>
+        <li>Create more than one active user account, or create a new user account if we have previously banned, suspended, or otherwise terminated your first user account.</li>
+        <li>Harass anyone.</li>
+        <li>Impersonate anyone.</li>
+        <li>Do anything unlawful or bad (we define what is bad).</li>
+        </ul>
+        <p>How we react to your violation of any of these Terms does not mean we will treat everyone the same. We may do anything from yell at you, temporarily suspend your account, ban you, or haul you into Court.</p>
 
-<h3><strong>Update to Terms</strong></h3>
-<p>These Terms (or if applicable Additional Terms), in the form posted at the time of your use of the Site to which it applies, shall govern such use (including transactions entered during such use). AS OUR SITE EVOLVES, THE terms of service UNDER WHICH WE OFFER THE SITE MAY PROSPECTIVELY BE MODIFIED AND WE MAY CEASE OFFERING THE SITE UNDER THE TERMS OR ADDITIONAL TERMS FOR WHICH THEY WERE PREVIOUSLY OFFERED. ACCORDINGLY, EACH TIME YOU SIGN IN TO OR OTHERWISE USE THE SITE YOU ARE ENTERING INTO A NEW AGREEMENT WITH US ON THE THEN APPLICABLE terms of service AND YOU AGREE THAT WE MAY NOTIFY YOU OF OTHER TERMS BY POSTING THEM ON THE SITE (OR IN ANY OTHER REASONABLE MANNER OF NOTICE WHICH WE ELECT), AND THAT YOUR USE OF THE SITE AFTER SUCH NOTICE CONSTITUTES YOUR GOING FORWARD AGREEMENT TO THE OTHER TERMS FOR YOUR NEW USE AND TRANSACTIONS. Therefore, you should review the posted terms of Site and any applicable Additional Terms each time you use the Site (at least prior to each transaction or submission). The Additional Terms will be effective as to new use and transactions as of the time that we post them, or such later date as may be specified in them or in other notice to you. However, the Terms (and any applicable Additional Terms) that applied when you previously used the Site will continue to apply to such prior use (i.e., changes and additions are prospective only) unless mutually agreed. In the event any notice to you of new, revised or additional terms is determined by a tribunal to be insufficient, the prior agreement shall continue until sufficient notice to establish a new agreement occurs. You should frequently check the home page, your message account and the e-mail you associated with your account for notices, all of which you agree are reasonable manners of providing you notice. You can reject any new, revised or Additional Terms by discontinuing use of the Site and related services.</p>
+        <h3><strong>Sharing Videos and Music</strong></h3>
+
+        <p>Mixzy may permit you to share videos and music with your friends. We may also allow you to use video or live chat to discuss the video or music as it is playing. Please note, however, that we do not host any User-Generated Content ourselves. Instead, you must use our platform to share your video or music from the third party video hosting website. You agree that you will be responsible for the User-Generated Content you upload, and that nothing you share will infringe on the rights of anyone. Furthermore, you warrant you have the ability to grant the right to share such User-Generated Content without any obligation to pay any royalties to any copyright owner. You will be responsible for the payment of any royalty and any associated damages, fees, fines or penalties, in the event we find out you have shared User-Generated Content in violation of another’s intellectual property rights.</p>
+        <p>Not to sound like a broken record, but we have to make sure you understand that you will be responsible for any User-Generated Content that you upload, including the consequences of any infringement. By sharing any User-Generated Content you are, in essence, utilizing a third party license to distribute and share User-Generated Content. You may only do this if the Site from which you are linking has given you a license to share such User-Generated Content in the manner contemplated. If it does not, then you cannot share that User-Generated Content.</p>
+        <p>For further clarity, you must only distribute videos or music that you are legally permitted to...meaning you cannot share videos or music that violates anyone’s third party intellectual property rights. For example, you must not share anything that the third party site would prohibit. In addition you will not modify, edit, disassemble, or create derivatives of anything that you do not own the rights to.</p>
+        <p>Should you believe that your rights are being infringed on by, please note that we are not responsible for hosting it and it is the third party site which is serving the file, and until is removed from the third party site, it will still be available through their search engine. As such, copyright notices should be sent to both us and the third party site, and you should visit their terms for more information.</p>
+
+        <h3><strong>Update to Terms</strong></h3>
+        <p>These Terms (or if applicable Additional Terms), in the form posted at the time of your use of the Site to which it applies, shall govern such use (including transactions entered during such use). AS OUR SITE EVOLVES, THE terms of service UNDER WHICH WE OFFER THE SITE MAY PROSPECTIVELY BE MODIFIED AND WE MAY CEASE OFFERING THE SITE UNDER THE TERMS OR ADDITIONAL TERMS FOR WHICH THEY WERE PREVIOUSLY OFFERED. ACCORDINGLY, EACH TIME YOU SIGN IN TO OR OTHERWISE USE THE SITE YOU ARE ENTERING INTO A NEW AGREEMENT WITH US ON THE THEN APPLICABLE terms of service AND YOU AGREE THAT WE MAY NOTIFY YOU OF OTHER TERMS BY POSTING THEM ON THE SITE (OR IN ANY OTHER REASONABLE MANNER OF NOTICE WHICH WE ELECT), AND THAT YOUR USE OF THE SITE AFTER SUCH NOTICE CONSTITUTES YOUR GOING FORWARD AGREEMENT TO THE OTHER TERMS FOR YOUR NEW USE AND TRANSACTIONS. Therefore, you should review the posted terms of Site and any applicable Additional Terms each time you use the Site (at least prior to each transaction or submission). The Additional Terms will be effective as to new use and transactions as of the time that we post them, or such later date as may be specified in them or in other notice to you. However, the Terms (and any applicable Additional Terms) that applied when you previously used the Site will continue to apply to such prior use (i.e., changes and additions are prospective only) unless mutually agreed. In the event any notice to you of new, revised or additional terms is determined by a tribunal to be insufficient, the prior agreement shall continue until sufficient notice to establish a new agreement occurs. You should frequently check the home page, your message account and the e-mail you associated with your account for notices, all of which you agree are reasonable manners of providing you notice. You can reject any new, revised or Additional Terms by discontinuing use of the Site and related services.</p>
+    </div>
 </div>

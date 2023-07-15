@@ -3,8 +3,22 @@
 <div *ngIf="appReady === true">
   <m-app-playlist-panel [ngStyle]="playlistPanelStyle" *ngIf="playlistOpenState === true"></m-app-playlist-panel>
 </div>
-<div class="user-menu-backdrop" *ngIf="userMenuIsOpen === true" (click)="closeUserMenu()"></div>
+<div class="user-menu-backdrop" [ngStyle]="backDropStyle" *ngIf="userMenuIsOpen === true" (click)="closeUserMenu()"></div>
 <m-app-user-menu [ngStyle]="userMenuStyle"></m-app-user-menu>
+<div class="sub-menu" [ngStyle]="subMenuStyle">
+  <div class="user-menu-items">
+    <div class="spacer"></div>
+    <div class="item" (click)="openChangeAvatarDialog()" matRipple [matRippleColor]="'rgba(255, 255, 255, 0.08)'">
+      <span>Change Avatar</span>
+    </div>
+    <div class="item" matRipple [matRippleColor]="'rgba(255, 255, 255, 0.08)'">
+      <span>Change Username</span>
+    </div>
+    <div class="item" matRipple [matRippleColor]="'rgba(255, 255, 255, 0.08)'">
+      <span>Change Password</span>
+    </div>
+  </div>
+</div>
 
 <div class="video-preview-overlay" [ngStyle]="prevStyle">
 

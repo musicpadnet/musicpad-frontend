@@ -86,6 +86,12 @@ export class SocketService {
 
   }
 
+  selfSkip () {
+
+    this.socket?.emit("message", {type: "method", method: "selfskip"});
+
+  }
+
   listenForDisconnect () {
 
     this.socket?.on("disconnect", (event) => {

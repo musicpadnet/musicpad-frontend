@@ -4,9 +4,11 @@ import { Store } from "@ngrx/store";
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { AppService } from './services/app.service';
-import { changeNextSongTitle, changeUserMenuOpen, changeUserMenuStyle } from './store/app.actions';
+import { changeNextSongTitle, changeUserAccountSettingsMenuOpen, changeUserAccountSettingsMenuStyle, changeUserMenuOpen, changeUserMenuStyle } from './store/app.actions';
 import { ConfigService } from './services/config.service';
 import { SongPrevService } from './services/song-preview.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangeAvatarDialog } from './components/change-avatar-dialog/change-avatar-dialog.component';
 
 interface ILibSong {
   title: string,
@@ -25,7 +27,7 @@ interface ILibSong {
 })
 export class AppComponent implements OnInit {
 
-  app$: Observable<{prevStyle: {display: string}, loggedIn: boolean, userMenuIsOpen: boolean, userMenuStyle: {right: string}, playlistOpenState: boolean, appIsReady: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, isLoaded: boolean}>;
+  app$: Observable<{prevStyle: {display: string}, loggedIn: boolean, userMenuIsOpen: boolean, userMenuStyle: {right: string}, playlistOpenState: boolean, appIsReady: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, isLoaded: boolean, userAccountSettingsMenuStyle: {right: string}, userAccountSettingsMenuOpen: boolean}>;
 
   isLoaded: boolean = false;
 
@@ -45,7 +47,13 @@ export class AppComponent implements OnInit {
 
   prevStyle = {display: "none"};
 
-  constructor (private songprev: SongPrevService, private config: ConfigService, private store: Store<{app: { prevStyle: {display: string}, userMenuStyle: {right: string}, appIsReady: boolean, isLoaded: boolean, playlistOpenState: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, loggedIn: boolean, userMenuIsOpen: boolean}}>, private http: HttpClient, private auth: AuthService, private app: AppService) {
+  subMenuStyle = {right: "-250px"};
+
+  subMenuOpen = false;
+
+  backDropStyle = {width: "calc(100vw - 250px)"};
+
+  constructor (private songprev: SongPrevService, private config: ConfigService, private store: Store<{app: { prevStyle: {display: string}, userMenuStyle: {right: string}, appIsReady: boolean, isLoaded: boolean, playlistOpenState: boolean, playlistStyle: {bottom: string}, loaderStyle: {opacity: number}, loggedIn: boolean, userMenuIsOpen: boolean, userAccountSettingsMenuStyle: {right: string}, userAccountSettingsMenuOpen: boolean}}>, private http: HttpClient, private auth: AuthService, private app: AppService, private dialog: MatDialog) {
     this.app$ = store.select("app");
 
     this.app$.subscribe({
@@ -59,6 +67,18 @@ export class AppComponent implements OnInit {
         this.userMenuStyle = state.userMenuStyle;
         this.userMenuIsOpen = state.userMenuIsOpen;
         this.prevStyle = state.prevStyle;
+        this.subMenuStyle = state.userAccountSettingsMenuStyle;
+        this.subMenuOpen = state.userAccountSettingsMenuOpen;
+
+        if (this.subMenuOpen === true) {
+
+          this.backDropStyle = {width: "calc(100vw - 500px)"};
+
+        } else {
+
+          this.backDropStyle = {width: "calc(100vw - 250px)"};
+
+        }
       }
     })
     
@@ -108,11 +128,31 @@ export class AppComponent implements OnInit {
 
   }
 
+  openChangeAvatarDialog () {
+
+    this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
+
+    this.store.dispatch(changeUserMenuOpen({isOpen: false}));
+
+    this.store.dispatch(changeUserAccountSettingsMenuOpen({isOpen: false}));
+
+    this.store.dispatch(changeUserAccountSettingsMenuStyle({style: {right: "-250px"}}));
+
+    const dialogRef = this.dialog.open(ChangeAvatarDialog, {
+      width: '420px'
+    });
+
+  }
+
   closeUserMenu () {
 
     this.store.dispatch(changeUserMenuStyle({style: {right: "-300px"}}));
 
     this.store.dispatch(changeUserMenuOpen({isOpen: false}));
+
+    this.store.dispatch(changeUserAccountSettingsMenuOpen({isOpen: false}));
+
+    this.store.dispatch(changeUserAccountSettingsMenuStyle({style: {right: "-250px"}}));
 
   }
 

@@ -16,7 +16,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { RoomMenuComponent } from 'src/app/components/room-menu/room-menu.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatSliderModule } from "@angular/material/slider"
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { MatSliderModule } from "@angular/material/slider"
     MatSnackBarModule,
     MatCardModule,
     MatGridListModule,
-    MatSliderModule
+    MatSlideToggleModule
   ]
 })
 export class RoomModule { }

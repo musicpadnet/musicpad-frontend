@@ -5,6 +5,11 @@ import { ConfigService } from './config.service';
 
 export interface IRoomData {
   waitlist: any[];
+  owner: {
+    id: string,
+    username: string,
+    pfp: string
+  },
   current_dj: {
     user: {
       username: string,
@@ -30,6 +35,7 @@ export interface IRoomData {
   queue_locked?: boolean,
   welcome_message?: string,
   description?: string,
+  background: string | null
 }
 
 @Injectable({
@@ -129,14 +135,13 @@ export class RoomService {
 
     // @ts-ignore
     this.yt = new YT.Player("roomplayer", {
-      height: '455',
-      width: '807',
+      height: '510',
+      width: '907',
       videoId: cid,
       playerVars: {
         'controls': 0,       //Disable controls
 				'iv_load_policy': 3, //Disable annotations
 				'showinfo': 0,       //Disable video info
-			  'autoplay': 1,	   //Enable autoplay
 				'fs': 0,             //Disable fullscreen
 				'rel': 0,            //Disable showing related videos
 				'disablekb': 1,      //Disable keyboard

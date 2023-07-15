@@ -1,11 +1,11 @@
 :host {
-  height: calc(100vh - 50px);
+  height: calc(100vh - 52px);
   width: calc(100vw - 300px);
   position: fixed;
 	border-top: 1px solid #000000;
-  top: 50px;
+  top: 52px;
   left: 0;
-  background-color: rgba(10, 11, 13, 0.7);
+  background-color: rgba(10, 11, 13, 0.85);
   z-index: 2700;
   transition: top 0.4s;
   display: flex;
@@ -13,16 +13,16 @@
 
 :host .navigation {
   height: 100%;
-  width: 50px;
+  width: 52px;
   border-right: 1px solid #000000;
   background-color: #18191b;
 }
 
 :host .navigation .item {
-  height: 50px;
-  width: 50px;
+  height: 52px;
+  width: 52px;
   border-bottom: 2px solid #000000;
-  line-height: 55px;
+  line-height: 57px;
   color: #ffffff;
   text-align: center;
   transition: all .2s;
@@ -36,10 +36,10 @@
 }
 
 :host .navigation .item:hover {
-  height: 50px;
-  width: 50px;
-  background-color: rgba(0, 117, 213 ,0.2)!important;
-  line-height: 55px;
+  height: 52px;
+  width: 52px;
+  background-color: rgba(0, 117, 213 ,0.5)!important;
+  line-height: 57px;
   text-align: center;
   cursor: pointer;
 }
@@ -48,6 +48,67 @@
   height: 100%;
   width: 100%;
   overflow-y: auto;
+}
+
+:host .room-info-description {
+  height: auto;
+  width: 800px;
+  margin-top: 50px;
+  padding: 30px 30px;
+  background: rgba(0, 0, 0, 0.3);
+  margin-left: 50px;
+}
+
+:host .room-info-description .title {
+  font-family: "Industrywf", sans-serif;
+  color: #b3b3b3;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+
+:host .room-info-description .content {
+  font-family: 'Segoe UI', sans-serif;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+:host .room-info-description {
+  height: auto;
+  width: 800px;
+  margin-top: 50px;
+  padding: 30px 30px;
+  background: rgba(0, 0, 0, 0.3);
+  margin-left: 50px;
+}
+
+:host .room-info-welcome-message {
+  height: auto;
+  width: 800px;
+  margin-top: 50px;
+  padding: 30px 30px;
+  background: rgba(0, 0, 0, 0.3);
+  margin-left: 50px;
+}
+
+:host .room-info-welcome-message .title {
+  font-family: "Industrywf", sans-serif;
+  color: #b3b3b3;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  line-height: 18px;
+}
+
+:host .room-info-welcome-message .content {
+  font-family: 'Segoe UI', sans-serif;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 18px;
 }
 
 .dashboard-image {
@@ -62,7 +123,7 @@
   font-family: "Industrywf", sans-serif;
   font-size: 17px;
   font-weight: 700;
-  line-height: 30px;
+  line-height: 37px;
   margin-left: 10px;
 }
 

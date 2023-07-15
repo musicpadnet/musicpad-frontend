@@ -27,4 +27,6 @@ export const isNotLoaded = createAction("[Preloader Component] IsNotLoaded");
 export const appIsNotReady = createAction("[App] is not ready");
 export const changeUserMenuStyle = createAction("[user menu] change style", props<{style: {right: string}}>());
 export const changeUserMenuOpen = createAction("[user menu] change open", props<{isOpen: boolean}>());
-export const changePreviewStyle = createAction("[Video Prev] change Style", props<{style: {display: string}}>())
+export const changePreviewStyle = createAction("[Video Prev] change Style", props<{style: {display: string}}>());
+export const changeUserAccountSettingsMenuStyle = createAction("[User Sub Menu] change style", props<{style: {right: string}}>());
+export const changeUserAccountSettingsMenuOpen = createAction("[User Sub Menu] change open", props<{isOpen: boolean}>());

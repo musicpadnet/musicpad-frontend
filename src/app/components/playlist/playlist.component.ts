@@ -450,7 +450,7 @@ export class PlaylistComponent implements OnInit {
 
         });
 
-        temp[index].songs.push(data.song);
+        temp[index].songs.splice(0, 0, data.song);
 
         temp[index].songCount++;
 
@@ -534,6 +534,29 @@ export class PlaylistComponent implements OnInit {
         console.log(error);
       }
     })
+
+  }
+
+  onClickShuffle (playlistid: string) {
+
+    this.http.put<{playlists: {name: string, isActive: boolean, id: string, songCount: number, songs: ILibSong[]}[]}>(`${this.config.conifgAPIURL}playlists/${playlistid}/shuffle`, null, {
+      headers: {
+        authorization: `Bearer ${window.localStorage.getItem("accesstoken")}`
+      }
+    }).subscribe({
+      next: (data) => {
+
+        this.store.dispatch(UpdatePlaylists({playlists: data.playlists}));
+
+        let activeplIndex = data.playlists.findIndex(obj => obj.isActive === true);
+
+        this.store.dispatch(changeNextSongTitle({title: data.playlists[activeplIndex].songs[0].title}));
+
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
 
   }
 

@@ -2,12 +2,10 @@
 
   <div class="container">
 
-    <div class="dashboard-btn" matTooltip="Dashboard" matTooltipPosition="right">
-      <div class="logo"></div>
-    </div>
+    <a routerLink="/"><img src="/assets/mixzy.png" style="height: 26px;margin-left: 12px;"></a>
     <a mat-button color="primary">About</a>
-    <a mat-button color="primary" href="/terms" target="_blank">Terms</a>
-    <a mat-button color="primary" href="/privacy" target="_blank">Privacy</a>
+    <a mat-button color="primary" routerLink="/terms">Terms</a>
+    <a mat-button color="primary" routerLink="/privacy">Privacy</a>
     <div class="right-content" *ngIf="loggedIn === false">
       <button mat-button color="primary" (click)="openLoginDialog()">Login</button>
       <button mat-raised-button color="accent" (click)="openSignupDialog()">Signup</button>

@@ -1,5 +1,5 @@
 .dashboard-header {
-  height: 50px;
+  height: 52px;
   width: 100%;
   z-index: 200;
   background-color: #0a0b0d;
@@ -9,14 +9,14 @@
 .dashboard-header .container {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 52px;
   position: relative;
   padding-right: 15px;
 }
 
 .dashboard-btn {
-  height: 50px;
-  width: 50px;
+  height: 52px;
+  width: 52px;
   line-height: 70px;
   cursor: pointer;
 }
@@ -63,7 +63,7 @@
   font-family: "Industrywf", sans-serif;
   font-size: 17px;
   font-weight: 700;
-  line-height: 30px;
+  line-height: 37px;
   margin-left: 10px;
 }
 
@@ -157,10 +157,31 @@
 .right-username {
   color: #ffffff;
   font-size: 16px;
-  line-height: 50px;
+  line-height: 52px;
   display: inline;
   font-weight: 500;
   font-family: "Industrywf", sans-serif;
   margin-right: 3px;
   margin-left: 30px;
+}
+
+.bg-circles > div {
+  display: block;
+  width: 600px;
+  height: 600px;
+  border-radius: 100%;
+  position: fixed;
+  background: linear-gradient(to left, var(--color-tertiary), var(--color-quaternary));
+  filter: blur(300px);
+  z-index: -1
+}
+.bg-circles > div:first-child {
+  left: -20%;
+  top: -20%
+}
+.bg-circles > div:last-child {
+  right: -20%;
+  bottom: -20%;
+  mix-blend-mode: exclusion;
+  background: linear-gradient(to left, var(--color-primary), var(--color-secondary))
 }

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { TermsRoutingModule } from './terms-routing.module';
 import { TermsComponent } from './terms.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { TermsComponent } from './terms.component';
   ],
   imports: [
     CommonModule,
-    TermsRoutingModule
+    TermsRoutingModule,
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class TermsModule { }
